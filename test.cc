@@ -3,6 +3,7 @@
 #include "tuple/tuple.h"
 #include "endianess/little.h"
 #include "endianess/big.h"
+#include "container.h"
 
 class BinaryMappingTest : public ::testing::Test {
 	
@@ -178,6 +179,26 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 	EXPECT_EQ(copy.get<1>(), UINT8_MAX);
 	EXPECT_EQ(copy.get<2>(), UINT32_MAX);
 	EXPECT_EQ(copy.get<3>(), UINT16_MAX);
+}
+
+TEST_F(BinaryMappingTest, BasicContainer) {
+	typedef BinaryMapping::PlainContainer<
+		uint64_t,
+		uint8_t,
+		uint32_t,
+		uint16_t
+	> TestContainer;
+
+	BinaryMapping::BufferGuard testBuffer(
+		reinterpret_cast<uint8_t*>(
+			std::calloc(TestContainer::type::tuple_size * 10, sizeof(uint8_t))
+		),
+		TestContainer::type::tuple_size * 10
+	);
+
+	TestContainer container(testBuffer);
+
+	EXPECT_EQ(container.size(), 10);
 }
 
 int main(int argc, char **argv) {

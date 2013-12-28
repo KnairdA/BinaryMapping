@@ -28,7 +28,7 @@ class Tuple {
 
 		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
 
-		Tuple(BufferGuard& data):
+		Tuple(const BufferGuard& data):
 			buffer_(data.data),
 			base_ptr_(buffer_),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
