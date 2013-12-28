@@ -55,16 +55,16 @@ TEST_F(BinaryMappingTest, SlidingMapping) {
 		mapping.set<0>(i);
 		mapping.set<1>(i);
 
-		mapping.slide(1);
+		++mapping;
 	}
 
-	mapping.slide(-10);
+	mapping.move(0);
 
 	for ( size_t i = 0; i < 10; ++i ) {
 		EXPECT_EQ(mapping.get<0>(), i);
 		EXPECT_EQ(mapping.get<1>(), i);
 
-		mapping.slide(1);
+		++mapping;
 	}
 }
 

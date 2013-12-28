@@ -30,7 +30,8 @@ class BinaryMapping {
 
 		BinaryMapping(BufferGuard& data):
 			buffer_(data.data),
-			tuple_(TupleMapper::construct<tuple_type>(&this->buffer_)) { }
+			base_ptr_(buffer_),
+			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
 		template <size_t Index> inline typename
 		std::tuple_element<Index, tuple_type>::type::element_type get() const {
@@ -77,8 +78,20 @@ class BinaryMapping {
 			Serializer<InPlaceSorter<CustomOrder>>::deserialize(this->tuple_);
 		}
 
-		inline void slide(off_t offset) {
-			this->buffer_ += tuple_size * offset;
+		inline void move(off_t index) {
+			this->base_ptr_ = this->buffer_ + index * tuple_size;
+		}
+
+		inline BinaryMapping<Endianess, Types...>& operator++() {
+			this->base_ptr_ += tuple_size;
+
+			return *this;
+		}
+
+		inline BinaryMapping<Endianess, Types...>& operator--() {
+			this->base_ptr_ -= tuple_size;
+
+			return *this;
 		}
 
 		CarbonCopy carbonCopy() const {
@@ -86,7 +99,8 @@ class BinaryMapping {
 		}
 
 	private:
-		uint8_t* buffer_;
+		uint8_t* const buffer_;
+		uint8_t* base_ptr_;
 		const tuple_type tuple_;
 
 };
