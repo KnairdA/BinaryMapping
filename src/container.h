@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 
+#include "tuple/tuple.h"
+#include "tuple/sliding_tuple.h"
 #include "endianess/undefined.h"
 
 namespace BinaryMapping {
@@ -35,10 +37,26 @@ class Container {
 			}
 		}
 
+		inline type at(size_t index) {
+			if ( index <= this->tuple_count_ ) {
+				return type(
+					this->data_ + index * type::tuple_size
+				);
+			} else {
+				throw std::out_of_range("container range violated");
+			}
+		}
+
 		inline typename type::CarbonCopy operator[] (size_t index) const {
 			this->tuple_.move(index);
 
 			return this->tuple_.carbonCopy();
+		}
+
+		inline type operator[] (size_t index) {
+			return type(
+				this->data_ + index * type::tuple_size
+			);
 		}
 
 		inline typename type::CarbonCopy front() const {
@@ -47,14 +65,24 @@ class Container {
 			return this->tuple_.carbonCopy();
 		}
 
+		inline type front() {
+			return type(this->data_);
+		}
+
 		inline typename type::CarbonCopy back() const {
 			this->tuple_.move(this->tuple_count_ - 1);
 
 			return this->tuple_.carbonCopy();
 		}
 
+		inline type back() {
+			return type(
+				this->data_ + (this->tuple_count_ - 1) * type::tuple_size
+			);
+		}
+
 		inline type* data() const {
-			return &this->tuple_;
+			return static_cast<type*>(&this->tuple_);
 		}
 
 	private:
@@ -62,7 +90,7 @@ class Container {
 		const size_t size_;
 
 		const size_t tuple_count_;
-		mutable type tuple_;
+		mutable SlidingTuple<Endianess, Types...> tuple_;
 
 };
 

@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "tuple/tuple.h"
+#include "tuple/sliding_tuple.h"
 #include "endianess/little.h"
 #include "endianess/big.h"
 #include "container.h"
@@ -38,7 +39,7 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 }
 
 TEST_F(BinaryMappingTest, SlidingMapping) {
-	typedef BinaryMapping::PlainTuple<
+	typedef BinaryMapping::PlainSlidingTuple<
 		uint32_t,
 		uint16_t
 	> TestMapping;
@@ -181,7 +182,7 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 	EXPECT_EQ(copy.get<3>(), UINT16_MAX);
 }
 
-TEST_F(BinaryMappingTest, BasicContainer) {
+TEST_F(BinaryMappingTest, BasicConstContainer) {
 	typedef BinaryMapping::PlainContainer<
 		uint64_t,
 		uint16_t
@@ -194,11 +195,13 @@ TEST_F(BinaryMappingTest, BasicContainer) {
 		TestContainer::type::tuple_size * 10
 	);
 
-	TestContainer container(testBuffer);
+	const TestContainer container(testBuffer);
 
 	EXPECT_EQ(container.size(), 10);
 
-	TestContainer::type* tuple = container.data();
+	auto tuple = static_cast<
+		BinaryMapping::PlainSlidingTuple<uint64_t, uint16_t>*
+	>(container.data());
 
 	for ( size_t i = 0; i < 10; ++i ) {
 		tuple->set<0>(i);
