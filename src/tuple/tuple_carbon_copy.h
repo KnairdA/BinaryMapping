@@ -1,15 +1,15 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_BINARY_MAPPING_CARBON_COPY_H_
-#define BINARY_MAPPING_SRC_TUPLE_BINARY_MAPPING_CARBON_COPY_H_
+#ifndef BINARY_MAPPING_SRC_TUPLE_TUPLE_CARBON_COPY_H_
+#define BINARY_MAPPING_SRC_TUPLE_TUPLE_CARBON_COPY_H_
 
 namespace BinaryMapping {
 
 template <typename... Types>
-class BinaryMappingCarbonCopy {
+class TupleCarbonCopy {
 	public:
 		typedef std::tuple<Types...> tuple_type;
 
 		template <typename Source>
-		BinaryMappingCarbonCopy(const Source& src):
+		TupleCarbonCopy(const Source& src):
 			tuple_(TupleMapper::carbonCopy<tuple_type>(src)) { }
 
 		template <size_t Index> inline typename
@@ -24,4 +24,4 @@ class BinaryMappingCarbonCopy {
 
 }
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_BINARY_MAPPING_CARBON_COPY_H_
+#endif  // BINARY_MAPPING_SRC_TUPLE_TUPLE_CARBON_COPY_H_

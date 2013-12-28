@@ -1,11 +1,11 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_BINARY_MAPPING_H_
-#define BINARY_MAPPING_SRC_TUPLE_BINARY_MAPPING_H_
+#ifndef BINARY_MAPPING_SRC_TUPLE_TUPLE_H_
+#define BINARY_MAPPING_SRC_TUPLE_TUPLE_H_
 
 #include <tuple>
 
 #include "mapper.h" 
 #include "weigher.h" 
-#include "binary_mapping_carbon_copy.h" 
+#include "tuple_carbon_copy.h" 
 #include "relative_pointer.h" 
 
 #include "io/buffer_guard.h" 
@@ -21,14 +21,14 @@ template <
 	typename Endianess,
 	typename... Types
 >
-class BinaryMapping {
+class Tuple {
 	public:
-		typedef BinaryMappingCarbonCopy<Types...> CarbonCopy;
+		typedef TupleCarbonCopy<Types...> CarbonCopy;
 		typedef std::tuple<RelativePointer<uint8_t, Types>...> tuple_type;
 
 		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
 
-		BinaryMapping(BufferGuard& data):
+		Tuple(BufferGuard& data):
 			buffer_(data.data),
 			base_ptr_(buffer_),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
@@ -82,13 +82,13 @@ class BinaryMapping {
 			this->base_ptr_ = this->buffer_ + index * tuple_size;
 		}
 
-		inline BinaryMapping<Endianess, Types...>& operator++() {
+		inline Tuple<Endianess, Types...>& operator++() {
 			this->base_ptr_ += tuple_size;
 
 			return *this;
 		}
 
-		inline BinaryMapping<Endianess, Types...>& operator--() {
+		inline Tuple<Endianess, Types...>& operator--() {
 			this->base_ptr_ -= tuple_size;
 
 			return *this;
@@ -106,8 +106,8 @@ class BinaryMapping {
 };
 
 template <typename... Types>
-using PlainBinaryMapping = BinaryMapping<UndefinedEndian, Types...>;
+using PlainTuple = Tuple<UndefinedEndian, Types...>;
 
 }
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_BINARY_MAPPING_H_
+#endif  // BINARY_MAPPING_SRC_TUPLE_TUPLE_H_

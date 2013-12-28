@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "tuple/binary_mapping.h"
+#include "tuple/tuple.h"
 #include "endianess/little.h"
 #include "endianess/big.h"
 
@@ -9,7 +9,7 @@ class BinaryMappingTest : public ::testing::Test {
 };
 
 TEST_F(BinaryMappingTest, BasicMapping) {
-	typedef BinaryMapping::PlainBinaryMapping<
+	typedef BinaryMapping::PlainTuple<
 		uint64_t,
 		uint8_t,
 		uint32_t,
@@ -37,7 +37,7 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 }
 
 TEST_F(BinaryMappingTest, SlidingMapping) {
-	typedef BinaryMapping::PlainBinaryMapping<
+	typedef BinaryMapping::PlainTuple<
 		uint32_t,
 		uint16_t
 	> TestMapping;
@@ -69,7 +69,7 @@ TEST_F(BinaryMappingTest, SlidingMapping) {
 }
 
 TEST_F(BinaryMappingTest, LittleEndianMapping) {
-	typedef BinaryMapping::BinaryMapping<
+	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
 		uint64_t,
 		uint32_t
@@ -92,7 +92,7 @@ TEST_F(BinaryMappingTest, LittleEndianMapping) {
 }
 
 TEST_F(BinaryMappingTest, BigEndianMapping) {
-	typedef BinaryMapping::BinaryMapping<
+	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
 		uint64_t,
 		uint32_t
@@ -115,13 +115,13 @@ TEST_F(BinaryMappingTest, BigEndianMapping) {
 }
 
 TEST_F(BinaryMappingTest, MixedEndianMapping) {
-	typedef BinaryMapping::BinaryMapping<
+	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
 		uint64_t,
 		uint32_t
 	> BigTestMapping;
 
-	typedef BinaryMapping::BinaryMapping<
+	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
 		uint64_t,
 		uint32_t
@@ -146,7 +146,7 @@ TEST_F(BinaryMappingTest, MixedEndianMapping) {
 }
 
 TEST_F(BinaryMappingTest, CarbonCopyMapping) {
-	typedef BinaryMapping::PlainBinaryMapping<
+	typedef BinaryMapping::PlainTuple<
 		uint64_t,
 		uint8_t,
 		uint32_t,
