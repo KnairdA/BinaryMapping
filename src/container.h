@@ -48,12 +48,12 @@ class Container {
 		}
 
 		inline typename type::CarbonCopy back() const {
-			this->tuple_.move(this->tuple_count_);
+			this->tuple_.move(this->tuple_count_ - 1);
 
 			return this->tuple_.carbonCopy();
 		}
 
-		inline type* data() {
+		inline type* data() const {
 			return &this->tuple_;
 		}
 
@@ -62,7 +62,7 @@ class Container {
 		const size_t size_;
 
 		const size_t tuple_count_;
-		type tuple_;
+		mutable type tuple_;
 
 };
 

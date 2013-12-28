@@ -184,8 +184,6 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 TEST_F(BinaryMappingTest, BasicContainer) {
 	typedef BinaryMapping::PlainContainer<
 		uint64_t,
-		uint8_t,
-		uint32_t,
 		uint16_t
 	> TestContainer;
 
@@ -199,6 +197,23 @@ TEST_F(BinaryMappingTest, BasicContainer) {
 	TestContainer container(testBuffer);
 
 	EXPECT_EQ(container.size(), 10);
+
+	TestContainer::type* tuple = container.data();
+
+	for ( size_t i = 0; i < 10; ++i ) {
+		tuple->set<0>(i);
+		tuple->set<1>(i);
+
+		++(*tuple);
+	}
+
+	for ( size_t i = 0; i < 10; ++i ) {
+		EXPECT_EQ(container.at(i).get<0>(), i);
+		EXPECT_EQ(container[i].get<1>(), i);
+	}
+
+	EXPECT_EQ(container.front().get<0>(), 0);
+	EXPECT_EQ(container.back().get<1>(), 9);
 }
 
 int main(int argc, char **argv) {
