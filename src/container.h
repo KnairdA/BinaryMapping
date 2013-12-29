@@ -7,6 +7,8 @@
 #include "tuple/sliding_tuple.h"
 #include "endianess/undefined.h"
 
+#include "iterator.h"
+
 namespace BinaryMapping {
 
 template<
@@ -16,6 +18,7 @@ template<
 class Container {
 	public:
 		typedef Tuple<Endianess, Types...> type;
+		typedef Iterator<Endianess, Types...> iterator_type;
 
 		Container(const BufferGuard& buffer):
 			data_(buffer.data),
@@ -79,6 +82,10 @@ class Container {
 			return type(
 				this->data_ + (this->tuple_count_ - 1) * type::tuple_size
 			);
+		}
+
+		inline iterator_type begin() const {
+			return iterator_type(this->data_, this->size_);
 		}
 
 		inline type* data() const {

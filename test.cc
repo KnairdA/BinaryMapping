@@ -241,6 +241,42 @@ TEST_F(BinaryMappingTest, BasicConstContainer) {
 	EXPECT_EQ(container.back().get<1>(), 9);
 }
 
+TEST_F(BinaryMappingTest, BasicIterator) {
+	typedef BinaryMapping::PlainContainer<
+		uint64_t,
+		uint16_t
+	> TestContainer;
+
+	BinaryMapping::BufferGuard testBuffer(
+		reinterpret_cast<uint8_t*>(
+			std::calloc(TestContainer::type::tuple_size * 10, sizeof(uint8_t))
+		),
+		TestContainer::type::tuple_size * 10
+	);
+
+	TestContainer container(testBuffer);
+
+	auto tuple = static_cast<
+		BinaryMapping::PlainSlidingTuple<uint64_t, uint16_t>*
+	>(container.data());
+
+	for ( size_t i = 0; i < 10; ++i ) {
+		tuple->set<0>(i);
+		tuple->set<1>(i);
+
+		++(*tuple);
+	}
+
+	TestContainer::iterator_type iter(container.begin());
+
+	for ( size_t i = 0; i < 10; ++i ) {
+		EXPECT_EQ((*iter).get<0>(), i);
+		EXPECT_EQ((*iter).get<1>(), i);
+
+		++iter;
+	}
+}
+
 int main(int argc, char **argv) {
 	testing::InitGoogleTest(&argc, argv);
 

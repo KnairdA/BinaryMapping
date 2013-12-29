@@ -85,6 +85,10 @@ class Tuple {
 			return CarbonCopy(*this);
 		}
 
+		uint8_t* data() const {
+			return this->base_ptr_;
+		}
+
 	protected:
 		uint8_t* const buffer_;
 		uint8_t* base_ptr_;
