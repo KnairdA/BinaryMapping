@@ -12,16 +12,14 @@ struct InPlaceSorter {
 			typename std::add_const<Key>::type
 		>::type number
 	) {
-		typename Endianess::template toTarget<Key> toTarget;
-		*buffer = toTarget(number);
+		*buffer = Endianess::template toTarget<Key>(number);
 	}
 
 	template <typename Key>
 	static inline void sort(
 		typename std::add_pointer<Key>::type buffer
 	) {
-		typename Endianess::template toHost<Key> toHost;
-		*buffer = toHost(*buffer);
+		*buffer = Endianess::template toHost<Key>(*buffer);
 	}
 };
 

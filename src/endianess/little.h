@@ -7,75 +7,74 @@
 namespace BinaryMapping {
 
 struct LittleEndian {
+	template <typename Key>
+	struct Implementation {
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint64_t, int64_t> toTarget(
+			ConstLValueReference<Helper> number
+		) {
+			return htole64(number);
+		}
 
-template <
-	typename Key,
-	typename Specializer = Key
->
-struct toTarget;
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint32_t, int32_t> toTarget(
+			ConstLValueReference<Helper> number
+		) {
+			return htole32(number);
+		}
 
-template <typename Key>
-struct toTarget<Key, typename EnableIfEither<Key, uint64_t, int64_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return htole64(number);
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint16_t, int16_t> toTarget(
+			ConstLValueReference<Helper> number
+		) {
+			return htole16(number);
+		}
+
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint8_t, int8_t> toTarget(
+			ConstLValueReference<Helper> number
+		) {
+			return number;
+		}
+
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint64_t, int64_t> toHost(
+			ConstLValueReference<Helper> number
+		) {
+			return le64toh(number);
+		}
+
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint32_t, int32_t> toHost(
+			ConstLValueReference<Helper> number
+		) {
+			return le32toh(number);
+		}
+
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint16_t, int16_t> toHost(
+			ConstLValueReference<Helper> number
+		) {
+			return le16toh(number);
+		}
+
+		template <typename Helper = Key>
+		static inline EnableIfEither<Helper, uint8_t, int8_t> toHost(
+			ConstLValueReference<Helper> number
+		) {
+			return number;
+		}
+	};
+
+	template <typename Key>
+	static inline Key toTarget(ConstLValueReference<Key> number) {
+		return Implementation<Key>::toTarget(number);
 	}
-};
 
-template <typename Key>
-struct toTarget<Key, typename EnableIfEither<Key, uint32_t, int32_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return htole32(number);
+	template <typename Key>
+	static inline Key toHost(ConstLValueReference<Key> number) {
+		return Implementation<Key>::toHost(number);
 	}
-};
-
-template <typename Key>
-struct toTarget<Key, typename EnableIfEither<Key, uint16_t, int16_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return htole16(number);
-	}
-};
-
-template <typename Key>
-struct toTarget<Key, typename EnableIfEither<Key, uint8_t, int8_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return number;
-	}
-};
-
-template <
-	typename Key,
-	typename Specializer = Key
->
-struct toHost;
-
-template <typename Key>
-struct toHost<Key, typename EnableIfEither<Key, uint64_t, int64_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return le64toh(number);
-	}
-};
-
-template <typename Key>
-struct toHost<Key, typename EnableIfEither<Key, uint32_t, int32_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return le32toh(number);
-	}
-};
-
-template <typename Key>
-struct toHost<Key, typename EnableIfEither<Key, uint16_t, int16_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return le16toh(number);
-	}
-};
-
-template <typename Key>
-struct toHost<Key, typename EnableIfEither<Key, uint8_t, int8_t>::type> {
-	Key operator()(typename ConstLValueReference<Key>::type number) {
-		return number;
-	}
-};
-
 };
 
 }

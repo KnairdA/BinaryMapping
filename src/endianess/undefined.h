@@ -6,21 +6,15 @@
 namespace BinaryMapping {
 
 struct UndefinedEndian {
-
-template <typename Key>
-struct toTarget {
-	inline Key operator()(typename ConstLValueReference<Key>::type number) {
+	template <typename Key>
+	static inline Key toTarget(ConstLValueReference<Key> number) {
 		return number;
 	}
-};
 
-template <typename Key>
-struct toHost {
-	inline Key operator()(typename ConstLValueReference<Key>::type number) {
+	template <typename Key>
+	static inline Key toHost(ConstLValueReference<Key> number) {
 		return number;
 	}
-};
-
 };
 
 }

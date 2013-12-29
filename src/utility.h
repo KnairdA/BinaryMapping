@@ -10,23 +10,19 @@ template <
 	typename TypeA,
 	typename TypeB
 >
-struct EnableIfEither {
-	typedef typename std::enable_if<
-		std::is_same<Type, TypeA>::value || std::is_same<Type, TypeB>::value,
-		typename std::conditional<
-			std::is_same<Type, TypeA>::value,
-			TypeA,
-			TypeB
-		>::type
-	>::type type;
-};
+using EnableIfEither = typename std::enable_if<
+	std::is_same<Type, TypeA>::value || std::is_same<Type, TypeB>::value,
+	typename std::conditional<
+		std::is_same<Type, TypeA>::value,
+		TypeA,
+		TypeB
+	>::type
+>::type;
 
 template <typename Type>
-struct ConstLValueReference {
-	typedef typename std::add_lvalue_reference<
-		typename std::add_const<Type>::type
-	>::type type;
-};
+using ConstLValueReference = typename std::add_lvalue_reference<
+	typename std::add_const<Type>::type
+>::type;
 
 }
 

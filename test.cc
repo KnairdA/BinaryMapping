@@ -15,7 +15,11 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 		uint64_t,
 		uint8_t,
 		uint32_t,
-		uint16_t
+		uint16_t,
+		int64_t,
+		int32_t,
+		int16_t,
+		int8_t
 	> TestMapping;
 
 	BinaryMapping::BufferGuard testBuffer(
@@ -31,11 +35,19 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 	mapping.set<1>(UINT8_MAX);
 	mapping.set<2>(UINT32_MAX);
 	mapping.set<3>(UINT16_MAX);
+	mapping.set<4>(INT64_MIN);
+	mapping.set<5>(INT32_MIN);
+	mapping.set<6>(INT16_MIN);
+	mapping.set<7>(INT8_MIN);
 
 	EXPECT_EQ(mapping.get<0>(), UINT64_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT8_MAX);
 	EXPECT_EQ(mapping.get<2>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<3>(), UINT16_MAX);
+	EXPECT_EQ(mapping.get<4>(), INT64_MIN);
+	EXPECT_EQ(mapping.get<5>(), INT32_MIN);
+	EXPECT_EQ(mapping.get<6>(), INT16_MIN);
+	EXPECT_EQ(mapping.get<7>(), INT8_MIN);
 }
 
 TEST_F(BinaryMappingTest, SlidingMapping) {
@@ -74,7 +86,8 @@ TEST_F(BinaryMappingTest, LittleEndianMapping) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
 		uint64_t,
-		uint32_t
+		uint32_t,
+		int16_t
 	> TestMapping;
 
 	BinaryMapping::BufferGuard testBuffer(
@@ -88,16 +101,19 @@ TEST_F(BinaryMappingTest, LittleEndianMapping) {
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
+	mapping.set<2>(INT8_MIN);
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
+	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 }
 
 TEST_F(BinaryMappingTest, BigEndianMapping) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
 		uint64_t,
-		uint32_t
+		uint32_t,
+		int16_t
 	> TestMapping;
 
 	BinaryMapping::BufferGuard testBuffer(
@@ -111,22 +127,26 @@ TEST_F(BinaryMappingTest, BigEndianMapping) {
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
+	mapping.set<2>(INT8_MIN);
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
+	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 }
 
 TEST_F(BinaryMappingTest, MixedEndianMapping) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
 		uint64_t,
-		uint32_t
+		uint32_t,
+		int16_t
 	> BigTestMapping;
 
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
 		uint64_t,
-		uint32_t
+		uint32_t,
+		int16_t
 	> LittleTestMapping;
 
 	BinaryMapping::BufferGuard testBuffer(
@@ -140,11 +160,13 @@ TEST_F(BinaryMappingTest, MixedEndianMapping) {
 
 	bigMapping.set<0>(UINT32_MAX);
 	bigMapping.set<1>(UINT16_MAX);
+	bigMapping.set<2>(INT8_MIN);
 
 	LittleTestMapping littleMapping(testBuffer);
 
 	EXPECT_EQ(littleMapping.get<0>(), 18446744069414584320ul);
 	EXPECT_EQ(littleMapping.get<1>(), 4294901760);
+	EXPECT_EQ(littleMapping.get<2>(), -32513);
 }
 
 TEST_F(BinaryMappingTest, CarbonCopyMapping) {
