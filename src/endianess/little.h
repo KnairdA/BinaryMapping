@@ -1,59 +1,82 @@
 #ifndef BINARY_MAPPING_SRC_ENDIANESS_LITTLE_H_
 #define BINARY_MAPPING_SRC_ENDIANESS_LITTLE_H_
 
+#include "endian.h"
+#include <utility.h>
+
 namespace BinaryMapping {
 
 struct LittleEndian {
-	template <typename Key>
-	static inline Key toTarget(typename std::add_lvalue_reference<
-		typename std::add_const<Key>::type
-	>::type);
 
-	template <typename Key>
-	static inline Key toHost(typename std::add_lvalue_reference<
-		typename std::add_const<Key>::type
-	>::type);
+template <
+	typename Key,
+	typename Specializer = Key
+>
+struct toTarget;
+
+template <typename Key>
+struct toTarget<Key, typename EnableIfEither<Key, uint64_t, int64_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return htole64(number);
+	}
 };
 
-template <>
-uint64_t LittleEndian::toTarget<uint64_t>(const uint64_t& number) {
-	return htole64(number);
-}
+template <typename Key>
+struct toTarget<Key, typename EnableIfEither<Key, uint32_t, int32_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return htole32(number);
+	}
+};
 
-template <>
-uint32_t LittleEndian::toTarget<uint32_t>(const uint32_t& number) {
-	return htole32(number);
-}
+template <typename Key>
+struct toTarget<Key, typename EnableIfEither<Key, uint16_t, int16_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return htole16(number);
+	}
+};
 
-template <>
-uint16_t LittleEndian::toTarget<uint16_t>(const uint16_t& number) {
-	return htole16(number);
-}
+template <typename Key>
+struct toTarget<Key, typename EnableIfEither<Key, uint8_t, int8_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return number;
+	}
+};
 
-template <>
-uint8_t LittleEndian::toTarget<uint8_t>(const uint8_t& number) {
-	return number;
-}
+template <
+	typename Key,
+	typename Specializer = Key
+>
+struct toHost;
 
-template <>
-uint64_t LittleEndian::toHost<uint64_t>(const uint64_t& number) {
-	return le64toh(number);
-}
+template <typename Key>
+struct toHost<Key, typename EnableIfEither<Key, uint64_t, int64_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return le64toh(number);
+	}
+};
 
-template <>
-uint32_t LittleEndian::toHost<uint32_t>(const uint32_t& number) {
-	return le32toh(number);
-}
+template <typename Key>
+struct toHost<Key, typename EnableIfEither<Key, uint32_t, int32_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return le32toh(number);
+	}
+};
 
-template <>
-uint16_t LittleEndian::toHost<uint16_t>(const uint16_t& number) {
-	return le16toh(number);
-}
+template <typename Key>
+struct toHost<Key, typename EnableIfEither<Key, uint16_t, int16_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return le16toh(number);
+	}
+};
 
-template <>
-uint8_t LittleEndian::toHost<uint8_t>(const uint8_t& number) {
-	return number;
-}
+template <typename Key>
+struct toHost<Key, typename EnableIfEither<Key, uint8_t, int8_t>::type> {
+	Key operator()(typename ConstLValueReference<Key>::type number) {
+		return number;
+	}
+};
+
+};
 
 }
 

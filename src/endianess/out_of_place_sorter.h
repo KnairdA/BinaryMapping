@@ -11,19 +11,22 @@ struct OutOfPlaceSorter {
 			typename std::add_const<Key>::type
 		>::type number
 	) {
-		return Endianess::template toTarget<Key>(number);
+		typename Endianess::template toTarget<Key> toTarget;
+		return toTarget(number);
 	}
 
 	template <typename Key>
 	static inline Key sort(
 		typename std::add_pointer<Key>::type buffer
 	) {
-		return Endianess::template toHost<Key>(*buffer);
+		typename Endianess::template toHost<Key> toHost;
+		return toHost(*buffer);
 	}
 
 	template <typename Key>
 	static inline Key sort(Key number) {
-		return Endianess::template toHost<Key>(number);
+		typename Endianess::template toHost<Key> toHost;
+		return toHost(number);
 	}
 };
 
