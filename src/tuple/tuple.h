@@ -3,6 +3,8 @@
 
 #include <tuple>
 
+#include "utility.h" 
+
 #include "mapper.h" 
 #include "weigher.h" 
 #include "tuple_carbon_copy.h" 
@@ -46,13 +48,9 @@ class Tuple {
 		}
 
 		template <size_t Index>
-		inline void set(
-			typename std::add_lvalue_reference<
-				typename std::add_const<
-					typename std::tuple_element<Index, tuple_type>::type::element_type
-				>::type
-			>::type value
-		) {
+		inline void set(ConstLValueReference<
+			typename std::tuple_element<Index, tuple_type>::type::element_type
+		> value) {
 			InPlaceSorter<Endianess>::template mix<
 				typename std::tuple_element<Index, tuple_type>::type::element_type
 			>(

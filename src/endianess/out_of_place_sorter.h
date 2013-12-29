@@ -1,16 +1,14 @@
 #ifndef BINARY_MAPPING_SRC_ENDIANESS_OUT_OF_PLACE_SORTER_H_
 #define BINARY_MAPPING_SRC_ENDIANESS_OUT_OF_PLACE_SORTER_H_
 
+#include "utility.h"
+
 namespace BinaryMapping {
 
 template <class Endianess>
 struct OutOfPlaceSorter {
 	template <typename Key>
-	static inline Key mix(
-		typename std::add_lvalue_reference<
-			typename std::add_const<Key>::type
-		>::type number
-	) {
+	static inline Key mix(ConstLValueReference<Key> number) {
 		return Endianess::template toTarget<Key>(number);
 	}
 
