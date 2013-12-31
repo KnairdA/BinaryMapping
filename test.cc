@@ -204,7 +204,7 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 	EXPECT_EQ(copy.get<3>(), UINT16_MAX);
 }
 
-TEST_F(BinaryMappingTest, BasicConstContainer) {
+TEST_F(BinaryMappingTest, BasicContainer) {
 	typedef BinaryMapping::PlainContainer<
 		uint64_t,
 		uint16_t
@@ -217,24 +217,24 @@ TEST_F(BinaryMappingTest, BasicConstContainer) {
 		TestContainer::type::tuple_size * 10
 	);
 
-	const TestContainer container(&testBuffer);
+	TestContainer container(&testBuffer);
+	const TestContainer& constContainer = container;
 
 	EXPECT_EQ(container.size(), 10);
 
-	auto tuple = static_cast<
-		BinaryMapping::PlainSlidingTuple<uint64_t, uint16_t>*
-	>(container.data());
-
 	for ( size_t i = 0; i < 10; ++i ) {
-		tuple->set<0>(i);
-		tuple->set<1>(i);
+		auto tuple = container.at(i);
 
-		++(*tuple);
+		tuple.set<0>(i);
+		tuple.set<1>(i);
 	}
 
 	for ( size_t i = 0; i < 10; ++i ) {
 		EXPECT_EQ(container.at(i).get<0>(), i);
 		EXPECT_EQ(container[i].get<1>(), i);
+
+		EXPECT_EQ(constContainer.at(i).get<0>(), i);
+		EXPECT_EQ(constContainer[i].get<1>(), i);
 	}
 
 	EXPECT_EQ(container.front().get<0>(), 0);
@@ -256,15 +256,11 @@ TEST_F(BinaryMappingTest, BasicIterator) {
 
 	TestContainer container(&testBuffer);
 
-	auto tuple = static_cast<
-		BinaryMapping::PlainSlidingTuple<uint64_t, uint16_t>*
-	>(container.data());
-
 	for ( size_t i = 0; i < 10; ++i ) {
-		tuple->set<0>(i);
-		tuple->set<1>(i);
+		auto tuple = container.at(i);
 
-		++(*tuple);
+		tuple.set<0>(i);
+		tuple.set<1>(i);
 	}
 
 	TestContainer::iterator_type iter(container.begin());

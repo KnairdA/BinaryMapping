@@ -31,7 +31,7 @@ class Buffer {
 
 		template <size_t Size>
 		inline uint8_t* at(size_t index) const {
-			if ( index < this->size<Size> ) {
+			if ( index < this->size<Size>() ) {
 				return this->data_ + index * Size;
 			} else {
 				throw std::out_of_range("range_violated");

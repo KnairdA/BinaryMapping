@@ -22,21 +22,22 @@ class Container {
 
 		Container(Buffer* buffer):
 			buffer_(buffer),
-			tuple_count_(buffer->size<type::tuple_size>()),
-			tuple_(buffer_) { }
+			tuple_count_(buffer->size<type::tuple_size>()) { }
 
 		inline size_t size() const {
 			return this->tuple_count_;
 		}
 
-		inline typename type::CarbonCopy at(size_t index) const {
-			if ( index <= this->tuple_count_ ) {
-				this->tuple_.move(index);
+		inline type operator[](size_t index) {
+			return type(
+				this->buffer_->template at<type::tuple_size>(index)
+			);
+		}
 
-				return this->tuple_.carbonCopy();
-			} else {
-				throw std::out_of_range("container range violated");
-			}
+		inline typename type::CarbonCopy operator[](size_t index) const {
+			return type(
+				this->buffer_->template at<type::tuple_size>(index)
+			).carbonCopy();
 		}
 
 		inline type at(size_t index) {
@@ -47,53 +48,41 @@ class Container {
 			}
 		}
 
-		inline typename type::CarbonCopy operator[] (size_t index) const {
-			this->tuple_.move(index);
-
-			return this->tuple_.carbonCopy();
-		}
-
-		inline type operator[](size_t index) {
-			return type(
-				this->buffer_->at<type::tuple_size>(index)
-			);
-		}
-
-		inline typename type::CarbonCopy front() const {
-			this->tuple_.move(0);
-
-			return this->tuple_.carbonCopy();
+		inline typename type::CarbonCopy at(size_t index) const {
+			if ( index <= this->tuple_count_ ) {
+				return this->operator[](index);
+			} else {
+				throw std::out_of_range("container range violated");
+			}
 		}
 
 		inline type front() {
 			return type(this->buffer_->begin());
 		}
 
-		inline typename type::CarbonCopy back() const {
-			this->tuple_.move(this->tuple_count_ - 1);
-
-			return this->tuple_.carbonCopy();
+		inline typename type::CarbonCopy front() const {
+			return type(this->buffer_->begin()).carbonCopy();
 		}
 
 		inline type back() {
 			return type(
-				this->buffer_->at<type::tuple_size>(this->tuple_count_ - 1)
+				this->buffer_->template at<type::tuple_size>(this->tuple_count_ - 1)
 			);
+		}
+
+		inline typename type::CarbonCopy back() const {
+			return type(
+				this->buffer_->template at<type::tuple_size>(this->tuple_count_ - 1)
+			).carbonCopy();
 		}
 
 		inline iterator_type begin() const {
 			return iterator_type(this->buffer_);
 		}
 
-		inline type* data() const {
-			return static_cast<type*>(&this->tuple_);
-		}
-
 	private:
 		Buffer* const buffer_;
-
 		const size_t tuple_count_;
-		mutable SlidingTuple<Endianess, Types...> tuple_;
 
 };
 
