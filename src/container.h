@@ -20,7 +20,7 @@ class Container {
 		typedef Tuple<Endianess, Types...> type;
 		typedef Iterator<Endianess, Types...> iterator_type;
 
-		Container(const BufferGuard& buffer):
+		Container(const Buffer& buffer):
 			data_(buffer.data),
 			size_(buffer.size),
 			tuple_count_(size_ / type::tuple_size),

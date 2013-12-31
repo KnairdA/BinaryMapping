@@ -19,7 +19,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 	public:
 		typedef Tuple<Endianess, Types...> type;
 
-		Iterator(const BufferGuard& buffer):
+		Iterator(const Buffer& buffer):
 			data_(buffer.data),
 			size_(buffer.size),
 			tuple_count_(size_ / type::tuple_size),

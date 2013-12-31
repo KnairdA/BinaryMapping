@@ -10,7 +10,7 @@
 #include "tuple_carbon_copy.h" 
 #include "relative_pointer.h" 
 
-#include "io/buffer_guard.h" 
+#include "io/buffer.h" 
 
 #include "endianess/serializer.h" 
 #include "endianess/in_place_sorter.h" 
@@ -30,7 +30,7 @@ class Tuple {
 
 		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
 
-		Tuple(const BufferGuard& data):
+		Tuple(const Buffer& data):
 			buffer_(data.data),
 			base_ptr_(buffer_),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }

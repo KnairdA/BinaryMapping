@@ -22,7 +22,7 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 		int8_t
 	> TestMapping;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
 		),
@@ -56,7 +56,7 @@ TEST_F(BinaryMappingTest, SlidingMapping) {
 		uint16_t
 	> TestMapping;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestMapping::tuple_size * 10, sizeof(uint8_t))
 		),
@@ -90,7 +90,7 @@ TEST_F(BinaryMappingTest, LittleEndianMapping) {
 		int16_t
 	> TestMapping;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
 		),
@@ -116,7 +116,7 @@ TEST_F(BinaryMappingTest, BigEndianMapping) {
 		int16_t
 	> TestMapping;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
 		),
@@ -149,7 +149,7 @@ TEST_F(BinaryMappingTest, MixedEndianMapping) {
 		int16_t
 	> LittleTestMapping;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(BigTestMapping::tuple_size, sizeof(uint8_t))
 		),
@@ -177,7 +177,7 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 		uint16_t
 	> TestMapping;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
 		),
@@ -210,7 +210,7 @@ TEST_F(BinaryMappingTest, BasicConstContainer) {
 		uint16_t
 	> TestContainer;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestContainer::type::tuple_size * 10, sizeof(uint8_t))
 		),
@@ -247,7 +247,7 @@ TEST_F(BinaryMappingTest, BasicIterator) {
 		uint16_t
 	> TestContainer;
 
-	BinaryMapping::BufferGuard testBuffer(
+	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
 			std::calloc(TestContainer::type::tuple_size * 10, sizeof(uint8_t))
 		),

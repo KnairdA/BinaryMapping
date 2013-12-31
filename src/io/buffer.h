@@ -1,21 +1,21 @@
-#ifndef BINARY_MAPPING_SRC_IO_BUFFER_GUARD_H_
-#define BINARY_MAPPING_SRC_IO_BUFFER_GUARD_H_
+#ifndef BINARY_MAPPING_SRC_IO_BUFFER_H_
+#define BINARY_MAPPING_SRC_IO_BUFFER_H_
 
 namespace BinaryMapping {
 
-class BufferGuard {
+class Buffer {
 	public:
-		BufferGuard(uint8_t* d, size_t s):
+		Buffer(uint8_t* d, size_t s):
 			data(d),
 			size(s),
 			owner_(true) { }
 
-		BufferGuard(const BufferGuard& source):
+		Buffer(const Buffer& source):
 			data(source.data),
 			size(source.size),
 			owner_(false) { }
 
-		~BufferGuard() {
+		~Buffer() {
 			if ( this->owner_ ) {
 				std::free(this->data);
 			}
@@ -30,4 +30,4 @@ class BufferGuard {
 
 }
 
-#endif  // BINARY_MAPPING_SRC_IO_BUFFER_GUARD_H_
+#endif  // BINARY_MAPPING_SRC_IO_BUFFER_H_
