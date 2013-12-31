@@ -19,24 +19,15 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 	public:
 		typedef Tuple<Endianess, Types...> type;
 
-		Iterator(const Buffer& buffer):
-			data_(buffer.data),
-			size_(buffer.size),
-			tuple_count_(size_ / type::tuple_size),
-			tuple_(buffer),
-			index_(0) { }
-
-		Iterator(uint8_t* data, size_t size):
-			data_(data),
-			size_(size),
-			tuple_count_(size_ / type::tuple_size),
-			tuple_(data),
+		Iterator(Buffer* buffer):
+			buffer_(buffer),
+			tuple_count_(buffer->size<type::tuple_size>()),
+			tuple_(buffer_),
 			index_(0) { }
 
 		inline bool operator==(const Iterator<Endianess, Types...>& src) const {
-			return this->data_  == src.data_ &&
-			       this->size_  == src.size_ &&
-			       this->index_ == src.index_;
+			return this->buffer_  == src.buffer_ &&
+			       this->index_   == src.index_;
 		}
 
 		inline bool operator!=(const Iterator<Endianess, Types...>& src) const {
@@ -84,8 +75,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 	private:
-		uint8_t* const data_;
-		const size_t size_;
+		Buffer* const buffer_;
 		const off_t tuple_count_;
 
 		SlidingTuple<Endianess, Types...> tuple_;

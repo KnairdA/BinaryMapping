@@ -30,14 +30,14 @@ class Tuple {
 
 		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
 
-		Tuple(const Buffer& data):
-			buffer_(data.data),
-			base_ptr_(buffer_),
+		Tuple(Buffer* buffer):
+			data_(buffer->begin()),
+			base_ptr_(data_),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
 		Tuple(uint8_t* data):
-			buffer_(data),
-			base_ptr_(buffer_),
+			data_(data),
+			base_ptr_(data_),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
 		template <size_t Index> inline typename
@@ -90,7 +90,7 @@ class Tuple {
 		}
 
 	protected:
-		uint8_t* const buffer_;
+		uint8_t* const data_;
 		uint8_t* base_ptr_;
 		const tuple_type tuple_;
 

@@ -17,7 +17,7 @@ class SlidingTuple : public Tuple<Endianess, Types...> {
 		using Tuple<Endianess, Types...>::Tuple;
 
 		inline void move(off_t index) {
-			this->base_ptr_ = this->buffer_ + index * tuple_size;
+			this->base_ptr_ = this->data_ + index * tuple_size;
 		}
 
 		inline SlidingTuple<Endianess, Types...>& operator++() {

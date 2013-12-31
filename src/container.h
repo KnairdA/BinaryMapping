@@ -20,11 +20,10 @@ class Container {
 		typedef Tuple<Endianess, Types...> type;
 		typedef Iterator<Endianess, Types...> iterator_type;
 
-		Container(const Buffer& buffer):
-			data_(buffer.data),
-			size_(buffer.size),
-			tuple_count_(size_ / type::tuple_size),
-			tuple_(buffer) { }
+		Container(Buffer* buffer):
+			buffer_(buffer),
+			tuple_count_(buffer->size<type::tuple_size>()),
+			tuple_(buffer_) { }
 
 		inline size_t size() const {
 			return this->tuple_count_;
@@ -42,9 +41,7 @@ class Container {
 
 		inline type at(size_t index) {
 			if ( index <= this->tuple_count_ ) {
-				return type(
-					this->data_ + index * type::tuple_size
-				);
+				return this->operator[](index);
 			} else {
 				throw std::out_of_range("container range violated");
 			}
@@ -56,9 +53,9 @@ class Container {
 			return this->tuple_.carbonCopy();
 		}
 
-		inline type operator[] (size_t index) {
+		inline type operator[](size_t index) {
 			return type(
-				this->data_ + index * type::tuple_size
+				this->buffer_->at<type::tuple_size>(index)
 			);
 		}
 
@@ -69,7 +66,7 @@ class Container {
 		}
 
 		inline type front() {
-			return type(this->data_);
+			return type(this->buffer_->begin());
 		}
 
 		inline typename type::CarbonCopy back() const {
@@ -80,12 +77,12 @@ class Container {
 
 		inline type back() {
 			return type(
-				this->data_ + (this->tuple_count_ - 1) * type::tuple_size
+				this->buffer_->at<type::tuple_size>(this->tuple_count_ - 1)
 			);
 		}
 
 		inline iterator_type begin() const {
-			return iterator_type(this->data_, this->size_);
+			return iterator_type(this->buffer_);
 		}
 
 		inline type* data() const {
@@ -93,8 +90,7 @@ class Container {
 		}
 
 	private:
-		uint8_t* const data_;
-		const size_t size_;
+		Buffer* const buffer_;
 
 		const size_t tuple_count_;
 		mutable SlidingTuple<Endianess, Types...> tuple_;

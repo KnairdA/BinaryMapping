@@ -29,7 +29,7 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 		TestMapping::tuple_size
 	);
 
-	TestMapping mapping(testBuffer);
+	TestMapping mapping(&testBuffer);
 
 	mapping.set<0>(UINT64_MAX);
 	mapping.set<1>(UINT8_MAX);
@@ -63,7 +63,7 @@ TEST_F(BinaryMappingTest, SlidingMapping) {
 		TestMapping::tuple_size * 10
 	);
 
-	TestMapping mapping(testBuffer);
+	TestMapping mapping(&testBuffer);
 
 	for ( size_t i = 0; i < 10; ++i ) {
 		mapping.set<0>(i);
@@ -97,7 +97,7 @@ TEST_F(BinaryMappingTest, LittleEndianMapping) {
 		TestMapping::tuple_size
 	);
 
-	TestMapping mapping(testBuffer);
+	TestMapping mapping(&testBuffer);
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
@@ -123,7 +123,7 @@ TEST_F(BinaryMappingTest, BigEndianMapping) {
 		TestMapping::tuple_size
 	);
 
-	TestMapping mapping(testBuffer);
+	TestMapping mapping(&testBuffer);
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
@@ -156,13 +156,13 @@ TEST_F(BinaryMappingTest, MixedEndianMapping) {
 		BigTestMapping::tuple_size
 	);
 
-	BigTestMapping bigMapping(testBuffer);
+	BigTestMapping bigMapping(&testBuffer);
 
 	bigMapping.set<0>(UINT32_MAX);
 	bigMapping.set<1>(UINT16_MAX);
 	bigMapping.set<2>(INT8_MIN);
 
-	LittleTestMapping littleMapping(testBuffer);
+	LittleTestMapping littleMapping(&testBuffer);
 
 	EXPECT_EQ(littleMapping.get<0>(), 18446744069414584320ul);
 	EXPECT_EQ(littleMapping.get<1>(), 4294901760);
@@ -184,7 +184,7 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 		TestMapping::tuple_size
 	);
 
-	TestMapping mapping(testBuffer);
+	TestMapping mapping(&testBuffer);
 
 	mapping.set<0>(UINT64_MAX);
 	mapping.set<1>(UINT8_MAX);
@@ -217,7 +217,7 @@ TEST_F(BinaryMappingTest, BasicConstContainer) {
 		TestContainer::type::tuple_size * 10
 	);
 
-	const TestContainer container(testBuffer);
+	const TestContainer container(&testBuffer);
 
 	EXPECT_EQ(container.size(), 10);
 
@@ -254,7 +254,7 @@ TEST_F(BinaryMappingTest, BasicIterator) {
 		TestContainer::type::tuple_size * 10
 	);
 
-	TestContainer container(testBuffer);
+	TestContainer container(&testBuffer);
 
 	auto tuple = static_cast<
 		BinaryMapping::PlainSlidingTuple<uint64_t, uint16_t>*

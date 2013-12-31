@@ -25,6 +25,10 @@ class Buffer {
 			}
 		}
 
+		inline uint8_t* begin() const {
+			return this->data_;
+		}
+
 		template <size_t Size>
 		inline uint8_t* at(size_t index) const {
 			if ( index < this->size<Size> ) {
