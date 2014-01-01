@@ -31,7 +31,7 @@ class Tuple {
 		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
 
 		Tuple(Buffer* buffer):
-			base_ptr_(buffer->begin()),
+			base_ptr_(buffer->front()),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
 		Tuple(uint8_t* data):

@@ -20,7 +20,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		Iterator(Buffer* buffer):
 			buffer_(buffer),
 			tuple_count_(buffer_->size<type::tuple_size>()),
-			iter_(buffer_->begin()),
+			iter_(buffer_->front()),
 			tuple_(iter_),
 			index_(0) { }
 

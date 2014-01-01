@@ -62,6 +62,10 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 			return tmpIter;
 		}
 
+		inline off_t operator-(const BufferIterator<Size>& src) const {
+			return ( this->index_ptr_ - src.index_ptr_ ) / Size;
+		}
+
 		inline BufferIterator<Size> operator-(off_t offset) const {
 			BufferIterator<Size> tmpIter(*this);
 			tmpIter -= offset;
@@ -71,6 +75,15 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 
 		inline BufferIterator<Size> operator[](off_t offset) const {
 			return *(this->operator+(offset));
+		}
+
+		friend inline BufferIterator<Size> operator+(
+			off_t offset,
+			const BufferIterator<Size>& src) {
+			BufferIterator<Size> tmpIter(src);
+			tmpIter += offset;
+
+			return tmpIter;
 		}
 
 	private:

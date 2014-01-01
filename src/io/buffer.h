@@ -25,7 +25,7 @@ class Buffer {
 			}
 		}
 
-		inline uint8_t* begin() const {
+		inline uint8_t* front() const {
 			return this->data_;
 		}
 

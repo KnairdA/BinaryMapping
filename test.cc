@@ -9,6 +9,52 @@ class BinaryMappingTest : public ::testing::Test {
 	
 };
 
+TEST_F(BinaryMappingTest, Buffer) {
+	BinaryMapping::Buffer testBuffer(
+		reinterpret_cast<uint8_t*>(
+			std::calloc(10 * sizeof(uint32_t), sizeof(uint8_t))
+		),
+		10 * sizeof(uint32_t)
+	);
+
+	EXPECT_EQ(testBuffer.size<sizeof(uint32_t)>(), 10);
+	EXPECT_EQ(testBuffer.at<sizeof(uint32_t)>(0), testBuffer.front());
+	EXPECT_EQ(testBuffer.at<sizeof(uint32_t)>(1),
+	          testBuffer.front() + sizeof(uint32_t));
+	EXPECT_EQ(testBuffer[4],
+	          testBuffer.front() + sizeof(uint32_t));
+}
+
+TEST_F(BinaryMappingTest, BufferIterator) {
+	BinaryMapping::Buffer testBuffer(
+		reinterpret_cast<uint8_t*>(
+			std::calloc(10 * sizeof(uint32_t), sizeof(uint8_t))
+		),
+		10 * sizeof(uint32_t)
+	);
+
+	auto iter1 = testBuffer.begin<sizeof(uint32_t)>();
+	auto iter2 = testBuffer.end<sizeof(uint32_t)>();
+
+	EXPECT_EQ(iter2 - iter1, 10);
+	++iter1;
+	EXPECT_EQ(iter2 - iter1, 9);
+	iter1 += 3;
+	EXPECT_EQ(iter2 - iter1, 6);
+	--iter1;
+	EXPECT_EQ(iter2 - iter1, 7);
+	iter1 -= 3;
+	EXPECT_EQ(iter2 - iter1, 10);
+
+	auto iter3 = iter2 - 5;
+	auto iter4 = iter3 + 2;
+	auto iter5 = 2 + iter3;
+
+	EXPECT_EQ(iter2 - iter3, 5);
+	EXPECT_EQ(iter2 - iter4, 3);
+	EXPECT_EQ(iter2 - iter5, 3);
+}
+
 TEST_F(BinaryMappingTest, BasicMapping) {
 	typedef BinaryMapping::PlainTuple<
 		uint64_t,

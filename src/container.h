@@ -56,11 +56,11 @@ class Container {
 		}
 
 		inline type front() {
-			return type(this->buffer_->begin());
+			return type(this->buffer_->front());
 		}
 
 		inline typename type::CarbonCopy front() const {
-			return type(this->buffer_->begin()).carbonCopy();
+			return type(this->buffer_->front()).carbonCopy();
 		}
 
 		inline type back() {
