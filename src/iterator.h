@@ -19,18 +19,24 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		Iterator(Buffer* buffer):
 			buffer_(buffer),
-			tuple_count_(buffer_->size<type::tuple_size>()),
-			iter_(buffer_->front()),
-			tuple_(iter_),
-			index_(0) { }
+			begin_(buffer_->begin<type::tuple_size>()),
+			end_(buffer_->end<type::tuple_size>()),
+			iter_(buffer_->begin<type::tuple_size>()),
+			tuple_(iter_) { }
+
+		Iterator(Buffer* buffer, size_t index):
+			buffer_(buffer),
+			begin_(buffer_->begin<type::tuple_size>()),
+			end_(buffer_->end<type::tuple_size>()),
+			iter_(buffer_->at<type::tuple_size>(index)),
+			tuple_(iter_) { }
 
 		inline bool operator==(const Iterator<Endianess, Types...>& src) const {
-			return this->buffer_  == src.buffer_ &&
-			       this->index_   == src.index_;
+			return this->iter_  == src.iter_;
 		}
 
 		inline bool operator!=(const Iterator<Endianess, Types...>& src) const {
-			return !(this == src);
+			return !(*this == src);
 		}
 
 		inline type operator*() {
@@ -38,36 +44,32 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator<Endianess, Types...>& operator++() {
-			if ( this->index_ < this->tuple_count_ ) {
+			if ( this->iter_ < this->end_ ) {
 				++this->iter_;
-				++this->index_;
 			}
 
 			return *this;
 		}
 
 		inline Iterator<Endianess, Types...>& operator--() {
-			if ( this->index_ > 0 ) {
+			if ( this->iter_ > this->begin_ ) {
 				--this->iter_;
-				--this->index_;
 			}
 
 			return *this;
 		}
 
 		inline Iterator<Endianess, Types...>& operator+=(off_t offset) {
-			if ( this->index_ + offset <= this->tuple_count_ ) {
-				this->iter_  += offset;
-				this->index_ += offset;
+			if ( this->iter_ + offset < this->end_ ) {
+				this->iter_ += offset;
 			}
 
 			return *this;
 		}
 
 		inline Iterator<Endianess, Types...>& operator-=(off_t offset) {
-			if ( this->index_ - offset >= 0 ) {
-				this->iter_  -= offset;
-				this->index_ -= offset;
+			if ( this->iter_ - offset >= this->begin_ ) {
+				this->iter_ -= offset;
 			}
 
 			return *this;
@@ -75,11 +77,12 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 	private:
 		Buffer* const buffer_;
-		const off_t tuple_count_;
 
+		BufferIterator<type::tuple_size> begin_;
+		BufferIterator<type::tuple_size> end_;
 		BufferIterator<type::tuple_size> iter_;
+
 		Tuple<Endianess, Types...> tuple_;
-		off_t index_;
 
 };
 

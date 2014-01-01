@@ -79,6 +79,10 @@ class Container {
 			return iterator_type(this->buffer_);
 		}
 
+		inline iterator_type end() const {
+			return iterator_type(this->buffer_, this->tuple_count_ - 1);
+		}
+
 	private:
 		Buffer* const buffer_;
 		const size_t tuple_count_;

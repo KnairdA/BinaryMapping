@@ -20,7 +20,23 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline bool operator!=(const BufferIterator<Size>& src) const {
-			return !(this == src);
+			return !(*this == src);
+		}
+
+		inline bool operator<(const BufferIterator<Size>& src) const {
+			return this->index_ptr_ < src.index_ptr_;
+		}
+
+		inline bool operator>(const BufferIterator<Size>& src) const {
+			return this->index_ptr_ > src.index_ptr_;
+		}
+
+		inline bool operator<=(const BufferIterator<Size>& src) const {
+			return !this->operator>(src);
+		}
+
+		inline bool operator>=(const BufferIterator<Size>& src) const {
+			return !this->operator<(src);
 		}
 
 		inline uint8_t* operator*() const {
