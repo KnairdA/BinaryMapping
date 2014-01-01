@@ -23,11 +23,11 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 			return !(this == src);
 		}
 
-		inline uint8_t* operator*() {
+		inline uint8_t* operator*() const {
 			return this->index_ptr_;
 		}
 
-		inline uint8_t** operator()() {
+		inline uint8_t*const* operator()() const {
 			return &this->index_ptr_;
 		}
 

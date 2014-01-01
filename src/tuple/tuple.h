@@ -38,7 +38,7 @@ class Tuple {
 			base_ptr_(data),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
-		Tuple(BufferIterator<tuple_size>& iter):
+		Tuple(const BufferIterator<tuple_size>& iter):
 			base_ptr_(nullptr),
 			tuple_(TupleMapper::construct<tuple_type>(iter())) { }
 

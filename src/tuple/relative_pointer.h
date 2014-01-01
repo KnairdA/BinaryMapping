@@ -9,7 +9,9 @@ template<
 	typename BasePtr   = typename std::enable_if<
 		std::is_integral<Base>::value,
 		typename std::add_pointer<
-			typename std::add_pointer<Base>::type
+			typename std::add_const<
+				typename std::add_pointer<Base>::type
+			>::type
 		>::type
 	>::type,
 	typename TargetPtr = typename std::enable_if<

@@ -15,7 +15,7 @@ struct TupleMapper {
 	static inline typename std::enable_if<
 		Index == std::tuple_size<Tuple>::value,
 		Tuple
-	>::type construct(uint8_t**, Current&& tuple) {
+	>::type construct(uint8_t*const*, Current&& tuple) {
 		return tuple;
 	}
 
@@ -28,7 +28,7 @@ struct TupleMapper {
 	static inline typename std::enable_if<
 		Index < std::tuple_size<Tuple>::value,
 		Tuple
-	>::type construct(uint8_t** buffer, Current&& tuple = std::tuple<>()) {
+	>::type construct(uint8_t*const* buffer, Current&& tuple = std::tuple<>()) {
 		return construct<
 			Tuple,
 			Index  + 1,
