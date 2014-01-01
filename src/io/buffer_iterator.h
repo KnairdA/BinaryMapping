@@ -27,6 +27,10 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 			return this->index_ptr_;
 		}
 
+		inline uint8_t** operator()() {
+			return &this->index_ptr_;
+		}
+
 		inline BufferIterator<Size>& operator++() {
 			this->index_ptr_ += Size;
 

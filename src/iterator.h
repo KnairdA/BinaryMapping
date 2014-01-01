@@ -3,8 +3,6 @@
 
 #include <iterator>
 
-#include "tuple/sliding_tuple.h"
-
 namespace BinaryMapping {
 
 template<
@@ -21,8 +19,9 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		Iterator(Buffer* buffer):
 			buffer_(buffer),
-			tuple_count_(buffer->size<type::tuple_size>()),
-			tuple_(buffer_),
+			tuple_count_(buffer_->size<type::tuple_size>()),
+			iter_(buffer_->begin()),
+			tuple_(iter_),
 			index_(0) { }
 
 		inline bool operator==(const Iterator<Endianess, Types...>& src) const {
@@ -35,12 +34,12 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline type operator*() {
-			return type(this->tuple_.data());
+			return type(*this->iter_);
 		}
 
 		inline Iterator<Endianess, Types...>& operator++() {
 			if ( this->index_ < this->tuple_count_ ) {
-				++this->tuple_;
+				++this->iter_;
 				++this->index_;
 			}
 
@@ -49,7 +48,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		inline Iterator<Endianess, Types...>& operator--() {
 			if ( this->index_ > 0 ) {
-				--this->tuple_;
+				--this->iter_;
 				--this->index_;
 			}
 
@@ -58,7 +57,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		inline Iterator<Endianess, Types...>& operator+=(off_t offset) {
 			if ( this->index_ + offset <= this->tuple_count_ ) {
-				this->tuple_.move(this->index_ + offset);
+				this->iter_  += offset;
 				this->index_ += offset;
 			}
 
@@ -67,7 +66,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		inline Iterator<Endianess, Types...>& operator-=(off_t offset) {
 			if ( this->index_ - offset >= 0 ) {
-				this->tuple_.move(this->index_ - offset);
+				this->iter_  -= offset;
 				this->index_ -= offset;
 			}
 
@@ -78,7 +77,8 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		Buffer* const buffer_;
 		const off_t tuple_count_;
 
-		SlidingTuple<Endianess, Types...> tuple_;
+		BufferIterator<type::tuple_size> iter_;
+		Tuple<Endianess, Types...> tuple_;
 		off_t index_;
 
 };

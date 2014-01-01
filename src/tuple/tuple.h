@@ -31,14 +31,16 @@ class Tuple {
 		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
 
 		Tuple(Buffer* buffer):
-			data_(buffer->begin()),
-			base_ptr_(data_),
+			base_ptr_(buffer->begin()),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
 		Tuple(uint8_t* data):
-			data_(data),
-			base_ptr_(data_),
+			base_ptr_(data),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
+
+		Tuple(BufferIterator<tuple_size>& iter):
+			base_ptr_(nullptr),
+			tuple_(TupleMapper::construct<tuple_type>(iter())) { }
 
 		template <size_t Index> inline typename
 		std::tuple_element<Index, tuple_type>::type::element_type get() const {
@@ -85,12 +87,7 @@ class Tuple {
 			return CarbonCopy(*this);
 		}
 
-		uint8_t* data() const {
-			return this->base_ptr_;
-		}
-
 	protected:
-		uint8_t* const data_;
 		uint8_t* base_ptr_;
 		const tuple_type tuple_;
 

@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 
 #include "tuple/tuple.h"
-#include "tuple/sliding_tuple.h"
 #include "endianess/little.h"
 #include "endianess/big.h"
 #include "container.h"
@@ -51,7 +50,7 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 }
 
 TEST_F(BinaryMappingTest, SlidingMapping) {
-	typedef BinaryMapping::PlainSlidingTuple<
+	typedef BinaryMapping::PlainTuple<
 		uint32_t,
 		uint16_t
 	> TestMapping;
@@ -63,22 +62,23 @@ TEST_F(BinaryMappingTest, SlidingMapping) {
 		TestMapping::tuple_size * 10
 	);
 
-	TestMapping mapping(&testBuffer);
+	auto iter = testBuffer.begin<TestMapping::tuple_size>();
+	TestMapping mapping(iter);
 
 	for ( size_t i = 0; i < 10; ++i ) {
 		mapping.set<0>(i);
 		mapping.set<1>(i);
 
-		++mapping;
+		++iter;
 	}
 
-	mapping.move(0);
+	iter -= 10;
 
 	for ( size_t i = 0; i < 10; ++i ) {
 		EXPECT_EQ(mapping.get<0>(), i);
 		EXPECT_EQ(mapping.get<1>(), i);
 
-		++mapping;
+		++iter;
 	}
 }
 

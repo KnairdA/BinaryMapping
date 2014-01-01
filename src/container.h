@@ -4,7 +4,6 @@
 #include <stdexcept>
 
 #include "tuple/tuple.h"
-#include "tuple/sliding_tuple.h"
 #include "endianess/undefined.h"
 
 #include "iterator.h"
