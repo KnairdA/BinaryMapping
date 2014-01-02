@@ -37,6 +37,8 @@ TEST_F(BinaryMappingTest, BufferIterator) {
 	auto iter2 = testBuffer.end<sizeof(uint32_t)>();
 
 	EXPECT_EQ(iter2 - iter1, 10);
+	EXPECT_EQ(iter2 > iter1, true);
+	EXPECT_EQ(iter2 < iter1, false);
 	++iter1;
 	EXPECT_EQ(iter2 - iter1, 9);
 	iter1 += 3;
@@ -317,6 +319,29 @@ TEST_F(BinaryMappingTest, BasicIterator) {
 
 		++iter;
 	}
+
+	auto iter1 = container.begin();
+	auto iter2 = container.end();
+
+	EXPECT_EQ(iter2 - iter1, 10);
+	EXPECT_EQ(iter2 > iter1, true);
+	EXPECT_EQ(iter2 < iter1, false);
+	++iter1;
+	EXPECT_EQ(iter2 - iter1, 9);
+	iter1 += 3;
+	EXPECT_EQ(iter2 - iter1, 6);
+	--iter1;
+	EXPECT_EQ(iter2 - iter1, 7);
+	iter1 -= 3;
+	EXPECT_EQ(iter2 - iter1, 10);
+
+	auto iter3 = iter2 - 5;
+	auto iter4 = iter3 + 2;
+	auto iter5 = 2 + iter3;
+
+	EXPECT_EQ(iter2 - iter3, 5);
+	EXPECT_EQ(iter2 - iter4, 3);
+	EXPECT_EQ(iter2 - iter5, 3);
 }
 
 int main(int argc, char **argv) {

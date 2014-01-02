@@ -30,7 +30,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			buffer_(buffer),
 			begin_( buffer_->begin<tuple_type::size>()),
 			end_(   buffer_->end<tuple_type::size>()),
-			iter_(  buffer_->at<tuple_type::size>(index)),
+			iter_(  (*buffer_)[index * tuple_type::size]),
 			tuple_( iter_) { }
 
 		inline bool operator==(const iterator_type& src) const {
@@ -91,6 +91,37 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			}
 
 			return *this;
+		}
+
+		inline iterator_type operator+(off_t offset) const {
+			iterator_type tmpIter(*this);
+			tmpIter += offset;
+
+			return tmpIter;
+		}
+
+		inline off_t operator-(const iterator_type& src) const {
+			return this->iter_ - src.iter_;
+		}
+
+		inline iterator_type operator-(off_t offset) const {
+			iterator_type tmpIter(*this);
+			tmpIter -= offset;
+
+			return tmpIter;
+		}
+
+		inline iterator_type operator[](off_t offset) const {
+			return *(this->operator+(offset));
+		}
+
+		friend inline iterator_type operator+(
+			off_t offset,
+			const iterator_type& src) {
+			iterator_type tmpIter(src);
+			tmpIter += offset;
+
+			return tmpIter;
 		}
 
 	private:

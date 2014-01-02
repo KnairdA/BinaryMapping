@@ -84,7 +84,7 @@ class Container {
 		}
 
 		inline iterator_type end() const {
-			return iterator_type(this->buffer_, this->tuple_count_ - 1);
+			return iterator_type(this->buffer_, this->tuple_count_);
 		}
 
 	private:
