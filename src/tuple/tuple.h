@@ -25,10 +25,10 @@ template <
 >
 class Tuple {
 	public:
-		typedef TupleCarbonCopy<Types...> CarbonCopy;
+		typedef TupleCarbonCopy<Types...> carbon_copy;
 		typedef std::tuple<RelativePointer<uint8_t, Types>...> tuple_type;
 
-		static const size_t tuple_size = TupleWeigher::size<tuple_type>();
+		static const size_t size = TupleWeigher::size<tuple_type>();
 
 		Tuple(Buffer* buffer):
 			base_ptr_(buffer->front()),
@@ -38,7 +38,7 @@ class Tuple {
 			base_ptr_(data),
 			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
 
-		Tuple(const BufferIterator<tuple_size>& iter):
+		Tuple(const BufferIterator<size>& iter):
 			base_ptr_(nullptr),
 			tuple_(TupleMapper::construct<tuple_type>(iter())) { }
 
@@ -83,8 +83,8 @@ class Tuple {
 			Serializer<InPlaceSorter<CustomOrder>>::deserialize(this->tuple_);
 		}
 
-		CarbonCopy carbonCopy() const {
-			return CarbonCopy(*this);
+		carbon_copy carbonCopy() const {
+			return carbon_copy(*this);
 		}
 
 	protected:

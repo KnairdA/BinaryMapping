@@ -16,30 +16,30 @@ template<
 >
 class Container {
 	public:
-		typedef Tuple<Endianess, Types...> type;
+		typedef Tuple<Endianess, Types...> tuple_type;
 		typedef Iterator<Endianess, Types...> iterator_type;
 
 		Container(Buffer* buffer):
 			buffer_(buffer),
-			tuple_count_(buffer->size<type::tuple_size>()) { }
+			tuple_count_(buffer->size<tuple_type::size>()) { }
 
 		inline size_t size() const {
 			return this->tuple_count_;
 		}
 
-		inline type operator[](size_t index) {
-			return type(
-				this->buffer_->template at<type::tuple_size>(index)
+		inline tuple_type operator[](size_t index) {
+			return tuple_type(
+				this->buffer_->template at<tuple_type::size>(index)
 			);
 		}
 
-		inline typename type::CarbonCopy operator[](size_t index) const {
-			return type(
-				this->buffer_->template at<type::tuple_size>(index)
+		inline typename tuple_type::carbon_copy operator[](size_t index) const {
+			return tuple_type(
+				this->buffer_->template at<tuple_type::size>(index)
 			).carbonCopy();
 		}
 
-		inline type at(size_t index) {
+		inline tuple_type at(size_t index) {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
@@ -47,7 +47,7 @@ class Container {
 			}
 		}
 
-		inline typename type::CarbonCopy at(size_t index) const {
+		inline typename tuple_type::carbon_copy at(size_t index) const {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
@@ -55,23 +55,27 @@ class Container {
 			}
 		}
 
-		inline type front() {
-			return type(this->buffer_->front());
+		inline tuple_type front() {
+			return tuple_type(this->buffer_->front());
 		}
 
-		inline typename type::CarbonCopy front() const {
-			return type(this->buffer_->front()).carbonCopy();
+		inline typename tuple_type::carbon_copy front() const {
+			return tuple_type(this->buffer_->front()).carbonCopy();
 		}
 
-		inline type back() {
-			return type(
-				this->buffer_->template at<type::tuple_size>(this->tuple_count_ - 1)
+		inline tuple_type back() {
+			return tuple_type(
+				this->buffer_->template at<tuple_type::size>(
+					this->tuple_count_ - 1
+				)
 			);
 		}
 
-		inline typename type::CarbonCopy back() const {
-			return type(
-				this->buffer_->template at<type::tuple_size>(this->tuple_count_ - 1)
+		inline typename tuple_type::carbon_copy back() const {
+			return tuple_type(
+				this->buffer_->template at<tuple_type::size>(
+					this->tuple_count_ - 1
+				)
 			).carbonCopy();
 		}
 

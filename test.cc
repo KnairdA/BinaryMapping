@@ -69,9 +69,9 @@ TEST_F(BinaryMappingTest, BasicMapping) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
+			std::calloc(TestMapping::size, sizeof(uint8_t))
 		),
-		TestMapping::tuple_size
+		TestMapping::size
 	);
 
 	TestMapping mapping(&testBuffer);
@@ -103,12 +103,12 @@ TEST_F(BinaryMappingTest, SlidingMapping) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::tuple_size * 10, sizeof(uint8_t))
+			std::calloc(TestMapping::size * 10, sizeof(uint8_t))
 		),
-		TestMapping::tuple_size * 10
+		TestMapping::size * 10
 	);
 
-	auto iter = testBuffer.begin<TestMapping::tuple_size>();
+	auto iter = testBuffer.begin<TestMapping::size>();
 	TestMapping mapping(iter);
 
 	for ( size_t i = 0; i < 10; ++i ) {
@@ -138,9 +138,9 @@ TEST_F(BinaryMappingTest, LittleEndianMapping) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
+			std::calloc(TestMapping::size, sizeof(uint8_t))
 		),
-		TestMapping::tuple_size
+		TestMapping::size
 	);
 
 	TestMapping mapping(&testBuffer);
@@ -164,9 +164,9 @@ TEST_F(BinaryMappingTest, BigEndianMapping) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
+			std::calloc(TestMapping::size, sizeof(uint8_t))
 		),
-		TestMapping::tuple_size
+		TestMapping::size
 	);
 
 	TestMapping mapping(&testBuffer);
@@ -197,9 +197,9 @@ TEST_F(BinaryMappingTest, MixedEndianMapping) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(BigTestMapping::tuple_size, sizeof(uint8_t))
+			std::calloc(BigTestMapping::size, sizeof(uint8_t))
 		),
-		BigTestMapping::tuple_size
+		BigTestMapping::size
 	);
 
 	BigTestMapping bigMapping(&testBuffer);
@@ -225,9 +225,9 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::tuple_size, sizeof(uint8_t))
+			std::calloc(TestMapping::size, sizeof(uint8_t))
 		),
-		TestMapping::tuple_size
+		TestMapping::size
 	);
 
 	TestMapping mapping(&testBuffer);
@@ -237,7 +237,7 @@ TEST_F(BinaryMappingTest, CarbonCopyMapping) {
 	mapping.set<2>(UINT32_MAX);
 	mapping.set<3>(UINT16_MAX);
 
-	TestMapping::CarbonCopy copy = mapping.carbonCopy();
+	TestMapping::carbon_copy copy = mapping.carbonCopy();
 
 	mapping.set<0>(1);
 	mapping.set<1>(2);
@@ -258,9 +258,9 @@ TEST_F(BinaryMappingTest, BasicContainer) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestContainer::type::tuple_size * 10, sizeof(uint8_t))
+			std::calloc(TestContainer::tuple_type::size * 10, sizeof(uint8_t))
 		),
-		TestContainer::type::tuple_size * 10
+		TestContainer::tuple_type::size * 10
 	);
 
 	TestContainer container(&testBuffer);
@@ -295,9 +295,9 @@ TEST_F(BinaryMappingTest, BasicIterator) {
 
 	BinaryMapping::Buffer testBuffer(
 		reinterpret_cast<uint8_t*>(
-			std::calloc(TestContainer::type::tuple_size * 10, sizeof(uint8_t))
+			std::calloc(TestContainer::tuple_type::size * 10, sizeof(uint8_t))
 		),
-		TestContainer::type::tuple_size * 10
+		TestContainer::tuple_type::size * 10
 	);
 
 	TestContainer container(&testBuffer);

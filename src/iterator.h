@@ -14,52 +14,54 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       off_t,
                                       Tuple<Endianess, Types...>*,
                                       Tuple<Endianess, Types...>&> {
+	typedef Iterator<Endianess, Types...> iterator_type;
+
 	public:
-		typedef Tuple<Endianess, Types...> type;
+		typedef Tuple<Endianess, Types...> tuple_type;
 
 		Iterator(Buffer* buffer):
 			buffer_(buffer),
-			begin_(buffer_->begin<type::tuple_size>()),
-			end_(buffer_->end<type::tuple_size>()),
-			iter_(buffer_->begin<type::tuple_size>()),
-			tuple_(iter_) { }
+			begin_( buffer_->begin<tuple_type::size>()),
+			end_(   buffer_->end<tuple_type::size>()),
+			iter_(  buffer_->begin<tuple_type::size>()),
+			tuple_( iter_) { }
 
 		Iterator(Buffer* buffer, size_t index):
 			buffer_(buffer),
-			begin_(buffer_->begin<type::tuple_size>()),
-			end_(buffer_->end<type::tuple_size>()),
-			iter_(buffer_->at<type::tuple_size>(index)),
-			tuple_(iter_) { }
+			begin_( buffer_->begin<tuple_type::size>()),
+			end_(   buffer_->end<tuple_type::size>()),
+			iter_(  buffer_->at<tuple_type::size>(index)),
+			tuple_( iter_) { }
 
-		inline bool operator==(const Iterator<Endianess, Types...>& src) const {
+		inline bool operator==(const iterator_type& src) const {
 			return this->iter_  == src.iter_;
 		}
 
-		inline bool operator!=(const Iterator<Endianess, Types...>& src) const {
+		inline bool operator!=(const iterator_type& src) const {
 			return !(*this == src);
 		}
 
-		inline bool operator<(const Iterator<Endianess, Types...>& src) const {
+		inline bool operator<(const iterator_type& src) const {
 			return this->iter_ < src.iter_;
 		}
 
-		inline bool operator>(const Iterator<Endianess, Types...>& src) const {
+		inline bool operator>(const iterator_type& src) const {
 			return this->iter_ > src.iter_;
 		}
 
-		inline bool operator<=(const Iterator<Endianess, Types...>& src) const {
+		inline bool operator<=(const iterator_type& src) const {
 			return !this->operator>(src);
 		}
 
-		inline bool operator>=(const Iterator<Endianess, Types...>& src) const {
+		inline bool operator>=(const iterator_type& src) const {
 			return !this->operator<(src);
 		}
 
-		inline type operator*() {
-			return type(*this->iter_);
+		inline tuple_type operator*() {
+			return tuple_type(*this->iter_);
 		}
 
-		inline Iterator<Endianess, Types...>& operator++() {
+		inline iterator_type& operator++() {
 			if ( this->iter_ < this->end_ ) {
 				++this->iter_;
 			}
@@ -67,7 +69,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline Iterator<Endianess, Types...>& operator--() {
+		inline iterator_type& operator--() {
 			if ( this->iter_ > this->begin_ ) {
 				--this->iter_;
 			}
@@ -75,7 +77,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline Iterator<Endianess, Types...>& operator+=(off_t offset) {
+		inline iterator_type& operator+=(off_t offset) {
 			if ( this->iter_ + offset < this->end_ ) {
 				this->iter_ += offset;
 			}
@@ -83,7 +85,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline Iterator<Endianess, Types...>& operator-=(off_t offset) {
+		inline iterator_type& operator-=(off_t offset) {
 			if ( this->iter_ - offset >= this->begin_ ) {
 				this->iter_ -= offset;
 			}
@@ -94,9 +96,9 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 	private:
 		Buffer* const buffer_;
 
-		BufferIterator<type::tuple_size> begin_;
-		BufferIterator<type::tuple_size> end_;
-		BufferIterator<type::tuple_size> iter_;
+		BufferIterator<tuple_type::size> begin_;
+		BufferIterator<tuple_type::size> end_;
+		BufferIterator<tuple_type::size> iter_;
 
 		Tuple<Endianess, Types...> tuple_;
 
