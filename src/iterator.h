@@ -10,7 +10,7 @@ template<
 	typename... Types
 >
 class Iterator : public std::iterator<std::random_access_iterator_tag,
-                                      Tuple<Endianess, Types...>,
+                                      Tuple<Endianess, Types...>&,
                                       off_t,
                                       Tuple<Endianess, Types...>*,
                                       Tuple<Endianess, Types...>&> {
@@ -57,8 +57,8 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return !this->operator<(src);
 		}
 
-		inline tuple_type operator*() {
-			return tuple_type(*this->iter_);
+		inline tuple_type& operator*() {
+			return this->tuple_;
 		}
 
 		inline iterator_type& operator++() {
