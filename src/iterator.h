@@ -39,6 +39,22 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return !(*this == src);
 		}
 
+		inline bool operator<(const Iterator<Endianess, Types...>& src) const {
+			return this->iter_ < src.iter_;
+		}
+
+		inline bool operator>(const Iterator<Endianess, Types...>& src) const {
+			return this->iter_ > src.iter_;
+		}
+
+		inline bool operator<=(const Iterator<Endianess, Types...>& src) const {
+			return !this->operator>(src);
+		}
+
+		inline bool operator>=(const Iterator<Endianess, Types...>& src) const {
+			return !this->operator<(src);
+		}
+
 		inline type operator*() {
 			return type(*this->iter_);
 		}
