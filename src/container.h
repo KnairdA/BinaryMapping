@@ -80,11 +80,17 @@ class Container {
 		}
 
 		inline iterator_type begin() const {
-			return iterator_type(this->buffer_);
+			return iterator_type(
+				this->buffer_,
+				this->buffer_->template begin<tuple_type::size>()
+			);
 		}
 
 		inline iterator_type end() const {
-			return iterator_type(this->buffer_, this->tuple_count_);
+			return iterator_type(
+				this->buffer_,
+				this->buffer_->template end<tuple_type::size>()
+			);
 		}
 
 	private:

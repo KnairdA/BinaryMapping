@@ -19,18 +19,11 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 	public:
 		typedef Tuple<Endianess, Types...> tuple_type;
 
-		Iterator(Buffer* buffer):
+		Iterator(Buffer* buffer, BufferIterator<tuple_type::size>&& iter):
 			buffer_(buffer),
 			begin_( buffer_->begin<tuple_type::size>()),
 			end_(   buffer_->end<tuple_type::size>()),
-			iter_(  buffer_->begin<tuple_type::size>()),
-			tuple_( iter_) { }
-
-		Iterator(Buffer* buffer, size_t index):
-			buffer_(buffer),
-			begin_( buffer_->begin<tuple_type::size>()),
-			end_(   buffer_->end<tuple_type::size>()),
-			iter_(  (*buffer_)[index * tuple_type::size]),
+			iter_(  std::move(iter)),
 			tuple_( iter_) { }
 
 		inline bool operator==(const iterator_type& src) const {
