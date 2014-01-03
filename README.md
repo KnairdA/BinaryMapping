@@ -8,15 +8,11 @@ A explanation of an earlier version of this template library can be found on my 
 
 - Support for any kind of flat structure that consists of integral types
 - Full support for serialization in either big or little endianess
-- Sliding mappings over buffers for fast iteration
+- Container and Iterator templates for fast traversal of collections of structures
 - Integrated relative pointer template
 - Builds on `std::tuple` and doesn't require any external libraries
 - Header only library because of heavy usage of template metaprogramming
 - Unit Tests based on GoogleTest
-
-## Future goals:
-
-- Modify `BinaryMapping` template to fullfill `std::random_access_iterator_tag`
 
 ## Requirements:
 
