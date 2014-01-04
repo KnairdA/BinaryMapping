@@ -47,6 +47,9 @@ TEST_F(BinaryMappingTest, BufferIterator) {
 	EXPECT_EQ(iter2 - iter1, 7);
 	iter1 -= 3;
 	EXPECT_EQ(iter2 - iter1, 10);
+	EXPECT_EQ(iter2-- - iter1, 10);
+	EXPECT_EQ(iter2++ - iter1, 9);
+	EXPECT_EQ(iter2-- - iter1, 10);
 
 	auto iter3 = iter2 - 5;
 	auto iter4 = iter3 + 2;
@@ -334,6 +337,9 @@ TEST_F(BinaryMappingTest, BasicIterator) {
 	EXPECT_EQ(iter2 - iter1, 7);
 	iter1 -= 3;
 	EXPECT_EQ(iter2 - iter1, 10);
+	EXPECT_EQ(iter2-- - iter1, 10);
+	EXPECT_EQ(iter2++ - iter1, 9);
+	EXPECT_EQ(iter2-- - iter1, 10);
 
 	auto iter3 = iter2 - 5;
 	auto iter4 = iter3 + 2;

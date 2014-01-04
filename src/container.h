@@ -43,7 +43,7 @@ class Container {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
-				throw std::out_of_range("container range violated");
+				throw std::out_of_range("range_violated");
 			}
 		}
 
@@ -51,7 +51,7 @@ class Container {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
-				throw std::out_of_range("container range violated");
+				throw std::out_of_range("range_violated");
 			}
 		}
 

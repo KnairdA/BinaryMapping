@@ -55,10 +55,26 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
+		inline iterator_type operator++(int) {
+			iterator_type tmp(*this);
+
+			this->operator++();
+
+			return tmp;
+		}
+
 		inline iterator_type& operator--() {
 			this->index_ptr_ -= Size;
 
 			return *this;
+		}
+
+		inline iterator_type operator--(int) {
+			iterator_type tmp(*this);
+
+			this->operator--();
+
+			return tmp;
 		}
 
 		inline iterator_type& operator+=(off_t offset) {
