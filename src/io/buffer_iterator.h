@@ -7,10 +7,10 @@ namespace BinaryMapping {
 
 template <size_t Size>
 class BufferIterator : public std::iterator<std::random_access_iterator_tag,
-                              uint8_t*,
-                              off_t,
-                              uint8_t**,
-                              uint8_t*&> {
+                                            uint8_t*,
+                                            off_t,
+                                            uint8_t**,
+                                            uint8_t*&> {
 	typedef BufferIterator<Size> iterator_type;
 
 	public:
