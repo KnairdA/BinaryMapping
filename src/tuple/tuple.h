@@ -63,23 +63,23 @@ class Tuple {
 
 		template <
 			typename CustomOrder,
-			typename Helper = Endianess
+			typename = typename std::enable_if<
+				std::is_same<UndefinedEndian, Endianess>::value,
+				void
+			>::type
 		>
-		inline typename std::enable_if<
-			std::is_same<UndefinedEndian, Helper>::value,
-			void
-		>::type serialize() {
+		inline void serialize() {
 			Serializer<InPlaceSorter<CustomOrder>>::serialize(this->tuple_);
 		}
 
 		template <
 			typename CustomOrder,
-			typename Helper = Endianess
+			typename = typename std::enable_if<
+				std::is_same<UndefinedEndian, Endianess>::value,
+				void
+			>::type
 		>
-		inline typename std::enable_if<
-			std::is_same<UndefinedEndian, Helper>::value,
-			void
-		>::type deserialize() {
+		inline void deserialize() {
 			Serializer<InPlaceSorter<CustomOrder>>::deserialize(this->tuple_);
 		}
 
