@@ -223,6 +223,33 @@ TEST_F(EndianTest, BigEndian) {
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 }
 
+TEST_F(EndianTest, UndefinedEndian) {
+	typedef BinaryMapping::Tuple<
+		BinaryMapping::UndefinedEndian,
+		uint64_t,
+		uint32_t,
+		int16_t
+	> TestMapping;
+
+	TestMapping mapping(this->buffer_.get());
+
+	mapping.set<0>(UINT32_MAX);
+	mapping.set<1>(UINT16_MAX);
+	mapping.set<2>(INT8_MIN);
+
+	mapping.serialize<BinaryMapping::BigEndian>();
+
+	EXPECT_NE(mapping.get<0>(), UINT32_MAX);
+	EXPECT_NE(mapping.get<1>(), UINT16_MAX);
+	EXPECT_NE(mapping.get<2>(), INT8_MIN);
+
+	mapping.deserialize<BinaryMapping::BigEndian>();
+
+	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
+	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
+	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
+}
+
 TEST_F(EndianTest, MixedEndian) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
