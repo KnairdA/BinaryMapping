@@ -5,31 +5,32 @@ namespace BinaryMapping {
 
 template<
 	typename Base,
-	typename Type,
-	typename BasePtr   = typename std::enable_if<
+	typename Type
+>
+class RelativePointer {
+	typedef typename std::enable_if<
 		std::is_integral<Base>::value,
 		typename std::add_pointer<
 			typename std::add_const<
 				typename std::add_pointer<Base>::type
 			>::type
 		>::type
-	>::type,
-	typename TargetPtr = typename std::enable_if<
+	>::type base_ptr;
+
+	typedef typename std::enable_if<
 		std::is_integral<Type>::value,
 		typename std::add_pointer<Type>::type
-	>::type
->
-class RelativePointer {
+	>::type target_ptr;
+
 	public:
 		typedef Type element_type;
-		typedef TargetPtr pointer;
 
-		RelativePointer(BasePtr base, off_t offset):
+		RelativePointer(base_ptr base, off_t offset):
 			base_(base),
 			offset_(offset) { }
 
-		inline TargetPtr get() const {
-			return reinterpret_cast<TargetPtr>(
+		inline target_ptr get() const {
+			return reinterpret_cast<target_ptr>(
 				*this->base_ + this->offset_
 			);
 		}
@@ -47,7 +48,7 @@ class RelativePointer {
 		}
 
 	private:
-		BasePtr const base_;
+		base_ptr const base_;
 		const off_t offset_;
 };
 
