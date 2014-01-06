@@ -8,19 +8,23 @@ template<
 	typename Type
 >
 class RelativePointer {
-	typedef typename std::enable_if<
+	static_assert(
 		std::is_integral<Base>::value,
-		typename std::add_pointer<
-			typename std::add_const<
-				typename std::add_pointer<Base>::type
-			>::type
+		"RelativePointer accepts only integral base types"
+	);
+
+	static_assert(
+		std::is_integral<Type>::value,
+		"RelativePointer accepts only integral target types"
+	);
+
+	typedef typename std::add_pointer<
+		typename std::add_const<
+			typename std::add_pointer<Base>::type
 		>::type
 	>::type base_ptr;
 
-	typedef typename std::enable_if<
-		std::is_integral<Type>::value,
-		typename std::add_pointer<Type>::type
-	>::type target_ptr;
+	typedef typename std::add_pointer<Type>::type target_ptr;
 
 	public:
 		typedef Type element_type;
