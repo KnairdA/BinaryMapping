@@ -61,25 +61,23 @@ class Tuple {
 			);
 		}
 
-		template <
-			typename CustomOrder,
-			typename = typename std::enable_if<
-				std::is_same<UndefinedEndian, Endianess>::value,
-				void
-			>::type
-		>
+		template <typename CustomOrder>
 		inline void serialize() {
+			static_assert(
+				std::is_same<Endianess, UndefinedEndian>::value,
+				"Endianess must be UndefinedEndian to use serialize<*>()"
+			);
+
 			Serializer<InPlaceSorter<CustomOrder>>::serialize(this->tuple_);
 		}
 
-		template <
-			typename CustomOrder,
-			typename = typename std::enable_if<
-				std::is_same<UndefinedEndian, Endianess>::value,
-				void
-			>::type
-		>
+		template <typename CustomOrder>
 		inline void deserialize() {
+			static_assert(
+				std::is_same<Endianess, UndefinedEndian>::value,
+				"Endianess must be UndefinedEndian to use deserialize<*>()"
+			);
+
 			Serializer<InPlaceSorter<CustomOrder>>::deserialize(this->tuple_);
 		}
 
