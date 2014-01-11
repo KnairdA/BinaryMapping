@@ -4,6 +4,8 @@
 
 A explanation of an earlier version of this template library can be found on my [blog](http://blog.kummerlaender.eu/artikel/mapping-binary-structures-as-tuples-using-template-metaprogramming).
 
+Basic usage of this library is documented in the [wiki](https://github.com/KnairdA/BinaryMapping/wiki/Basic-Usage).
+
 ## Current features:
 
 - Support for any kind of flat structure that consists of integral types
