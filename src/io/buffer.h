@@ -1,6 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_IO_BUFFER_H_
 #define BINARY_MAPPING_SRC_IO_BUFFER_H_
 
+#include <cstdlib>
 #include <stdexcept>
 
 #include "buffer_iterator.h"
@@ -9,10 +10,17 @@ namespace BinaryMapping {
 
 class Buffer {
 	public:
-		Buffer(uint8_t* d, size_t s):
-			data_(d),
-			size_(s),
+		Buffer(size_t size):
+			data_(reinterpret_cast<uint8_t*>(
+				std::calloc(size, sizeof(uint8_t))
+			)),
+			size_(size),
 			owner_(true) { }
+
+		Buffer(uint8_t* data, size_t size):
+			data_(data),
+			size_(size),
+			owner_(false) { }
 
 		Buffer(const Buffer& src):
 			data_(src.data_),

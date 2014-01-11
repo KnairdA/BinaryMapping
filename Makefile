@@ -6,4 +6,3 @@ all: test
 test:
 	$(CXX) $(CXXFLAGS) -o test test.cc -lgtest
 	./test
-

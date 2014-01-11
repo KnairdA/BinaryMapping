@@ -11,12 +11,7 @@ class BufferTest : public ::testing::Test {
 	protected:
 		virtual void SetUp() {
 			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(
-					reinterpret_cast<uint8_t*>(
-						std::calloc(10 * sizeof(uint32_t), sizeof(uint8_t))
-					),
-					10 * sizeof(uint32_t)
-				)
+				new BinaryMapping::Buffer(10 * sizeof(uint32_t))
 			);
 		}
 
@@ -75,12 +70,7 @@ TEST_F(TupleTest, Basic) {
 		int8_t
 	> TestMapping;
 
-	BinaryMapping::Buffer testBuffer(
-		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::size, sizeof(uint8_t))
-		),
-		TestMapping::size
-	);
+	BinaryMapping::Buffer testBuffer(TestMapping::size);
 
 	TestMapping mapping(&testBuffer);
 
@@ -109,12 +99,7 @@ TEST_F(TupleTest, Iterator) {
 		uint16_t
 	> TestMapping;
 
-	BinaryMapping::Buffer testBuffer(
-		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::size * 10, sizeof(uint8_t))
-		),
-		TestMapping::size * 10
-	);
+	BinaryMapping::Buffer testBuffer(TestMapping::size * 10);
 
 	auto iter = testBuffer.begin<TestMapping::size>();
 	TestMapping mapping(iter);
@@ -142,12 +127,7 @@ TEST_F(TupleTest, CarbonCopy) {
 		uint16_t
 	> TestMapping;
 
-	BinaryMapping::Buffer testBuffer(
-		reinterpret_cast<uint8_t*>(
-			std::calloc(TestMapping::size, sizeof(uint8_t))
-		),
-		TestMapping::size
-	);
+	BinaryMapping::Buffer testBuffer(TestMapping::size);
 
 	TestMapping mapping(&testBuffer);
 
@@ -172,12 +152,7 @@ class EndianTest : public ::testing::Test {
 			                         sizeof(int16_t);
 
 			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(
-					reinterpret_cast<uint8_t*>(
-						std::calloc(tupleSize, sizeof(uint8_t))
-					),
-					tupleSize 
-				)
+				new BinaryMapping::Buffer(tupleSize)
 			);
 		}
 
@@ -287,12 +262,7 @@ class ContainerTest : public ::testing::Test {
 
 		virtual void SetUp() {
 			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(
-					reinterpret_cast<uint8_t*>(
-						std::calloc(10 * TestContainer::tuple_type::size, sizeof(uint8_t))
-					),
-					10 * TestContainer::tuple_type::size
-				)
+				new BinaryMapping::Buffer(10 * TestContainer::tuple_type::size)
 			);
 
 			this->container_ = std::unique_ptr<TestContainer>(
