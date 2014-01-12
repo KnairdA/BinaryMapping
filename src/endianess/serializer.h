@@ -3,9 +3,11 @@
 
 #include <tuple>
 
+#include "endianess/in_place_sorter.h"
+
 namespace BinaryMapping {
 
-template <class ByteSorter>
+template <class Endianess>
 struct Serializer {
 	template <
 		typename Tuple,
@@ -22,7 +24,7 @@ struct Serializer {
 	static inline typename std::enable_if<
 		Index < std::tuple_size<Tuple>::value, void
 	>::type serialize(Tuple& tuple) { 
-		ByteSorter::template mix<
+		InPlaceSorter<Endianess>::template mix<
 			typename std::tuple_element<Index, Tuple>::type::element_type
 		>(
 			std::get<Index>(tuple).get(), *std::get<Index>(tuple)
@@ -46,7 +48,7 @@ struct Serializer {
 	static inline typename std::enable_if<
 		Index < std::tuple_size<Tuple>::value, void
 	>::type deserialize(Tuple& tuple) { 
-		ByteSorter::template sort<
+		InPlaceSorter<Endianess>::template sort<
 			typename std::tuple_element<Index, Tuple>::type::element_type
 		>(std::get<Index>(tuple).get());
 

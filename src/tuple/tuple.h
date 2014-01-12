@@ -68,7 +68,7 @@ class Tuple {
 				"Endianess must be UndefinedEndian to use serialize<*>()"
 			);
 
-			Serializer<InPlaceSorter<CustomOrder>>::serialize(this->tuple_);
+			Serializer<CustomOrder>::serialize(this->tuple_);
 		}
 
 		template <typename CustomOrder>
@@ -78,7 +78,7 @@ class Tuple {
 				"Endianess must be UndefinedEndian to use deserialize<*>()"
 			);
 
-			Serializer<InPlaceSorter<CustomOrder>>::deserialize(this->tuple_);
+			Serializer<CustomOrder>::deserialize(this->tuple_);
 		}
 
 		carbon_copy carbonCopy() const {
