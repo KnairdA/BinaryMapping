@@ -7,6 +7,8 @@
 #include "endianess/big.h"
 #include "container.h"
 
+#include "raw.h"
+
 class BufferTest : public ::testing::Test {
 	protected:
 		virtual void SetUp() {
@@ -67,7 +69,8 @@ TEST_F(TupleTest, Basic) {
 		int64_t,
 		int32_t,
 		int16_t,
-		int8_t
+		int8_t,
+		BinaryMapping::Raw<3>
 	> TestMapping;
 
 	BinaryMapping::Buffer testBuffer(TestMapping::size);
@@ -82,6 +85,7 @@ TEST_F(TupleTest, Basic) {
 	mapping.set<5>(INT32_MIN);
 	mapping.set<6>(INT16_MIN);
 	mapping.set<7>(INT8_MIN);
+	mapping.set<8>(BinaryMapping::Raw<3>(1, 2, 3));
 
 	EXPECT_EQ(mapping.get<0>(), UINT64_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT8_MAX);
@@ -91,6 +95,7 @@ TEST_F(TupleTest, Basic) {
 	EXPECT_EQ(mapping.get<5>(), INT32_MIN);
 	EXPECT_EQ(mapping.get<6>(), INT16_MIN);
 	EXPECT_EQ(mapping.get<7>(), INT8_MIN);
+	EXPECT_EQ(mapping.get<8>(), BinaryMapping::Raw<3>(1, 2, 3));
 }
 
 TEST_F(TupleTest, Iterator) {
@@ -124,7 +129,8 @@ TEST_F(TupleTest, Iterator) {
 TEST_F(TupleTest, CarbonCopy) {
 	typedef BinaryMapping::PlainTuple<
 		uint32_t,
-		uint16_t
+		uint16_t,
+		BinaryMapping::Raw<3>
 	> TestMapping;
 
 	BinaryMapping::Buffer testBuffer(TestMapping::size);
@@ -133,16 +139,18 @@ TEST_F(TupleTest, CarbonCopy) {
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
+	mapping.set<2>(BinaryMapping::Raw<3>(1, 2, 3));
 
 	TestMapping::carbon_copy copy = mapping.carbonCopy();
 
 	mapping.set<0>(1);
 	mapping.set<1>(2);
+	mapping.set<2>(BinaryMapping::Raw<3>(3, 2, 1));
 
 	EXPECT_EQ(copy.get<0>(), UINT32_MAX);
 	EXPECT_EQ(copy.get<1>(), UINT16_MAX);
+	EXPECT_EQ(copy.get<2>(), BinaryMapping::Raw<3>(1, 2, 3));
 }
-
 
 class EndianTest : public ::testing::Test {
 	protected:
@@ -165,7 +173,8 @@ TEST_F(EndianTest, LittleEndian) {
 		BinaryMapping::LittleEndian,
 		uint64_t,
 		uint32_t,
-		int16_t
+		int16_t,
+		BinaryMapping::Raw<3>
 	> TestMapping;
 
 	TestMapping mapping(this->buffer_.get());
@@ -173,10 +182,12 @@ TEST_F(EndianTest, LittleEndian) {
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
 	mapping.set<2>(INT8_MIN);
+	mapping.set<3>(BinaryMapping::Raw<3>(1, 2, 3));
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>(1, 2, 3));
 }
 
 TEST_F(EndianTest, BigEndian) {
@@ -184,7 +195,8 @@ TEST_F(EndianTest, BigEndian) {
 		BinaryMapping::BigEndian,
 		uint64_t,
 		uint32_t,
-		int16_t
+		int16_t,
+		BinaryMapping::Raw<3>
 	> TestMapping;
 
 	TestMapping mapping(this->buffer_.get());
@@ -192,10 +204,12 @@ TEST_F(EndianTest, BigEndian) {
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
 	mapping.set<2>(INT8_MIN);
+	mapping.set<3>(BinaryMapping::Raw<3>(1, 2, 3));
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>(1, 2, 3));
 }
 
 TEST_F(EndianTest, UndefinedEndian) {
@@ -203,7 +217,8 @@ TEST_F(EndianTest, UndefinedEndian) {
 		BinaryMapping::UndefinedEndian,
 		uint64_t,
 		uint32_t,
-		int16_t
+		int16_t,
+		BinaryMapping::Raw<3>
 	> TestMapping;
 
 	TestMapping mapping(this->buffer_.get());
@@ -211,18 +226,21 @@ TEST_F(EndianTest, UndefinedEndian) {
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
 	mapping.set<2>(INT8_MIN);
+	mapping.set<3>(BinaryMapping::Raw<3>(1, 2, 3));
 
 	mapping.serialize<BinaryMapping::BigEndian>();
 
 	EXPECT_NE(mapping.get<0>(), UINT32_MAX);
 	EXPECT_NE(mapping.get<1>(), UINT16_MAX);
 	EXPECT_NE(mapping.get<2>(), INT8_MIN);
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>(1, 2, 3));
 
 	mapping.deserialize<BinaryMapping::BigEndian>();
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>(1, 2, 3));
 }
 
 TEST_F(EndianTest, MixedEndian) {

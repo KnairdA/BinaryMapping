@@ -9,12 +9,12 @@ template<
 >
 class RelativePointer {
 	static_assert(
-		std::is_integral<Base>::value,
+		std::is_integral<Base>::value || std::is_union<Base>::value,
 		"RelativePointer accepts only integral base types"
 	);
 
 	static_assert(
-		std::is_integral<Type>::value,
+		std::is_integral<Type>::value || std::is_union<Type>::value,
 		"RelativePointer accepts only integral target types"
 	);
 
