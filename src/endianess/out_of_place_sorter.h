@@ -17,7 +17,7 @@ struct OutOfPlaceSorter {
 
 	template <
 		typename Union,
-		enable_if<std::is_union<Union>::value>...
+		enable_if<is_custom_serializable<Union>::value>...
 	>
 	static inline Union mix(ConstLValueReference<Union> tmp) {
 		return tmp;
@@ -35,7 +35,7 @@ struct OutOfPlaceSorter {
 
 	template <
 		typename Union,
-		enable_if<std::is_union<Union>::value>...
+		enable_if<is_custom_serializable<Union>::value>...
 	>
 	static inline Union sort(
 		typename std::add_pointer<Union>::type buffer
@@ -53,7 +53,7 @@ struct OutOfPlaceSorter {
 
 	template <
 		typename Union,
-		enable_if<std::is_union<Union>::value>...
+		enable_if<is_custom_serializable<Union>::value>...
 	>
 	static inline Union sort(Union tmp) {
 		return tmp;

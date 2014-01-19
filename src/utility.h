@@ -26,25 +26,69 @@ using ConstLValueReference = typename std::add_lvalue_reference<
 
 namespace {
 	enum class dummy { };
+
+	struct FalseValue {
+		static const bool value = false;
+	};
+
+	template <
+		typename Type,
+		typename Check
+	>
+	using check_if_class = typename std::conditional<
+		std::is_class<Type>::value,
+		Check,
+		FalseValue
+	>::type;
+
+	template <typename Type>
+	struct has_data_member : std::integral_constant<
+		bool,
+		std::is_array<decltype(Type:: data)>::value
+	> { };
+
+	template <typename Type>
+	struct has_size_member : std::integral_constant<
+		bool,
+		std::is_same<decltype(Type::size), const size_t>::value
+	> { };
 }
 
 template <bool Condition>
 using enable_if = typename std::enable_if<Condition, dummy>::type;
 
 template <typename Type>
-constexpr typename std::enable_if<
-	std::is_integral<Type>::value || std::is_union<Type>::value,
-	size_t
->::type size_of() {
-	return sizeof(Type);
-}
+struct is_custom_serializable : std::integral_constant<
+	bool,
+	check_if_class<
+		Type,
+		has_data_member<Type>
+	>::value
+> { };
 
 template <typename Type>
-constexpr typename std::enable_if<
-	std::is_same<decltype(Type::size), size_t>::value,
-	size_t
->::type size_of() {
+struct provides_own_size : std::integral_constant<
+	bool,
+	check_if_class<
+		Type,
+		has_size_member<Type>
+	>::value
+> { };
+
+template <
+	typename Type,
+	enable_if<provides_own_size<Type>::value>...
+>
+constexpr size_t size_of() {
 	return Type::size;
+}
+
+template <
+	typename Type,
+	enable_if<std::is_integral<Type>::value>...
+>
+constexpr size_t size_of() {
+	return sizeof(Type);
 }
 
 }

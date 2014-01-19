@@ -1,6 +1,8 @@
 #ifndef BINARY_MAPPING_SRC_TUPLE_RELATIVE_POINTER_H_
 #define BINARY_MAPPING_SRC_TUPLE_RELATIVE_POINTER_H_
 
+#include "utility.h"
+
 namespace BinaryMapping {
 
 template<
@@ -9,13 +11,13 @@ template<
 >
 class RelativePointer {
 	static_assert(
-		std::is_integral<Base>::value || std::is_union<Base>::value,
+		std::is_integral<Base>::value,
 		"RelativePointer accepts only integral base types"
 	);
 
 	static_assert(
-		std::is_integral<Type>::value || std::is_union<Type>::value,
-		"RelativePointer accepts only integral target types"
+		std::is_integral<Type>::value || is_custom_serializable<Type>::value,
+		"RelativePointer accepts only integral or custom serializable types as target types"
 	);
 
 	typedef typename std::add_pointer<

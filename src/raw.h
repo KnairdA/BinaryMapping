@@ -6,8 +6,12 @@
 namespace BinaryMapping {
 
 template <size_t Size>
-union Raw {
-	uint8_t data[Size];
+struct Raw {
+	static const size_t size = Size;
+
+	union {
+		uint8_t data[Size];
+	};
 
 	Raw(Raw<Size>&&)       = default;
 	Raw(Raw<Size>&)        = default;

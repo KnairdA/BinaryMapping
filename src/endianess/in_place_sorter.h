@@ -19,12 +19,12 @@ struct InPlaceSorter {
 	}
 
 	template <
-		typename Union,
-		enable_if<std::is_union<Union>::value>...
+		typename Custom,
+		enable_if<is_custom_serializable<Custom>::value>...
 	>
 	static inline void mix(
-		typename std::add_pointer<Union>::type buffer,
-		ConstLValueReference<Union> tmp
+		typename std::add_pointer<Custom>::type buffer,
+		ConstLValueReference<Custom> tmp
 	) {
 		*buffer = tmp;
 	}
@@ -40,11 +40,11 @@ struct InPlaceSorter {
 	}
 
 	template <
-		typename Union,
-		enable_if<std::is_union<Union>::value>...
+		typename Custom,
+		enable_if<is_custom_serializable<Custom>::value>...
 	>
 	static inline void sort(
-		typename std::add_pointer<Union>::type
+		typename std::add_pointer<Custom>::type
 	) { }
 };
 
