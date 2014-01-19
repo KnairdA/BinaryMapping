@@ -27,10 +27,6 @@ using ConstLValueReference = typename std::add_lvalue_reference<
 namespace {
 	enum class dummy { };
 
-	struct FalseValue {
-		static const bool value = false;
-	};
-
 	template <
 		typename Type,
 		typename Check
@@ -38,7 +34,7 @@ namespace {
 	using check_if_class = typename std::conditional<
 		std::is_class<Type>::value,
 		Check,
-		FalseValue
+		std::integral_constant<bool, false>
 	>::type;
 
 	template <typename Type>
