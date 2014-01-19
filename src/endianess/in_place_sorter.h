@@ -7,7 +7,10 @@ namespace BinaryMapping {
 
 template <class Endianess>
 struct InPlaceSorter {
-	template <typename Key>
+	template <
+		typename Key,
+		enable_if<std::is_integral<Key>::value>...
+	>
 	static inline void mix(
 		typename std::add_pointer<Key>::type buffer,
 		ConstLValueReference<Key> number
@@ -15,12 +18,34 @@ struct InPlaceSorter {
 		*buffer = Endianess::template toTarget<Key>(number);
 	}
 
-	template <typename Key>
+	template <
+		typename Union,
+		enable_if<std::is_union<Union>::value>...
+	>
+	static inline void mix(
+		typename std::add_pointer<Union>::type buffer,
+		ConstLValueReference<Union> tmp
+	) {
+		*buffer = tmp;
+	}
+
+	template <
+		typename Key,
+		enable_if<std::is_integral<Key>::value>...
+	>
 	static inline void sort(
 		typename std::add_pointer<Key>::type buffer
 	) {
 		*buffer = Endianess::template toHost<Key>(*buffer);
 	}
+
+	template <
+		typename Union,
+		enable_if<std::is_union<Union>::value>...
+	>
+	static inline void sort(
+		typename std::add_pointer<Union>::type
+	) { }
 };
 
 }

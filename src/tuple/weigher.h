@@ -3,34 +3,34 @@
 
 #include <tuple>
 
+#include "utility.h"
+
 namespace BinaryMapping {
 
 struct TupleWeigher {
 	template <
 		typename Tuple,
 		size_t Index,
-		size_t Size
+		size_t Size,
+		enable_if<Index == std::tuple_size<Tuple>::value>...
 	>
-	static constexpr typename std::enable_if<
-		Index == std::tuple_size<Tuple>::value, size_t
-	>::type size() {
+	static constexpr size_t size() {
 		return Size;
 	}
 
 	template <
 		typename Tuple,
-		size_t Index = 0,
-		size_t Size  = 0
+		size_t Index    = 0,
+		size_t Size     = 0,
+		enable_if<Index < std::tuple_size<Tuple>::value>...
 	>
-	static constexpr typename std::enable_if<
-		Index < std::tuple_size<Tuple>::value, size_t
-	>::type size() { 
+	static constexpr size_t size() { 
 		return size<
 			Tuple,
 			Index + 1,
-			Size  + sizeof(
+			Size  + size_of<
 				typename std::tuple_element<Index, Tuple>::type::element_type
-			)
+			>()
 		>();
 	}
 };
