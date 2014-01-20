@@ -1,7 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_RAW_H_
 #define BINARY_MAPPING_SRC_RAW_H_
 
-#include <algorithm>
+#include <array>
 
 namespace BinaryMapping {
 
@@ -10,7 +10,7 @@ struct Raw {
 	static const size_t size = Size;
 
 	union {
-		uint8_t data[Size];
+		std::array<uint8_t, Size> data;
 	};
 
 	Raw(Raw<Size>&&)       = default;
@@ -21,14 +21,20 @@ struct Raw {
 	Raw(Bytes&&... bytes):
 		data{ std::forward<Bytes>(bytes)... } { }
 
+	Raw(const std::initializer_list<uint8_t>&& bytes) {
+		assert(bytes.size() == Size);
+
+		std::move(
+			bytes.begin(),
+			bytes.end(),
+			this->data.begin()
+		);
+	}
+
 	Raw<Size>& operator=(const Raw<Size>&) = default;
 
 	inline bool operator==(const Raw<Size>& tmp) const {
-		return std::equal(
-			std::begin(this->data),
-			std::end(this->data),
-			std::begin(tmp.data)
-		);
+		return this->data == tmp.data;
 	}
 
 	inline bool operator!=(const Raw<Size>& tmp) const {

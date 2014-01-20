@@ -58,15 +58,6 @@ class RelativePointer {
 		const off_t offset_;
 };
 
-template <
-	size_t Index,
-	typename Tuple
-> 
-using element_type_at = typename std::tuple_element<
-	Index,
-	Tuple
->::type::element_type;
-
 }
 
 #endif  // BINARY_MAPPING_SRC_TUPLE_RELATIVE_POINTER_H_

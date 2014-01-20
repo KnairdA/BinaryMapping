@@ -5,6 +5,30 @@
 
 namespace BinaryMapping {
 
+namespace {
+	template <
+		typename Type,
+		typename Check
+	>
+	using check_if_class = typename std::conditional<
+		std::is_class<Type>::value,
+		Check,
+		std::integral_constant<bool, false>
+	>::type;
+
+	template <typename Type>
+	struct has_data_member : std::integral_constant<
+		bool,
+		std::is_pod<decltype(Type:: data)>::value
+	> { };
+
+	template <typename Type>
+	struct has_size_member : std::integral_constant<
+		bool,
+		std::is_same<decltype(Type::size), const size_t>::value
+	> { };
+}
+
 template <
 	typename Type,
 	typename TypeA,
@@ -24,34 +48,8 @@ using ConstLValueReference = typename std::add_lvalue_reference<
 	typename std::add_const<Type>::type
 >::type;
 
-namespace {
-	enum class dummy { };
-
-	template <
-		typename Type,
-		typename Check
-	>
-	using check_if_class = typename std::conditional<
-		std::is_class<Type>::value,
-		Check,
-		std::integral_constant<bool, false>
-	>::type;
-
-	template <typename Type>
-	struct has_data_member : std::integral_constant<
-		bool,
-		std::is_array<decltype(Type:: data)>::value
-	> { };
-
-	template <typename Type>
-	struct has_size_member : std::integral_constant<
-		bool,
-		std::is_same<decltype(Type::size), const size_t>::value
-	> { };
-}
-
 template <bool Condition>
-using enable_if = typename std::enable_if<Condition, dummy>::type;
+using enable_if = typename std::enable_if<Condition, size_t>::type;
 
 template <typename Type>
 struct is_custom_serializable : std::integral_constant<
@@ -73,7 +71,7 @@ struct provides_own_size : std::integral_constant<
 
 template <
 	typename Type,
-	enable_if<provides_own_size<Type>::value>...
+	enable_if<provides_own_size<Type>::value> = 0
 >
 constexpr size_t size_of() {
 	return Type::size;
@@ -81,7 +79,7 @@ constexpr size_t size_of() {
 
 template <
 	typename Type,
-	enable_if<std::is_integral<Type>::value>...
+	enable_if<std::is_integral<Type>::value> = 0
 >
 constexpr size_t size_of() {
 	return sizeof(Type);

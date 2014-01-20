@@ -3,6 +3,7 @@
 
 #include <tuple>
 
+#include "utility.h"
 #include "endianess/in_place_sorter.h"
 
 namespace BinaryMapping {
@@ -11,19 +12,17 @@ template <class Endianess>
 struct Serializer {
 	template <
 		typename Tuple,
-		size_t Index
+		size_t Index,
+		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
-	static inline typename std::enable_if<
-		Index == std::tuple_size<Tuple>::value, void
-	>::type serialize(Tuple&) { }
+	static inline void serialize(Tuple&) { }
 
 	template <
 		typename Tuple,
-		size_t Index = 0
+		size_t Index    = 0,
+		enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
-	static inline typename std::enable_if<
-		Index < std::tuple_size<Tuple>::value, void
-	>::type serialize(Tuple& tuple) { 
+	static inline void serialize(Tuple& tuple) { 
 		InPlaceSorter<Endianess>::template mix<
 			typename std::tuple_element<Index, Tuple>::type::element_type
 		>(
@@ -35,19 +34,17 @@ struct Serializer {
 
 	template <
 		typename Tuple,
-		size_t Index
+		size_t Index,
+		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
-	static inline typename std::enable_if<
-		Index == std::tuple_size<Tuple>::value, void
-	>::type deserialize(Tuple&) { }
+	static inline void deserialize(Tuple&) { }
 
 	template <
 		typename Tuple,
-		size_t Index = 0
+		size_t Index    = 0,
+		enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
-	static inline typename std::enable_if<
-		Index < std::tuple_size<Tuple>::value, void
-	>::type deserialize(Tuple& tuple) { 
+	static inline void deserialize(Tuple& tuple) { 
 		InPlaceSorter<Endianess>::template sort<
 			typename std::tuple_element<Index, Tuple>::type::element_type
 		>(std::get<Index>(tuple).get());

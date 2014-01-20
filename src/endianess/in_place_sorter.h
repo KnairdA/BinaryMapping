@@ -9,7 +9,7 @@ template <class Endianess>
 struct InPlaceSorter {
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value>...
+		enable_if<std::is_integral<Key>::value> = 0
 	>
 	static inline void mix(
 		typename std::add_pointer<Key>::type buffer,
@@ -20,7 +20,7 @@ struct InPlaceSorter {
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value>...
+		enable_if<is_custom_serializable<Custom>::value> = 0
 	>
 	static inline void mix(
 		typename std::add_pointer<Custom>::type buffer,
@@ -31,7 +31,7 @@ struct InPlaceSorter {
 
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value>...
+		enable_if<std::is_integral<Key>::value> = 0
 	>
 	static inline void sort(
 		typename std::add_pointer<Key>::type buffer
@@ -41,7 +41,7 @@ struct InPlaceSorter {
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value>...
+		enable_if<is_custom_serializable<Custom>::value> = 0
 	>
 	static inline void sort(
 		typename std::add_pointer<Custom>::type

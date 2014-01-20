@@ -13,7 +13,7 @@ struct TupleMapper {
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current,
-		enable_if<Index  == std::tuple_size<Tuple>::value>...
+		enable_if<Index  == std::tuple_size<Tuple>::value> = 0
 	>
 	static inline Tuple construct(uint8_t*const*, Current&& tuple) {
 		return tuple;
@@ -24,7 +24,7 @@ struct TupleMapper {
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current = std::tuple<>,
-		enable_if<Index  < std::tuple_size<Tuple>::value>...
+		enable_if<Index  < std::tuple_size<Tuple>::value> = 0
 	>
 	static inline Tuple construct(
 		uint8_t*const* buffer,
@@ -54,7 +54,7 @@ struct TupleMapper {
 		typename Source,
 		size_t Index     = 0,
 		typename Current,
-		enable_if<Index  == std::tuple_size<Tuple>::value>...
+		enable_if<Index  == std::tuple_size<Tuple>::value> = 0
 	>
 	static inline Tuple carbonCopy(const Source&, Current&& tuple) {
 		return tuple;
@@ -65,7 +65,7 @@ struct TupleMapper {
 		typename Source,
 		size_t Index     = 0,
 		typename Current = std::tuple<>,
-		enable_if<Index  < std::tuple_size<Tuple>::value>...
+		enable_if<Index  < std::tuple_size<Tuple>::value> = 0
 	>
 	static inline Tuple carbonCopy(
 		const Source& src,
