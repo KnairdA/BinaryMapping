@@ -16,10 +16,10 @@ struct OutOfPlaceSorter {
 	}
 
 	template <
-		typename Union,
-		enable_if<is_custom_serializable<Union>::value>...
+		typename Custom,
+		enable_if<is_custom_serializable<Custom>::value>...
 	>
-	static inline Union mix(ConstLValueReference<Union> tmp) {
+	static inline Custom mix(ConstLValueReference<Custom> tmp) {
 		return tmp;
 	}
 
@@ -34,11 +34,11 @@ struct OutOfPlaceSorter {
 	}
 
 	template <
-		typename Union,
-		enable_if<is_custom_serializable<Union>::value>...
+		typename Custom,
+		enable_if<is_custom_serializable<Custom>::value>...
 	>
-	static inline Union sort(
-		typename std::add_pointer<Union>::type buffer
+	static inline Custom sort(
+		typename std::add_pointer<Custom>::type buffer
 	) {
 		return *buffer;
 	}
@@ -52,10 +52,10 @@ struct OutOfPlaceSorter {
 	}
 
 	template <
-		typename Union,
-		enable_if<is_custom_serializable<Union>::value>...
+		typename Custom,
+		enable_if<is_custom_serializable<Custom>::value>...
 	>
-	static inline Union sort(Union tmp) {
+	static inline Custom sort(Custom tmp) {
 		return tmp;
 	}
 };

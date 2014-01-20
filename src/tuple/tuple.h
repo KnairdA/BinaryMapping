@@ -28,33 +28,43 @@ class Tuple {
 		typedef TupleCarbonCopy<Types...> carbon_copy;
 		typedef std::tuple<RelativePointer<uint8_t, Types>...> tuple_type;
 
+		template <size_t Index>
+		using type_at = typename std::tuple_element<
+			Index,
+			tuple_type
+		>::type::element_type;
+
 		static const size_t size = TupleWeigher::size<tuple_type>();
 
 		Tuple(Buffer* buffer):
 			base_ptr_(buffer->front()),
-			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
+			tuple_(
+				TupleMapper::construct<tuple_type>(&this->base_ptr_)
+			) { }
 
 		Tuple(uint8_t* data):
 			base_ptr_(data),
-			tuple_(TupleMapper::construct<tuple_type>(&this->base_ptr_)) { }
+			tuple_(
+				TupleMapper::construct<tuple_type>(&this->base_ptr_)
+			) { }
 
 		Tuple(const BufferIterator<size>& iter):
 			base_ptr_(nullptr),
-			tuple_(TupleMapper::construct<tuple_type>(iter())) { }
+			tuple_(
+				TupleMapper::construct<tuple_type>(iter())
+			) { }
 
-		template <size_t Index> inline typename
-		std::tuple_element<Index, tuple_type>::type::element_type get() const {
+		template <size_t Index> 
+		inline type_at<Index> get() const {
 			return OutOfPlaceSorter<Endianess>::sort(
 				*std::get<Index>(this->tuple_)
 			);
 		}
 
 		template <size_t Index>
-		inline void set(ConstLValueReference<
-			typename std::tuple_element<Index, tuple_type>::type::element_type
-		> value) {
+		inline void set(ConstLValueReference<type_at<Index>> value) {
 			InPlaceSorter<Endianess>::template mix<
-				typename std::tuple_element<Index, tuple_type>::type::element_type
+				type_at<Index>
 			>(
 				std::get<Index>(this->tuple_).get(),
 				value
