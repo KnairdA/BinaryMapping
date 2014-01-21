@@ -29,20 +29,6 @@ namespace {
 	> { };
 }
 
-template <
-	typename Type,
-	typename TypeA,
-	typename TypeB
->
-using EnableIfEither = typename std::enable_if<
-	std::is_same<Type, TypeA>::value || std::is_same<Type, TypeB>::value,
-	typename std::conditional<
-		std::is_same<Type, TypeA>::value,
-		TypeA,
-		TypeB
-	>::type
->::type;
-
 template <typename Type>
 using ConstLValueReference = typename std::add_lvalue_reference<
 	typename std::add_const<Type>::type
@@ -50,6 +36,16 @@ using ConstLValueReference = typename std::add_lvalue_reference<
 
 template <bool Condition>
 using enable_if = typename std::enable_if<Condition, size_t>::type;
+
+template <
+	typename Type,
+	typename TypeA,
+	typename TypeB
+>
+struct either : std::integral_constant<
+	bool,
+	std::is_same<Type, TypeA>::value || std::is_same<Type, TypeB>::value
+> { };
 
 template <typename Type>
 struct is_custom_serializable : std::integral_constant<
