@@ -6,8 +6,15 @@ TEST_SRC = tests/buffer.cc    \
            tests/endianess.cc \
            tests/container.cc
 
+TEST_OBJ = $(subst .cc,.o,$(TEST_SRC))
+
 all: test
 
-test:
-	$(CXX) $(CXXFLAGS) -o test $(TEST_SRC) test.cc -lgtest
+test: $(TEST_OBJ)
+	$(CXX) $(CXXFLAGS) -o test $(TEST_OBJ) test.cc -lgtest
 	./test
+
+.PHONY: clean;
+clean:
+	rm $(TEST_OBJ)
+	rm test
