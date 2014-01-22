@@ -61,6 +61,11 @@ class Tuple {
 			);
 		}
 
+		template <size_t Index> 
+		inline typename std::add_pointer<type_at<Index>>::type ptr() const {
+			return std::get<Index>(this->tuple_).get();
+		}
+
 		template <size_t Index>
 		inline void set(ConstLValueReference<type_at<Index>> value) {
 			InPlaceSorter<Endianess>::template mix<
