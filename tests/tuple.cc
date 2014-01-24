@@ -70,29 +70,3 @@ TEST_F(TupleTest, Iterator) {
 		++iter;
 	}
 }
-
-TEST_F(TupleTest, CarbonCopy) {
-	typedef BinaryMapping::PlainTuple<
-		uint32_t,
-		uint16_t,
-		BinaryMapping::Raw<3>
-	> TestMapping;
-
-	BinaryMapping::Buffer testBuffer(TestMapping::size);
-
-	TestMapping mapping(&testBuffer);
-
-	mapping.set<0>(UINT32_MAX);
-	mapping.set<1>(UINT16_MAX);
-	mapping.set<2>(BinaryMapping::Raw<3>({1, 2, 3}));
-
-	TestMapping::carbon_copy copy = mapping.carbonCopy();
-
-	mapping.set<0>(1);
-	mapping.set<1>(2);
-	mapping.set<2>(BinaryMapping::Raw<3>({3, 2, 1}));
-
-	EXPECT_EQ(copy.get<0>(), UINT32_MAX);
-	EXPECT_EQ(copy.get<1>(), UINT16_MAX);
-	EXPECT_EQ(copy.get<2>(), BinaryMapping::Raw<3>({1, 2, 3}));
-}

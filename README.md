@@ -6,7 +6,7 @@ A explanation of an earlier version of this template library can be found on my 
 
 Basic usage of this library is documented in the [wiki](https://github.com/KnairdA/BinaryMapping/wiki/Basic-Usage).
 
-## Current features:
+## Current features
 
 - Support for any kind of flat structure that consists of integral types
 - Full support for serialization in either big or little endianess
@@ -31,7 +31,7 @@ cmake ..
 make
 ```
 
-## Requirements:
+## Requirements
 
 - Current version of GCC or Clang C++ compiler with full support for C++11 (tested in g++ >= 4.8.2 and clang++ >= 3.3)
 - GNU libraries _endian.h_ for endianess conversion support

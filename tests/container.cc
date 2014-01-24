@@ -34,8 +34,6 @@ class ContainerTest : public ::testing::Test {
 };
 
 TEST_F(ContainerTest, Basic) {
-	const TestContainer& constContainer = *this->container_.get();
-
 	EXPECT_EQ(this->container_->front().get<0>(), 0);
 	EXPECT_EQ(this->container_->back().get<1>(),  9);
 	EXPECT_EQ(this->container_->size(),          10);
@@ -43,9 +41,6 @@ TEST_F(ContainerTest, Basic) {
 	for ( size_t i = 0; i != 10; ++i ) {
 		EXPECT_EQ(this->container_->at(i).get<0>(), i);
 		EXPECT_EQ((*this->container_)[i].get<1>(),  i);
-
-		EXPECT_EQ(constContainer.at(i).get<0>(),    i);
-		EXPECT_EQ(constContainer[i].get<1>(),       i);
 	}
 }
 

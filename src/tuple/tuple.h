@@ -7,7 +7,6 @@
 
 #include "mapper.h" 
 #include "weigher.h" 
-#include "tuple_carbon_copy.h" 
 #include "relative_pointer.h" 
 
 #include "io/buffer.h" 
@@ -19,13 +18,19 @@
 
 namespace BinaryMapping {
 
+namespace {
+	enum class Target : uint8_t {
+		Pointer,
+		Iterator
+	};
+}
+
 template <
 	typename Endianess,
 	typename... Types
 >
 class Tuple {
 	public:
-		typedef TupleCarbonCopy<Types...> carbon_copy;
 		typedef std::tuple<RelativePointer<uint8_t, Types>...> tuple_type;
 
 		template <size_t Index>
@@ -36,23 +41,41 @@ class Tuple {
 
 		static const size_t size = TupleWeigher::size<tuple_type>();
 
-		Tuple(Buffer* buffer):
-			base_ptr_(buffer->front()),
-			tuple_(
-				TupleMapper::construct<tuple_type>(&this->base_ptr_)
+		Tuple(uint8_t* data):
+			base_ptr_(
+				reinterpret_cast<uintptr_t>(data)
+			),
+			tuple_(TupleMapper::construct<tuple_type>(
+				reinterpret_cast<uint8_t*const*>(&this->base_ptr_)
+			)),
+			target_(
+				Target::Pointer
 			) { }
 
-		Tuple(uint8_t* data):
-			base_ptr_(data),
-			tuple_(
-				TupleMapper::construct<tuple_type>(&this->base_ptr_)
-			) { }
+		Tuple(Buffer* buffer):
+			Tuple(buffer->front()) { }
 
 		Tuple(const BufferIterator<size>& iter):
-			base_ptr_(nullptr),
-			tuple_(
-				TupleMapper::construct<tuple_type>(iter())
+			base_ptr_(
+				reinterpret_cast<uintptr_t>(iter())
+			),
+			tuple_(TupleMapper::construct<tuple_type>(
+				reinterpret_cast<uint8_t*const*>(this->base_ptr_)
+			)),
+			target_(
+				Target::Iterator
 			) { }
+
+		Tuple<Endianess, Types...> anchored_copy() {
+			switch ( this->target_ ) {
+				case Target::Pointer:  return Tuple<Endianess, Types...>(
+					reinterpret_cast<uint8_t*>(this->base_ptr_)
+				);
+				case Target::Iterator: return Tuple<Endianess, Types...>(
+					*reinterpret_cast<uint8_t*const*>(this->base_ptr_)
+				);
+			}
+		}
 
 		template <size_t Index> 
 		inline type_at<Index> get() const {
@@ -96,13 +119,10 @@ class Tuple {
 			Serializer<CustomOrder>::deserialize(this->tuple_);
 		}
 
-		carbon_copy carbonCopy() const {
-			return carbon_copy(*this);
-		}
-
 	protected:
-		uint8_t* base_ptr_;
+		const uintptr_t base_ptr_;
 		const tuple_type tuple_;
+		const Target target_;
 
 };
 

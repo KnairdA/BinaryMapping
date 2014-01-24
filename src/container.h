@@ -33,21 +33,7 @@ class Container {
 			);
 		}
 
-		inline typename tuple_type::carbon_copy operator[](size_t index) const {
-			return tuple_type(
-				this->buffer_->template at<tuple_type::size>(index)
-			).carbonCopy();
-		}
-
 		inline tuple_type at(size_t index) {
-			if ( index <= this->tuple_count_ ) {
-				return this->operator[](index);
-			} else {
-				throw std::out_of_range("range_violated");
-			}
-		}
-
-		inline typename tuple_type::carbon_copy at(size_t index) const {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
@@ -59,24 +45,12 @@ class Container {
 			return tuple_type(this->buffer_->front());
 		}
 
-		inline typename tuple_type::carbon_copy front() const {
-			return tuple_type(this->buffer_->front()).carbonCopy();
-		}
-
 		inline tuple_type back() {
 			return tuple_type(
 				this->buffer_->template at<tuple_type::size>(
 					this->tuple_count_ - 1
 				)
 			);
-		}
-
-		inline typename tuple_type::carbon_copy back() const {
-			return tuple_type(
-				this->buffer_->template at<tuple_type::size>(
-					this->tuple_count_ - 1
-				)
-			).carbonCopy();
 		}
 
 		inline iterator_type begin() const {

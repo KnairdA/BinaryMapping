@@ -48,45 +48,6 @@ struct TupleMapper {
 			)
 		);
 	}
-
-	template <
-		typename Tuple,
-		typename Source,
-		size_t Index     = 0,
-		typename Current,
-		enable_if<Index  == std::tuple_size<Tuple>::value> = 0
-	>
-	static inline Tuple carbonCopy(const Source&, Current&& tuple) {
-		return tuple;
-	}
-
-	template <
-		typename Tuple,
-		typename Source,
-		size_t Index     = 0,
-		typename Current = std::tuple<>,
-		enable_if<Index  < std::tuple_size<Tuple>::value> = 0
-	>
-	static inline Tuple carbonCopy(
-		const Source& src,
-		Current&& tuple = std::tuple<>()
-	) {
-		return carbonCopy<
-			Tuple,
-			Source,
-			Index + 1
-		>(
-			src,
-			std::tuple_cat(
-				tuple,
-				std::make_tuple(
-					typename std::tuple_element<Index, Tuple>::type(
-						src.template get<Index>()
-					)
-				)
-			)
-		);
-	}
 };
 
 }
