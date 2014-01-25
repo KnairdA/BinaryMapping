@@ -5,10 +5,13 @@
 
 #include "utility.h"
 
+#include "endianess/out_of_place_sorter.h" 
+
 namespace BinaryMapping {
 
 struct TupleDereferencer {
 	template <
+		typename Endianess,
 		typename Source,
 		typename Target,
 		size_t Index     = 0,
@@ -23,6 +26,7 @@ struct TupleDereferencer {
 	}
 
 	template <
+		typename Endianess,
 		typename Source,
 		typename Target,
 		size_t Index     = 0,
@@ -34,6 +38,7 @@ struct TupleDereferencer {
 		Current&& current = std::tuple<>()
 	) {
 		return dereference<
+			Endianess,
 			Source,
 			Target,
 			Index  + 1
@@ -43,7 +48,9 @@ struct TupleDereferencer {
 				current,
 				std::make_tuple(
 					typename std::tuple_element<Index, Source>::type::element_type(
-						*std::get<Index>(source)
+						OutOfPlaceSorter<Endianess>::sort(
+							*std::get<Index>(source)
+						)
 					)
 				)
 			)
