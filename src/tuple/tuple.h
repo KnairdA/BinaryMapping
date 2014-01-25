@@ -4,6 +4,7 @@
 #include <tuple>
 
 #include "utility.h" 
+#include "base_ptr.h"
 
 #include "mapper.h" 
 #include "weigher.h" 
@@ -17,37 +18,6 @@
 #include "endianess/undefined.h" 
 
 namespace BinaryMapping {
-
-namespace {
-	enum class Tag: uint8_t {
-		Direct,
-		Indirect
-	};
-
-	struct BasePtr {
-		BasePtr(uint8_t*const ptr):
-			direct(ptr),
-			tag(Tag::Direct) { }
-
-		BasePtr(uint8_t*const* ptr):
-			indirect(ptr),
-			tag(Tag::Indirect) { }
-
-		inline uint8_t* get() const {
-			switch ( this->tag ) {
-				case Tag::Direct:   return this->direct;
-				case Tag::Indirect: return *this->indirect;
-			}
-		}
-
-		const union {
-			uint8_t*const  direct;
-			uint8_t*const* indirect; 
-		};
-
-		const Tag tag;
-	};
-}
 
 template <
 	typename Endianess,
@@ -137,7 +107,7 @@ class Tuple {
 		}
 
 	protected:
-		const BasePtr base_ptr_;
+		const detail::BasePtr base_ptr_;
 		const tuple_type tuple_;
 
 };

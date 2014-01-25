@@ -5,7 +5,7 @@
 
 namespace BinaryMapping {
 
-namespace {
+namespace detail {
 	template <
 		typename Type,
 		typename Check
@@ -50,18 +50,18 @@ struct either : std::integral_constant<
 template <typename Type>
 struct is_custom_serializable : std::integral_constant<
 	bool,
-	check_if_class<
+	detail::check_if_class<
 		Type,
-		has_data_member<Type>
+		detail::has_data_member<Type>
 	>::value
 > { };
 
 template <typename Type>
 struct provides_own_size : std::integral_constant<
 	bool,
-	check_if_class<
+	detail::check_if_class<
 		Type,
-		has_size_member<Type>
+		detail::has_size_member<Type>
 	>::value
 > { };
 
