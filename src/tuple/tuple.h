@@ -19,9 +19,26 @@
 namespace BinaryMapping {
 
 namespace {
-	enum class Target : uint8_t {
-		Pointer,
-		Iterator
+	enum class Tag: uint8_t {
+		Direct,
+		Indirect
+	};
+
+	struct BasePtr {
+		BasePtr(uint8_t*const ptr):
+			direct(ptr),
+			tag(Tag::Direct) { }
+
+		BasePtr(uint8_t*const* ptr):
+			indirect(ptr),
+			tag(Tag::Indirect) { }
+
+		const union {
+			uint8_t*const  direct;
+			uint8_t*const* indirect; 
+		};
+
+		const Tag tag;
 	};
 }
 
@@ -41,15 +58,12 @@ class Tuple {
 
 		static const size_t size = TupleWeigher::size<tuple_type>();
 
-		Tuple(uint8_t* data):
+		Tuple(uint8_t*const data):
 			base_ptr_(
-				reinterpret_cast<uintptr_t>(data)
+				data
 			),
-			tuple_(TupleMapper::construct<tuple_type>(
-				reinterpret_cast<uint8_t*const*>(&this->base_ptr_)
-			)),
-			target_(
-				Target::Pointer
+			tuple_(
+				TupleMapper::construct<tuple_type>(&this->base_ptr_.direct)
 			) { }
 
 		Tuple(Buffer* buffer):
@@ -57,22 +71,19 @@ class Tuple {
 
 		Tuple(const BufferIterator<size>& iter):
 			base_ptr_(
-				reinterpret_cast<uintptr_t>(iter())
+				iter()
 			),
-			tuple_(TupleMapper::construct<tuple_type>(
-				reinterpret_cast<uint8_t*const*>(this->base_ptr_)
-			)),
-			target_(
-				Target::Iterator
+			tuple_(
+				TupleMapper::construct<tuple_type>(this->base_ptr_.indirect)
 			) { }
 
 		Tuple<Endianess, Types...> anchored_copy() {
-			switch ( this->target_ ) {
-				case Target::Pointer:  return Tuple<Endianess, Types...>(
-					reinterpret_cast<uint8_t*>(this->base_ptr_)
+			switch ( this->base_ptr_.tag ) {
+				case Tag::Direct: return Tuple<Endianess, Types...>(
+					this->base_ptr_.direct
 				);
-				case Target::Iterator: return Tuple<Endianess, Types...>(
-					*reinterpret_cast<uint8_t*const*>(this->base_ptr_)
+				case Tag::Indirect: return Tuple<Endianess, Types...>(
+					this->base_ptr_.indirect
 				);
 			}
 		}
@@ -120,9 +131,8 @@ class Tuple {
 		}
 
 	protected:
-		const uintptr_t base_ptr_;
+		const BasePtr base_ptr_;
 		const tuple_type tuple_;
-		const Target target_;
 
 };
 
