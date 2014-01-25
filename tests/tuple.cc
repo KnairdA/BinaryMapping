@@ -70,3 +70,30 @@ TEST_F(TupleTest, Iterator) {
 		++iter;
 	}
 }
+
+TEST_F(TupleTest, Dereference) {
+	typedef BinaryMapping::PlainTuple<
+		uint32_t,
+		uint16_t
+	> TestMapping;
+
+	BinaryMapping::Buffer testBuffer(TestMapping::size);
+
+	TestMapping mapping(&testBuffer);
+
+	mapping.set<0>(1);
+	mapping.set<1>(2);
+
+	EXPECT_TRUE((std::is_same<
+		decltype(mapping.get()),
+		std::tuple<uint32_t, uint16_t>
+	>::value));
+
+	auto tuple = mapping.get();
+
+	mapping.set<0>(3);
+	mapping.set<1>(4);
+
+	EXPECT_EQ(std::get<0>(tuple), 1);
+	EXPECT_EQ(std::get<1>(tuple), 2);
+}

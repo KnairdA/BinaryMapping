@@ -9,39 +9,42 @@ namespace BinaryMapping {
 
 struct TupleMapper {
 	template <
-		typename Tuple,
-		size_t Index     = 0,
-		off_t Offset     = 0,
-		typename Current,
-		enable_if<Index  == std::tuple_size<Tuple>::value> = 0
-	>
-	static inline Tuple construct(uint8_t*const*, Current&& tuple) {
-		return tuple;
-	}
-
-	template <
-		typename Tuple,
+		typename Target,
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current = std::tuple<>,
-		enable_if<Index  < std::tuple_size<Tuple>::value> = 0
+		enable_if<Index  == std::tuple_size<Target>::value> = 0
 	>
-	static inline Tuple construct(
+	static inline Target construct(
+		uint8_t*const*,
+		Current&& current
+	) {
+		return current;
+	}
+
+	template <
+		typename Target,
+		size_t Index     = 0,
+		off_t Offset     = 0,
+		typename Current = std::tuple<>,
+		enable_if<Index  < std::tuple_size<Target>::value> = 0
+	>
+	static inline Target construct(
 		uint8_t*const* buffer,
-		Current&& tuple = std::tuple<>()
+		Current&& current = std::tuple<>()
 	) {
 		return construct<
-			Tuple,
+			Target,
 			Index  + 1,
 			Offset + size_of<
-				typename std::tuple_element<Index, Tuple>::type::element_type
+				typename std::tuple_element<Index, Target>::type::element_type
 			>()
 		>(
 			buffer,
 			std::tuple_cat(
-				tuple,
+				current,
 				std::make_tuple(
-					typename std::tuple_element<Index, Tuple>::type(
+					typename std::tuple_element<Index, Target>::type(
 						buffer, Offset
 					)
 				)

@@ -8,6 +8,7 @@
 
 #include "mapper.h" 
 #include "weigher.h" 
+#include "dereferencer.h" 
 #include "relative_pointer.h" 
 
 #include "io/buffer.h" 
@@ -54,10 +55,11 @@ class Tuple {
 				TupleMapper::construct<tuple_type>(this->base_ptr_.indirect)
 			) { }
 
-		inline Tuple<Endianess, Types...> anchored_copy() const {
-			return Tuple<Endianess, Types...>(
-				this->base_ptr_.get()
-			);
+		inline std::tuple<Types...> get() const {
+			return TupleDereferencer::dereference<
+				tuple_type,
+				std::tuple<Types...>
+			>(this->tuple_);
 		}
 
 		template <size_t Index> 
