@@ -21,6 +21,19 @@ class EndianTest : public ::testing::Test {
 
 		std::unique_ptr<BinaryMapping::Buffer> buffer_;
 
+		std::tuple<
+			uint64_t,
+			uint32_t,
+			int16_t,
+			BinaryMapping::Raw<3>
+		> test_ = std::make_tuple(
+			UINT32_MAX,
+			UINT16_MAX,
+			INT8_MIN,
+			BinaryMapping::Raw<3>({1, 2, 3})
+		);
+
+
 };
 
 TEST_F(EndianTest, LittleEndian) {
@@ -43,6 +56,8 @@ TEST_F(EndianTest, LittleEndian) {
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>({1, 2, 3}));
+
+	EXPECT_EQ(mapping.get(), this->test_);
 }
 
 TEST_F(EndianTest, BigEndian) {
@@ -65,6 +80,8 @@ TEST_F(EndianTest, BigEndian) {
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>({1, 2, 3}));
+
+	EXPECT_EQ(mapping.get(), this->test_);
 }
 
 TEST_F(EndianTest, UndefinedEndian) {
@@ -96,6 +113,8 @@ TEST_F(EndianTest, UndefinedEndian) {
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 	EXPECT_EQ(mapping.get<3>(), BinaryMapping::Raw<3>({1, 2, 3}));
+
+	EXPECT_EQ(mapping.get(), this->test_);
 }
 
 TEST_F(EndianTest, MixedEndian) {
