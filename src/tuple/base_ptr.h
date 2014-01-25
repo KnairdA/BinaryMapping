@@ -5,7 +5,7 @@ namespace BinaryMapping {
 namespace detail {
 
 struct BasePtr {
-	enum class Tag: uint8_t {
+	enum class Tag : uint8_t {
 		Direct,
 		Indirect
 	};
@@ -22,6 +22,7 @@ struct BasePtr {
 		switch ( this->tag ) {
 			case Tag::Direct:   return this->direct;
 			case Tag::Indirect: return *this->indirect;
+			default:            return nullptr;
 		}
 	}
 

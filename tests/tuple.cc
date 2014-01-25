@@ -67,6 +67,12 @@ TEST_F(TupleTest, Iterator) {
 		EXPECT_EQ(mapping.get<0>(), i);
 		EXPECT_EQ(mapping.get<1>(), i);
 
+		EXPECT_EQ(*mapping.ptr<0>(), i);
+		EXPECT_EQ(*mapping.ptr<1>(), i);
+
+		EXPECT_EQ(mapping.ptr(), *iter);
+		EXPECT_EQ(mapping.get(), (std::tuple<uint32_t, uint16_t>(i, i)));
+
 		++iter;
 	}
 }

@@ -12,7 +12,7 @@ template <class Endianess>
 struct Serializer {
 	template <
 		typename Tuple,
-		size_t Index,
+		size_t Index    = 0,
 		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
 	static inline void serialize(Tuple&) { }
@@ -34,7 +34,7 @@ struct Serializer {
 
 	template <
 		typename Tuple,
-		size_t Index,
+		size_t Index    = 0,
 		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
 	static inline void deserialize(Tuple&) { }
