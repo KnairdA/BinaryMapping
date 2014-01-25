@@ -33,6 +33,13 @@ namespace {
 			indirect(ptr),
 			tag(Tag::Indirect) { }
 
+		inline uint8_t* get() const {
+			switch ( this->tag ) {
+				case Tag::Direct:   return this->direct;
+				case Tag::Indirect: return *this->indirect;
+			}
+		}
+
 		const union {
 			uint8_t*const  direct;
 			uint8_t*const* indirect; 
@@ -77,15 +84,10 @@ class Tuple {
 				TupleMapper::construct<tuple_type>(this->base_ptr_.indirect)
 			) { }
 
-		Tuple<Endianess, Types...> anchored_copy() {
-			switch ( this->base_ptr_.tag ) {
-				case Tag::Direct: return Tuple<Endianess, Types...>(
-					this->base_ptr_.direct
-				);
-				case Tag::Indirect: return Tuple<Endianess, Types...>(
-					this->base_ptr_.indirect
-				);
-			}
+		Tuple<Endianess, Types...> anchored_copy() const {
+			return Tuple<Endianess, Types...>(
+				this->base_ptr_.get()
+			);
 		}
 
 		template <size_t Index> 
@@ -93,6 +95,10 @@ class Tuple {
 			return OutOfPlaceSorter<Endianess>::sort(
 				*std::get<Index>(this->tuple_)
 			);
+		}
+
+		inline uint8_t* ptr() const {
+			return this->base_ptr_.get();
 		}
 
 		template <size_t Index> 
