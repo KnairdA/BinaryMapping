@@ -71,7 +71,7 @@ TEST_F(TupleTest, Iterator) {
 		EXPECT_EQ(*mapping.ptr<1>(), i);
 
 		EXPECT_EQ(mapping.ptr(), *iter);
-		EXPECT_EQ(mapping.get(), (std::tuple<uint32_t, uint16_t>(i, i)));
+		EXPECT_EQ(mapping.get(), TestMapping::tuple_type(i, i));
 
 		++iter;
 	}
@@ -95,7 +95,7 @@ TEST_F(TupleTest, Dereference) {
 		std::tuple<uint32_t, uint16_t>
 	>::value));
 
-	auto tuple = mapping.get();
+	TestMapping::tuple_type tuple = mapping.get();
 
 	mapping.set<0>(3);
 	mapping.set<1>(4);

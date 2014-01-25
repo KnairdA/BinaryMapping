@@ -25,23 +25,25 @@ template <
 	typename... Types
 >
 class Tuple {
+	typedef std::tuple<RelativePointer<uint8_t, Types>...> relative_tuple;
+
+	template <size_t Index>
+	using type_at = typename std::tuple_element<
+		Index,
+		relative_tuple
+	>::type::element_type;
+
 	public:
-		typedef std::tuple<RelativePointer<uint8_t, Types>...> tuple_type;
+		typedef std::tuple<Types...> tuple_type;
 
-		template <size_t Index>
-		using type_at = typename std::tuple_element<
-			Index,
-			tuple_type
-		>::type::element_type;
-
-		static const size_t size = TupleWeigher::size<tuple_type>();
+		static const size_t size = TupleWeigher::size<relative_tuple>();
 
 		Tuple(uint8_t*const data):
 			base_ptr_(
 				data
 			),
 			tuple_(
-				TupleMapper::construct<tuple_type>(&this->base_ptr_.direct)
+				TupleMapper::construct<relative_tuple>(&this->base_ptr_.direct)
 			) { }
 
 		Tuple(Buffer* buffer):
@@ -52,14 +54,14 @@ class Tuple {
 				iter()
 			),
 			tuple_(
-				TupleMapper::construct<tuple_type>(this->base_ptr_.indirect)
+				TupleMapper::construct<relative_tuple>(this->base_ptr_.indirect)
 			) { }
 
-		inline std::tuple<Types...> get() const {
+		inline tuple_type get() const {
 			return TupleDereferencer::dereference<
 				Endianess,
-				tuple_type,
-				std::tuple<Types...>
+				relative_tuple,
+				tuple_type
 			>(this->tuple_);
 		}
 
@@ -111,7 +113,7 @@ class Tuple {
 
 	protected:
 		const detail::BasePtr base_ptr_;
-		const tuple_type tuple_;
+		const relative_tuple tuple_;
 
 };
 
