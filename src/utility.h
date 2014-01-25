@@ -30,7 +30,7 @@ namespace detail {
 }
 
 template <typename Type>
-using ConstLValueReference = typename std::add_lvalue_reference<
+using const_lvalue_reference = typename std::add_lvalue_reference<
 	typename std::add_const<Type>::type
 >::type;
 

@@ -12,7 +12,7 @@ struct BigEndian {
 		enable_if<either<Key, uint64_t, int64_t>::value> = 0
 	>
 	static inline Key toTarget(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return htobe64(number);
 	}
@@ -22,7 +22,7 @@ struct BigEndian {
 		enable_if<either<Key, uint32_t, int32_t>::value> = 0
 	>
 	static inline Key toTarget(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return htobe32(number);
 	}
@@ -32,7 +32,7 @@ struct BigEndian {
 		enable_if<either<Key, uint16_t, int16_t>::value> = 0
 	>
 	static inline Key toTarget(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return htobe16(number);
 	}
@@ -42,7 +42,7 @@ struct BigEndian {
 		enable_if<either<Key, uint8_t, int8_t>::value> = 0
 	>
 	static inline Key toTarget(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return number;
 	}
@@ -52,7 +52,7 @@ struct BigEndian {
 		enable_if<either<Key, uint64_t, int64_t>::value> = 0
 	>
 	static inline Key toHost(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return be64toh(number);
 	}
@@ -62,7 +62,7 @@ struct BigEndian {
 		enable_if<either<Key, uint32_t, int32_t>::value> = 0
 	>
 	static inline Key toHost(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return be32toh(number);
 	}
@@ -72,7 +72,7 @@ struct BigEndian {
 		enable_if<either<Key, uint16_t, int16_t>::value> = 0
 	>
 	static inline Key toHost(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return be16toh(number);
 	}
@@ -82,7 +82,7 @@ struct BigEndian {
 		enable_if<either<Key, uint8_t, int8_t>::value> = 0
 	>
 	static inline Key toHost(
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		return number;
 	}

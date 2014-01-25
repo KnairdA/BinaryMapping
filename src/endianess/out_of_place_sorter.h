@@ -11,7 +11,7 @@ struct OutOfPlaceSorter {
 		typename Key,
 		enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key mix(ConstLValueReference<Key> number) {
+	static inline Key mix(const_lvalue_reference<Key> number) {
 		return Endianess::template toTarget<Key>(number);
 	}
 
@@ -19,7 +19,7 @@ struct OutOfPlaceSorter {
 		typename Custom,
 		enable_if<is_custom_serializable<Custom>::value> = 0
 	>
-	static inline Custom mix(ConstLValueReference<Custom> tmp) {
+	static inline Custom mix(const_lvalue_reference<Custom> tmp) {
 		return tmp;
 	}
 

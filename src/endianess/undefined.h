@@ -10,7 +10,7 @@ struct UndefinedEndian {
 		typename Key,
 		enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key toTarget(ConstLValueReference<Key> number) {
+	static inline Key toTarget(const_lvalue_reference<Key> number) {
 		return number;
 	}
 
@@ -18,7 +18,7 @@ struct UndefinedEndian {
 		typename Key,
 		enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key toHost(ConstLValueReference<Key> number) {
+	static inline Key toHost(const_lvalue_reference<Key> number) {
 		return number;
 	}
 };

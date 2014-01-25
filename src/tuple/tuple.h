@@ -54,7 +54,7 @@ class Tuple {
 				TupleMapper::construct<tuple_type>(this->base_ptr_.indirect)
 			) { }
 
-		Tuple<Endianess, Types...> anchored_copy() const {
+		inline Tuple<Endianess, Types...> anchored_copy() const {
 			return Tuple<Endianess, Types...>(
 				this->base_ptr_.get()
 			);
@@ -77,7 +77,7 @@ class Tuple {
 		}
 
 		template <size_t Index>
-		inline void set(ConstLValueReference<type_at<Index>> value) {
+		inline void set(const_lvalue_reference<type_at<Index>> value) {
 			InPlaceSorter<Endianess>::template mix<
 				type_at<Index>
 			>(

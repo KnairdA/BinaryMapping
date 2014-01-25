@@ -13,7 +13,7 @@ struct InPlaceSorter {
 	>
 	static inline void mix(
 		typename std::add_pointer<Key>::type buffer,
-		ConstLValueReference<Key> number
+		const_lvalue_reference<Key> number
 	) {
 		*buffer = Endianess::template toTarget<Key>(number);
 	}
@@ -24,7 +24,7 @@ struct InPlaceSorter {
 	>
 	static inline void mix(
 		typename std::add_pointer<Custom>::type buffer,
-		ConstLValueReference<Custom> tmp
+		const_lvalue_reference<Custom> tmp
 	) {
 		*buffer = tmp;
 	}
