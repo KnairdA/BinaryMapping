@@ -7,8 +7,10 @@
 #include "base_ptr.h"
 
 #include "mapper.h" 
+#include "modifier/relative_tuple.h"
+#include "modifier/value_tuple.h"
+
 #include "weigher.h" 
-#include "dereferencer.h" 
 #include "relative_pointer.h" 
 
 #include "io/buffer.h" 
@@ -39,30 +41,33 @@ class Tuple {
 		static const size_t size = TupleWeigher::size<relative_tuple>();
 
 		Tuple(uint8_t*const data):
-			base_ptr_(
-				data
-			),
-			tuple_(
-				TupleMapper::construct<relative_tuple>(&this->base_ptr_.direct)
-			) { }
+			base_ptr_(data),
+			tuple_(TupleMapper::construct<
+				RelativeTuple,
+				relative_tuple
+			>(
+				this->base_ptr_.get()
+			)) { }
 
 		Tuple(Buffer* buffer):
 			Tuple(buffer->front()) { }
 
 		Tuple(const BufferIterator<size>& iter):
-			base_ptr_(
-				iter()
-			),
-			tuple_(
-				TupleMapper::construct<relative_tuple>(this->base_ptr_.indirect)
-			) { }
+			base_ptr_(iter()),
+			tuple_(TupleMapper::construct<
+				RelativeTuple,
+				relative_tuple
+			>(
+				this->base_ptr_.get()
+			)) { }
 
 		inline tuple_type get() const {
-			return TupleDereferencer::dereference<
-				Endianess,
-				relative_tuple,
+			return TupleMapper::construct<
+				ValueTuple<Endianess>,
 				tuple_type
-			>(this->tuple_);
+			>(
+				this->base_ptr_.get()
+			);
 		}
 
 		template <size_t Index> 
@@ -73,7 +78,7 @@ class Tuple {
 		}
 
 		inline uint8_t* ptr() const {
-			return this->base_ptr_.get();
+			return *this->base_ptr_.get();
 		}
 
 		template <size_t Index> 

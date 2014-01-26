@@ -9,6 +9,7 @@ namespace BinaryMapping {
 
 struct TupleMapper {
 	template <
+		typename Modifier,
 		typename Target,
 		size_t Index     = 0,
 		off_t Offset     = 0,
@@ -23,6 +24,7 @@ struct TupleMapper {
 	}
 
 	template <
+		typename Modifier,
 		typename Target,
 		size_t Index     = 0,
 		off_t Offset     = 0,
@@ -34,19 +36,16 @@ struct TupleMapper {
 		Current&& current = std::tuple<>()
 	) {
 		return construct<
+			Modifier,
 			Target,
 			Index  + 1,
-			Offset + size_of<
-				typename std::tuple_element<Index, Target>::type::element_type
-			>()
+			Offset + Modifier::template size<Target, Index>()
 		>(
 			buffer,
 			std::tuple_cat(
 				current,
 				std::make_tuple(
-					typename std::tuple_element<Index, Target>::type(
-						buffer, Offset
-					)
+					Modifier::template create<Target, Index, Offset>(buffer)
 				)
 			)
 		);

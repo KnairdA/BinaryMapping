@@ -18,15 +18,15 @@ struct BasePtr {
 		indirect(ptr),
 		tag(Tag::Indirect) { }
 
-	inline uint8_t* get() const {
+	inline uint8_t*const* get() const {
 		switch ( this->tag ) {
-			case Tag::Direct:   return this->direct;
-			case Tag::Indirect: return *this->indirect;
+			case Tag::Direct:   return &this->direct;
+			case Tag::Indirect: return this->indirect;
 			default:            return nullptr;
 		}
 	}
 
-	const union {
+	union {
 		uint8_t*const  direct;
 		uint8_t*const* indirect; 
 	};
