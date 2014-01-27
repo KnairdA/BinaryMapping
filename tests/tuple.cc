@@ -1,105 +1,93 @@
 #include "gtest/gtest.h"
 
+#include <memory>
+
 #include "tuple/tuple.h"
 #include "raw.h"
 
-class TupleTest : public ::testing::Test { };
+class TupleTest : public ::testing::Test {
+	protected:
+		typedef BinaryMapping::PlainTuple<
+			uint64_t,
+			uint8_t,
+			uint32_t,
+			uint16_t,
+			int64_t,
+			int32_t,
+			int16_t,
+			int8_t,
+			BinaryMapping::Raw<3>
+		> TestTuple;
+
+		virtual void SetUp() {
+			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
+				new BinaryMapping::Buffer(TestTuple::size)
+			);
+
+			this->tuple_  = std::unique_ptr<TestTuple>(
+				new TestTuple(this->buffer_.get())
+			);
+
+			this->tuple_->set<0>(UINT64_MAX);
+			this->tuple_->set<1>(UINT8_MAX);
+			this->tuple_->set<2>(UINT32_MAX);
+			this->tuple_->set<3>(UINT16_MAX);
+			this->tuple_->set<4>(INT64_MIN);
+			this->tuple_->set<5>(INT32_MIN);
+			this->tuple_->set<6>(INT16_MIN);
+			this->tuple_->set<7>(INT8_MIN);
+			this->tuple_->set<8>({1, 2, 3});
+		}
+
+		std::unique_ptr<BinaryMapping::Buffer> buffer_;
+		std::unique_ptr<TestTuple> tuple_;
+
+};
 
 TEST_F(TupleTest, Basic) {
-	typedef BinaryMapping::PlainTuple<
-		uint64_t,
-		uint8_t,
-		uint32_t,
-		uint16_t,
-		int64_t,
-		int32_t,
-		int16_t,
-		int8_t,
-		BinaryMapping::Raw<3>
-	> TestMapping;
-
-	BinaryMapping::Buffer testBuffer(TestMapping::size);
-
-	TestMapping mapping(&testBuffer);
-
-	mapping.set<0>(UINT64_MAX);
-	mapping.set<1>(UINT8_MAX);
-	mapping.set<2>(UINT32_MAX);
-	mapping.set<3>(UINT16_MAX);
-	mapping.set<4>(INT64_MIN);
-	mapping.set<5>(INT32_MIN);
-	mapping.set<6>(INT16_MIN);
-	mapping.set<7>(INT8_MIN);
-	mapping.set<8>(BinaryMapping::Raw<3>({1, 2, 3}));
-
-	EXPECT_EQ(mapping.get<0>(), UINT64_MAX);
-	EXPECT_EQ(mapping.get<1>(), UINT8_MAX);
-	EXPECT_EQ(mapping.get<2>(), UINT32_MAX);
-	EXPECT_EQ(mapping.get<3>(), UINT16_MAX);
-	EXPECT_EQ(mapping.get<4>(), INT64_MIN);
-	EXPECT_EQ(mapping.get<5>(), INT32_MIN);
-	EXPECT_EQ(mapping.get<6>(), INT16_MIN);
-	EXPECT_EQ(mapping.get<7>(), INT8_MIN);
-	EXPECT_EQ(mapping.get<8>(), BinaryMapping::Raw<3>({1, 2, 3}));
+	EXPECT_EQ(this->tuple_->get<0>(), UINT64_MAX);
+	EXPECT_EQ(this->tuple_->get<1>(), UINT8_MAX);
+	EXPECT_EQ(this->tuple_->get<2>(), UINT32_MAX);
+	EXPECT_EQ(this->tuple_->get<3>(), UINT16_MAX);
+	EXPECT_EQ(this->tuple_->get<4>(), INT64_MIN);
+	EXPECT_EQ(this->tuple_->get<5>(), INT32_MIN);
+	EXPECT_EQ(this->tuple_->get<6>(), INT16_MIN);
+	EXPECT_EQ(this->tuple_->get<7>(), INT8_MIN);
+	EXPECT_EQ(this->tuple_->get<8>(), BinaryMapping::Raw<3>({1, 2, 3}));
 }
 
-TEST_F(TupleTest, Iterator) {
-	typedef BinaryMapping::PlainTuple<
-		uint32_t,
-		uint16_t
-	> TestMapping;
-
-	BinaryMapping::Buffer testBuffer(TestMapping::size * 10);
-
-	auto iter = testBuffer.begin<TestMapping::size>();
-	TestMapping mapping(iter);
-
-	for ( size_t i = 0; i < 10; ++i ) {
-		mapping.set<0>(i);
-		mapping.set<1>(i);
-
-		++iter;
-	}
-
-	iter -= 10;
-
-	for ( size_t i = 0; i < 10; ++i ) {
-		EXPECT_EQ(mapping.get<0>(), i);
-		EXPECT_EQ(mapping.get<1>(), i);
-
-		EXPECT_EQ(*mapping.ptr<0>(), i);
-		EXPECT_EQ(*mapping.ptr<1>(), i);
-
-		EXPECT_EQ(mapping.ptr(), *iter);
-		EXPECT_EQ(mapping.get(), TestMapping::tuple_type(i, i));
-
-		++iter;
-	}
+TEST_F(TupleTest, Direct) {
+	EXPECT_EQ(*this->tuple_->ptr<0>(),      UINT64_MAX);
+	EXPECT_EQ(*this->tuple_->ptr<1>(),      UINT8_MAX);
+	EXPECT_EQ(*this->tuple_->ptr<2>(),      UINT32_MAX);
+	EXPECT_EQ(*this->tuple_->ptr<3>(),      UINT16_MAX);
+	EXPECT_EQ(*this->tuple_->ptr<4>(),      INT64_MIN);
+	EXPECT_EQ(*this->tuple_->ptr<5>(),      INT32_MIN);
+	EXPECT_EQ(*this->tuple_->ptr<6>(),      INT16_MIN);
+	EXPECT_EQ(*this->tuple_->ptr<7>(),      INT8_MIN);
+	EXPECT_EQ(this->tuple_->ptr<8>()->data, (std::array<uint8_t, 3>{1, 2, 3}));
 }
 
 TEST_F(TupleTest, Dereference) {
-	typedef BinaryMapping::PlainTuple<
-		uint32_t,
-		uint16_t
-	> TestMapping;
+	TestTuple::tuple_type tuple = this->tuple_->get();
 
-	BinaryMapping::Buffer testBuffer(TestMapping::size);
+	this->tuple_->set<0>(0);
+	this->tuple_->set<1>(0);
+	this->tuple_->set<2>(0);
+	this->tuple_->set<3>(0);
+	this->tuple_->set<4>(0);
+	this->tuple_->set<5>(0);
+	this->tuple_->set<6>(0);
+	this->tuple_->set<7>(0);
+	this->tuple_->set<8>({3, 2, 1});
 
-	TestMapping mapping(&testBuffer);
-
-	mapping.set<0>(1);
-	mapping.set<1>(2);
-
-	EXPECT_TRUE((std::is_same<
-		decltype(mapping.get()),
-		std::tuple<uint32_t, uint16_t>
-	>::value));
-
-	TestMapping::tuple_type tuple = mapping.get();
-
-	mapping.set<0>(3);
-	mapping.set<1>(4);
-
-	EXPECT_EQ(std::get<0>(tuple), 1);
-	EXPECT_EQ(std::get<1>(tuple), 2);
+	EXPECT_EQ(std::get<0>(tuple), UINT64_MAX);
+	EXPECT_EQ(std::get<1>(tuple), UINT8_MAX);
+	EXPECT_EQ(std::get<2>(tuple), UINT32_MAX);
+	EXPECT_EQ(std::get<3>(tuple), UINT16_MAX);
+	EXPECT_EQ(std::get<4>(tuple), INT64_MIN);
+	EXPECT_EQ(std::get<5>(tuple), INT32_MIN);
+	EXPECT_EQ(std::get<6>(tuple), INT16_MIN);
+	EXPECT_EQ(std::get<7>(tuple), INT8_MIN);
+	EXPECT_EQ(std::get<8>(tuple), BinaryMapping::Raw<3>({1, 2, 3}));
 }
