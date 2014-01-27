@@ -65,7 +65,7 @@ TEST_F(TupleTest, Direct) {
 	EXPECT_EQ(*this->tuple_->ptr<5>(),      INT32_MIN);
 	EXPECT_EQ(*this->tuple_->ptr<6>(),      INT16_MIN);
 	EXPECT_EQ(*this->tuple_->ptr<7>(),      INT8_MIN);
-	EXPECT_EQ(this->tuple_->ptr<8>()->data, (std::array<uint8_t, 3>{{1, 2, 3}}));
+	EXPECT_EQ(this->tuple_->ptr<8>()->data, (std::array<uint8_t, 3>{1, 2, 3}));
 }
 
 TEST_F(TupleTest, Dereference) {
