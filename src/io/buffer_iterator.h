@@ -11,33 +11,31 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
                                             off_t,
                                             uint8_t**,
                                             uint8_t*&> {
-	typedef BufferIterator<Size> iterator_type;
-
 	public:
 		BufferIterator(uint8_t* buffer):
 			index_ptr_(buffer) { }
 
-		inline bool operator==(const iterator_type& src) const {
+		inline bool operator==(const BufferIterator& src) const {
 			return this->index_ptr_ == src.index_ptr_;
 		}
 
-		inline bool operator!=(const iterator_type& src) const {
+		inline bool operator!=(const BufferIterator& src) const {
 			return !(*this == src);
 		}
 
-		inline bool operator<(const iterator_type& src) const {
+		inline bool operator<(const BufferIterator& src) const {
 			return this->index_ptr_ < src.index_ptr_;
 		}
 
-		inline bool operator>(const iterator_type& src) const {
+		inline bool operator>(const BufferIterator& src) const {
 			return this->index_ptr_ > src.index_ptr_;
 		}
 
-		inline bool operator<=(const iterator_type& src) const {
+		inline bool operator<=(const BufferIterator& src) const {
 			return !this->operator>(src);
 		}
 
-		inline bool operator>=(const iterator_type& src) const {
+		inline bool operator>=(const BufferIterator& src) const {
 			return !this->operator<(src);
 		}
 
@@ -49,72 +47,72 @@ class BufferIterator : public std::iterator<std::random_access_iterator_tag,
 			return &this->index_ptr_;
 		}
 
-		inline iterator_type& operator++() {
+		inline BufferIterator& operator++() {
 			this->index_ptr_ += Size;
 
 			return *this;
 		}
 
-		inline iterator_type operator++(int) {
-			iterator_type tmp(*this);
+		inline BufferIterator operator++(int) {
+			BufferIterator tmp(*this);
 
 			this->operator++();
 
 			return tmp;
 		}
 
-		inline iterator_type& operator--() {
+		inline BufferIterator& operator--() {
 			this->index_ptr_ -= Size;
 
 			return *this;
 		}
 
-		inline iterator_type operator--(int) {
-			iterator_type tmp(*this);
+		inline BufferIterator operator--(int) {
+			BufferIterator tmp(*this);
 
 			this->operator--();
 
 			return tmp;
 		}
 
-		inline iterator_type& operator+=(off_t offset) {
+		inline BufferIterator& operator+=(off_t offset) {
 			this->index_ptr_ += offset * Size;
 
 			return *this;
 		}
 
-		inline iterator_type& operator-=(off_t offset) {
+		inline BufferIterator& operator-=(off_t offset) {
 			this->index_ptr_ -= offset * Size;
 
 			return *this;
 		}
 
-		inline iterator_type operator+(off_t offset) const {
-			iterator_type tmpIter(*this);
+		inline BufferIterator operator+(off_t offset) const {
+			BufferIterator tmpIter(*this);
 			tmpIter += offset;
 
 			return tmpIter;
 		}
 
-		inline off_t operator-(const iterator_type& src) const {
+		inline off_t operator-(const BufferIterator& src) const {
 			return ( this->index_ptr_ - src.index_ptr_ ) / Size;
 		}
 
-		inline iterator_type operator-(off_t offset) const {
-			iterator_type tmpIter(*this);
+		inline BufferIterator operator-(off_t offset) const {
+			BufferIterator tmpIter(*this);
 			tmpIter -= offset;
 
 			return tmpIter;
 		}
 
-		inline iterator_type operator[](off_t offset) const {
+		inline BufferIterator operator[](off_t offset) const {
 			return *(this->operator+(offset));
 		}
 
-		friend inline iterator_type operator+(
+		friend inline BufferIterator operator+(
 			off_t offset,
-			const iterator_type& src) {
-			iterator_type tmpIter(src);
+			const BufferIterator& src) {
+			BufferIterator tmpIter(src);
 			tmpIter += offset;
 
 			return tmpIter;

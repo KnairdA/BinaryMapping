@@ -14,8 +14,6 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       off_t,
                                       Tuple<Endianess, Types...>*,
                                       Tuple<Endianess, Types...>&> {
-	typedef Iterator<Endianess, Types...> iterator_type;
-
 	public:
 		typedef Tuple<Endianess, Types...> tuple_type;
 
@@ -26,27 +24,27 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			iter_(  std::move(iter)),
 			tuple_( iter_) { }
 
-		inline bool operator==(const iterator_type& src) const {
+		inline bool operator==(const Iterator& src) const {
 			return this->iter_  == src.iter_;
 		}
 
-		inline bool operator!=(const iterator_type& src) const {
+		inline bool operator!=(const Iterator& src) const {
 			return !(*this == src);
 		}
 
-		inline bool operator<(const iterator_type& src) const {
+		inline bool operator<(const Iterator& src) const {
 			return this->iter_ < src.iter_;
 		}
 
-		inline bool operator>(const iterator_type& src) const {
+		inline bool operator>(const Iterator& src) const {
 			return this->iter_ > src.iter_;
 		}
 
-		inline bool operator<=(const iterator_type& src) const {
+		inline bool operator<=(const Iterator& src) const {
 			return !this->operator>(src);
 		}
 
-		inline bool operator>=(const iterator_type& src) const {
+		inline bool operator>=(const Iterator& src) const {
 			return !this->operator<(src);
 		}
 
@@ -54,7 +52,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return this->tuple_;
 		}
 
-		inline iterator_type& operator++() {
+		inline Iterator& operator++() {
 			if ( this->iter_ < this->end_ ) {
 				++this->iter_;
 			}
@@ -62,15 +60,15 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline iterator_type operator++(int) {
-			iterator_type tmp(*this);
+		inline Iterator operator++(int) {
+			Iterator tmp(*this);
 
 			this->operator++();
 
 			return tmp;
 		}
 
-		inline iterator_type& operator--() {
+		inline Iterator& operator--() {
 			if ( this->iter_ > this->begin_ ) {
 				--this->iter_;
 			}
@@ -78,15 +76,15 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline iterator_type operator--(int) {
-			iterator_type tmp(*this);
+		inline Iterator operator--(int) {
+			Iterator tmp(*this);
 
 			this->operator--();
 
 			return tmp;
 		}
 
-		inline iterator_type& operator+=(off_t offset) {
+		inline Iterator& operator+=(off_t offset) {
 			if ( this->iter_ + offset < this->end_ ) {
 				this->iter_ += offset;
 			}
@@ -94,7 +92,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline iterator_type& operator-=(off_t offset) {
+		inline Iterator& operator-=(off_t offset) {
 			if ( this->iter_ - offset >= this->begin_ ) {
 				this->iter_ -= offset;
 			}
@@ -102,32 +100,32 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return *this;
 		}
 
-		inline iterator_type operator+(off_t offset) const {
-			iterator_type tmpIter(*this);
+		inline Iterator operator+(off_t offset) const {
+			Iterator tmpIter(*this);
 			tmpIter += offset;
 
 			return tmpIter;
 		}
 
-		inline off_t operator-(const iterator_type& src) const {
+		inline off_t operator-(const Iterator& src) const {
 			return this->iter_ - src.iter_;
 		}
 
-		inline iterator_type operator-(off_t offset) const {
-			iterator_type tmpIter(*this);
+		inline Iterator operator-(off_t offset) const {
+			Iterator tmpIter(*this);
 			tmpIter -= offset;
 
 			return tmpIter;
 		}
 
-		inline iterator_type operator[](off_t offset) const {
+		inline Iterator operator[](off_t offset) const {
 			return *(this->operator+(offset));
 		}
 
-		friend inline iterator_type operator+(
+		friend inline Iterator operator+(
 			off_t offset,
-			const iterator_type& src) {
-			iterator_type tmpIter(src);
+			const Iterator& src) {
+			Iterator tmpIter(src);
 			tmpIter += offset;
 
 			return tmpIter;
