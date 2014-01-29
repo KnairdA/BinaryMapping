@@ -27,13 +27,13 @@ class Container {
 			return this->tuple_count_;
 		}
 
-		inline tuple_type operator[](size_t index) {
+		inline tuple_type operator[](size_t index) const {
 			return tuple_type(
 				this->buffer_->template at<tuple_type::size>(index)
 			);
 		}
 
-		inline tuple_type at(size_t index) {
+		inline tuple_type at(size_t index) const {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
@@ -41,11 +41,11 @@ class Container {
 			}
 		}
 
-		inline tuple_type front() {
+		inline tuple_type front() const {
 			return tuple_type(this->buffer_->front());
 		}
 
-		inline tuple_type back() {
+		inline tuple_type back() const {
 			return tuple_type(
 				this->buffer_->template at<tuple_type::size>(
 					this->tuple_count_ - 1
