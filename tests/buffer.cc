@@ -19,9 +19,12 @@ class BufferTest : public ::testing::Test {
 
 TEST_F(BufferTest, Basic) {
 	EXPECT_EQ(this->buffer_->size<sizeof(uint32_t)>(), 10);
+	EXPECT_EQ(this->buffer_->size(),                   40);
 
 	EXPECT_EQ(this->buffer_->at<sizeof(uint32_t)>(0), this->buffer_->front());
+	EXPECT_EQ(this->buffer_->at(0),                   this->buffer_->front());
 	EXPECT_EQ(this->buffer_->at<sizeof(uint32_t)>(1), this->buffer_->front() + sizeof(uint32_t));
+	EXPECT_EQ(this->buffer_->at(4),                   this->buffer_->front() + sizeof(uint32_t));
 
 	EXPECT_EQ((*this->buffer_)[4], this->buffer_->front() + sizeof(uint32_t));
 }

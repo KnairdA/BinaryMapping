@@ -37,6 +37,10 @@ class Buffer {
 			return this->data_;
 		}
 
+		inline uint8_t* at(size_t index) const {
+			return this->at<sizeof(uint8_t)>(index);
+		}
+
 		template <size_t Size>
 		inline uint8_t* at(size_t index) const {
 			if ( index < this->size<Size>() ) {
@@ -60,6 +64,10 @@ class Buffer {
 			return BufferIterator<Size>(
 				this->data_ + this->size<Size>() * Size
 			);
+		}
+
+		inline size_t size() const {
+			return this->size_;
 		}
 
 		template <size_t Size>
