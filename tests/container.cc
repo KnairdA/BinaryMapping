@@ -61,16 +61,20 @@ TEST_F(ContainerTest, Iterator) {
 	EXPECT_EQ(iter2 > iter1, true);
 	EXPECT_EQ(iter2 < iter1, false);
 	++iter1;
-	EXPECT_EQ(iter2 - iter1, 9);
+	EXPECT_EQ((*iter1).get<0>(), 1);
+	EXPECT_EQ(iter2 - iter1,     9);
 	iter1 += 3;
-	EXPECT_EQ(iter2 - iter1, 6);
+	EXPECT_EQ((*iter1).get<0>(), 4);
+	EXPECT_EQ(iter2 - iter1,     6);
 	--iter1;
-	EXPECT_EQ(iter2 - iter1, 7);
+	EXPECT_EQ((*iter1).get<0>(), 3);
+	EXPECT_EQ(iter2 - iter1,     7);
 	iter1 -= 3;
-	EXPECT_EQ(iter2 - iter1, 10);
-	EXPECT_EQ(iter2-- - iter1, 10);
-	EXPECT_EQ(iter2++ - iter1, 9);
-	EXPECT_EQ(iter2-- - iter1, 10);
+	EXPECT_EQ((*iter1).get<0>(), 0);
+	EXPECT_EQ(iter2 - iter1,    10);
+	EXPECT_EQ(iter2-- - iter1,  10);
+	EXPECT_EQ(iter2++ - iter1,   9);
+	EXPECT_EQ(iter2-- - iter1,  10);
 
 	auto iter3 = iter2 - 5;
 	auto iter4 = iter3 + 2;
