@@ -7,7 +7,7 @@
 
 namespace BinaryMapping {
 
-struct TupleWeigher {
+struct Weigher {
 	template <
 		typename Tuple,
 		size_t Index    = 0,

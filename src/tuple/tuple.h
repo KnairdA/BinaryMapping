@@ -38,11 +38,11 @@ class Tuple {
 	public:
 		typedef std::tuple<Types...> tuple_type;
 
-		static const size_t size = TupleWeigher::size<relative_tuple>();
+		static const size_t size = Weigher::size<relative_tuple>();
 
 		Tuple(uint8_t*const data):
 			base_ptr_(data),
-			tuple_(TupleMapper::construct<
+			tuple_(Mapper::construct<
 				RelativeTuple,
 				relative_tuple
 			>(
@@ -54,7 +54,7 @@ class Tuple {
 
 		Tuple(const BufferIterator<size>& iter):
 			base_ptr_(iter()),
-			tuple_(TupleMapper::construct<
+			tuple_(Mapper::construct<
 				RelativeTuple,
 				relative_tuple
 			>(
@@ -62,7 +62,7 @@ class Tuple {
 			)) { }
 
 		inline tuple_type get() const {
-			return TupleMapper::construct<
+			return Mapper::construct<
 				ValueTuple<Endianess>,
 				tuple_type
 			>(

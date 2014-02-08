@@ -7,7 +7,7 @@
 
 namespace BinaryMapping {
 
-struct TupleMapper {
+struct Mapper {
 	template <
 		typename Modifier,
 		typename Target,
