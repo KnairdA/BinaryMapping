@@ -91,3 +91,31 @@ TEST_F(TupleTest, Dereference) {
 	EXPECT_EQ(std::get<7>(tuple), INT8_MIN);
 	EXPECT_EQ(std::get<8>(tuple), (BinaryMapping::Raw<3>{1, 2, 3}));
 }
+
+TEST_F(TupleTest, Populate) {
+	typedef std::tuple<
+		uint64_t,
+		uint8_t,
+		uint32_t,
+		uint16_t,
+		int64_t,
+		int32_t,
+		int16_t,
+		int8_t,
+		BinaryMapping::Raw<3>
+	> ValueTuple;
+
+	this->tuple_->set(ValueTuple(
+		1, 2, 3, 4, 5, 6, 7, 8, {3, 2, 1}
+	));
+
+	EXPECT_EQ(this->tuple_->get<0>(), 1);
+	EXPECT_EQ(this->tuple_->get<1>(), 2);
+	EXPECT_EQ(this->tuple_->get<2>(), 3);
+	EXPECT_EQ(this->tuple_->get<3>(), 4);
+	EXPECT_EQ(this->tuple_->get<4>(), 5);
+	EXPECT_EQ(this->tuple_->get<5>(), 6);
+	EXPECT_EQ(this->tuple_->get<6>(), 7);
+	EXPECT_EQ(this->tuple_->get<7>(), 8);
+	EXPECT_EQ(this->tuple_->get<8>(), (BinaryMapping::Raw<3>{3, 2, 1}));
+}

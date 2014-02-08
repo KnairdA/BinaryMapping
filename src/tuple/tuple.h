@@ -5,13 +5,14 @@
 
 #include "utility.h" 
 #include "base_ptr.h"
-
-#include "mapper.h" 
-#include "modifier/relative_tuple.h"
-#include "modifier/value_tuple.h"
+#include "relative_pointer.h" 
 
 #include "weigher.h" 
-#include "relative_pointer.h" 
+#include "mapper.h" 
+#include "setter.h" 
+
+#include "modifier/relative_tuple.h"
+#include "modifier/value_tuple.h"
 
 #include "io/buffer.h" 
 
@@ -84,6 +85,10 @@ class Tuple {
 		template <size_t Index> 
 		inline typename std::add_pointer<type_at<Index>>::type ptr() const {
 			return std::get<Index>(this->tuple_).get();
+		}
+
+		inline void set(const_lvalue_reference<tuple_type> values) {
+			Setter::populate<relative_tuple, tuple_type>(values, this);
 		}
 
 		template <size_t Index>
