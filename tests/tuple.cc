@@ -93,19 +93,7 @@ TEST_F(TupleTest, Dereference) {
 }
 
 TEST_F(TupleTest, Populate) {
-	typedef std::tuple<
-		uint64_t,
-		uint8_t,
-		uint32_t,
-		uint16_t,
-		int64_t,
-		int32_t,
-		int16_t,
-		int8_t,
-		BinaryMapping::Raw<3>
-	> ValueTuple;
-
-	this->tuple_->set(ValueTuple(
+	this->tuple_->set(TestTuple::tuple_type(
 		1, 2, 3, 4, 5, 6, 7, 8, {3, 2, 1}
 	));
 
