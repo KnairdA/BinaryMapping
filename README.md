@@ -22,11 +22,13 @@ Basic usage of this library is documented in the [wiki](https://github.com/Knair
 BinaryMapping::Buffer buffer(100);
 
 BinaryMapping::Container<
-	BinaryMapping::LittleEndian,
-	uint32_t,
-	int16_t,
-	BinaryMapping::Raw<3>,
-	uint8_t
+	BinaryMapping::Tuple<
+		BinaryMapping::LittleEndian,
+		uint32_t,
+		int16_t,
+		BinaryMapping::Raw<3>,
+		uint8_t
+	>
 > container(&buffer);
 
 for ( auto&& tuple : container ) {

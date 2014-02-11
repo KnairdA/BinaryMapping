@@ -6,9 +6,11 @@
 
 class ContainerTest : public ::testing::Test {
 	protected:
-		typedef BinaryMapping::PlainContainer<
-			uint64_t,
-			uint16_t
+		typedef BinaryMapping::Container<
+			BinaryMapping::PlainTuple<
+				uint64_t,
+				uint16_t
+			>
 		> TestContainer;
 
 		virtual void SetUp() {

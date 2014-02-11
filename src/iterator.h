@@ -5,17 +5,14 @@
 
 namespace BinaryMapping {
 
-template<
-	typename Endianess,
-	typename... Types
->
+template <typename Type>
 class Iterator : public std::iterator<std::random_access_iterator_tag,
-                                      Tuple<Endianess, Types...>&,
+                                      Type&,
                                       off_t,
-                                      Tuple<Endianess, Types...>*,
-                                      Tuple<Endianess, Types...>&> {
+                                      Type*,
+                                      Type&> {
 	public:
-		typedef Tuple<Endianess, Types...> tuple_type;
+		typedef Type tuple_type;
 
 		Iterator(Buffer* buffer, BufferIterator<tuple_type::size>&& iter):
 			buffer_(buffer),
@@ -135,7 +132,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		Buffer* const buffer_;
 
 		BufferIterator<tuple_type::size> iter_;
-		Tuple<Endianess, Types...> tuple_;
+		tuple_type tuple_;
 
 		const BufferIterator<tuple_type::size> begin_;
 		const BufferIterator<tuple_type::size> end_;

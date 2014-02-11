@@ -10,14 +10,11 @@
 
 namespace BinaryMapping {
 
-template<
-	typename Endianess,
-	typename... Types
->
+template <typename Type>
 class Container {
 	public:
-		typedef Tuple<Endianess, Types...> tuple_type;
-		typedef Iterator<Endianess, Types...> iterator_type;
+		typedef Type tuple_type;
+		typedef Iterator<Type> iterator_type;
 
 		Container(Buffer* buffer):
 			buffer_(buffer),
@@ -72,9 +69,6 @@ class Container {
 		const size_t tuple_count_;
 
 };
-
-template <typename... Types>
-using PlainContainer = Container<UndefinedEndian, Types...>;
 
 }
 
