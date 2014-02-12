@@ -2,7 +2,7 @@
 #define BINARY_MAPPING_SRC_ENDIANESS_BIG_H_
 
 #include "endian.h"
-#include "utility.h"
+#include "detail/utility.h"
 
 namespace BinaryMapping {
 

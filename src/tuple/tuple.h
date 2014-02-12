@@ -3,9 +3,9 @@
 
 #include <tuple>
 
-#include "utility.h" 
-#include "base_ptr.h"
-#include "relative_pointer.h" 
+#include "detail/utility.h" 
+#include "detail/base_ptr.h"
+#include "detail/relative_pointer.h" 
 
 #include "weigher.h" 
 #include "mapper.h" 

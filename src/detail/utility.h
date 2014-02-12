@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_UTILITY_H_
-#define BINARY_MAPPING_SRC_UTILITY_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_UTILITY_H_
+#define BINARY_MAPPING_SRC_DETAIL_UTILITY_H_
 
 #include <type_traits>
 
@@ -83,4 +83,4 @@ constexpr size_t size_of() {
 
 }
 
-#endif  // BINARY_MAPPING_SRC_UTILITY_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_UTILITY_H_

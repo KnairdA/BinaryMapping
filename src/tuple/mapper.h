@@ -3,7 +3,7 @@
 
 #include <tuple>
 
-#include "utility.h"
+#include "detail/utility.h"
 
 namespace BinaryMapping {
 

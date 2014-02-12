@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_BASE_PTR_H_
-#define BINARY_MAPPING_SRC_TUPLE_BASE_PTR_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
+#define BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
 
 namespace BinaryMapping {
 namespace detail {
@@ -37,4 +37,4 @@ struct BasePtr {
 }
 }
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_BASE_PTR_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
