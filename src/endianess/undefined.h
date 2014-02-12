@@ -8,17 +8,17 @@ namespace BinaryMapping {
 struct UndefinedEndian {
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key toTarget(const_lvalue_reference<Key> number) {
+	static inline Key toTarget(dtl::const_lvalue_reference<Key> number) {
 		return number;
 	}
 
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key toHost(const_lvalue_reference<Key> number) {
+	static inline Key toHost(dtl::const_lvalue_reference<Key> number) {
 		return number;
 	}
 };

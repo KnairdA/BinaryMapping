@@ -12,7 +12,7 @@ struct Weigher {
 		typename Tuple,
 		size_t Index    = 0,
 		size_t Size     = 0,
-		enable_if<Index == std::tuple_size<Tuple>::value> = 0
+		dtl::enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
 	static constexpr size_t size() {
 		return Size;
@@ -22,13 +22,13 @@ struct Weigher {
 		typename Tuple,
 		size_t Index    = 0,
 		size_t Size     = 0,
-		enable_if<Index < std::tuple_size<Tuple>::value> = 0
+		dtl::enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
 	static constexpr size_t size() { 
 		return size<
 			Tuple,
 			Index + 1,
-			Size  + size_of<
+			Size  + dtl::size_of<
 				typename std::tuple_element<Index, Tuple>::type::element_type
 			>()
 		>();

@@ -9,23 +9,23 @@ template <class Endianess>
 struct OutOfPlaceSorter {
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key mix(const_lvalue_reference<Key> number) {
+	static inline Key mix(dtl::const_lvalue_reference<Key> number) {
 		return Endianess::template toTarget<Key>(number);
 	}
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value> = 0
+		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
-	static inline Custom mix(const_lvalue_reference<Custom> tmp) {
+	static inline Custom mix(dtl::const_lvalue_reference<Custom> tmp) {
 		return tmp;
 	}
 
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
 	static inline Key sort(
 		typename std::add_pointer<Key>::type buffer
@@ -35,7 +35,7 @@ struct OutOfPlaceSorter {
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value> = 0
+		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
 	static inline Custom sort(
 		typename std::add_pointer<Custom>::type buffer
@@ -45,7 +45,7 @@ struct OutOfPlaceSorter {
 
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
 	static inline Key sort(Key number) {
 		return Endianess::template toHost<Key>(number);
@@ -53,7 +53,7 @@ struct OutOfPlaceSorter {
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value> = 0
+		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
 	static inline Custom sort(Custom tmp) {
 		return tmp;

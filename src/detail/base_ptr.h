@@ -2,7 +2,7 @@
 #define BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
 
 namespace BinaryMapping {
-namespace detail {
+namespace dtl {
 
 struct BasePtr {
 	enum class Tag : uint8_t {

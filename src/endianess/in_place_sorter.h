@@ -9,29 +9,29 @@ template <class Endianess>
 struct InPlaceSorter {
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
 	static inline void mix(
 		typename std::add_pointer<Key>::type buffer,
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		*buffer = Endianess::template toTarget<Key>(number);
 	}
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value> = 0
+		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
 	static inline void mix(
 		typename std::add_pointer<Custom>::type buffer,
-		const_lvalue_reference<Custom> tmp
+		dtl::const_lvalue_reference<Custom> tmp
 	) {
 		*buffer = tmp;
 	}
 
 	template <
 		typename Key,
-		enable_if<std::is_integral<Key>::value> = 0
+		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
 	static inline void sort(
 		typename std::add_pointer<Key>::type buffer
@@ -41,7 +41,7 @@ struct InPlaceSorter {
 
 	template <
 		typename Custom,
-		enable_if<is_custom_serializable<Custom>::value> = 0
+		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
 	static inline void sort(
 		typename std::add_pointer<Custom>::type

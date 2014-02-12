@@ -4,30 +4,29 @@
 #include <type_traits>
 
 namespace BinaryMapping {
+namespace dtl {
 
-namespace detail {
-	template <
-		typename Type,
-		typename Check
-	>
-	using check_if_class = typename std::conditional<
-		std::is_class<Type>::value,
-		Check,
-		std::integral_constant<bool, false>
-	>::type;
+template <
+	typename Type,
+	typename Check
+>
+using check_if_class = typename std::conditional<
+	std::is_class<Type>::value,
+	Check,
+	std::integral_constant<bool, false>
+>::type;
 
-	template <typename Type>
-	struct has_data_member : std::integral_constant<
-		bool,
-		std::is_pod<decltype(Type:: data)>::value
-	> { };
+template <typename Type>
+struct has_data_member : std::integral_constant<
+	bool,
+	std::is_pod<decltype(Type:: data)>::value
+> { };
 
-	template <typename Type>
-	struct has_size_member : std::integral_constant<
-		bool,
-		std::is_same<decltype(Type::size), const size_t>::value
-	> { };
-}
+template <typename Type>
+struct has_size_member : std::integral_constant<
+	bool,
+	std::is_same<decltype(Type::size), const size_t>::value
+> { };
 
 template <typename Type>
 using const_lvalue_reference = typename std::add_lvalue_reference<
@@ -50,18 +49,18 @@ struct either : std::integral_constant<
 template <typename Type>
 struct is_custom_serializable : std::integral_constant<
 	bool,
-	detail::check_if_class<
+	check_if_class<
 		Type,
-		detail::has_data_member<Type>
+		has_data_member<Type>
 	>::value
 > { };
 
 template <typename Type>
 struct provides_own_size : std::integral_constant<
 	bool,
-	detail::check_if_class<
+	check_if_class<
 		Type,
-		detail::has_size_member<Type>
+		has_size_member<Type>
 	>::value
 > { };
 
@@ -81,6 +80,7 @@ constexpr size_t size_of() {
 	return sizeof(Type);
 }
 
+}
 }
 
 #endif  // BINARY_MAPPING_SRC_DETAIL_UTILITY_H_

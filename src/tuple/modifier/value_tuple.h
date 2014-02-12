@@ -30,7 +30,7 @@ struct ValueTuple {
 		size_t Index
 	>
 	static constexpr size_t size() {
-		return size_of<
+		return dtl::size_of<
 			typename std::tuple_element<Index, Target>::type
 		>();
 	}

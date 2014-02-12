@@ -28,7 +28,7 @@ template <
 	typename... Types
 >
 class Tuple {
-	typedef std::tuple<RelativePointer<uint8_t, Types>...> relative_tuple;
+	typedef std::tuple<dtl::RelativePointer<uint8_t, Types>...> relative_tuple;
 
 	template <size_t Index>
 	using type_at = typename std::tuple_element<
@@ -87,7 +87,7 @@ class Tuple {
 			return std::get<Index>(this->tuple_).get();
 		}
 
-		inline void set(const_lvalue_reference<tuple_type> values) {
+		inline void set(dtl::const_lvalue_reference<tuple_type> values) {
 			Setter<Endianess>::template populate<
 				relative_tuple,
 				tuple_type
@@ -95,7 +95,7 @@ class Tuple {
 		}
 
 		template <size_t Index>
-		inline void set(const_lvalue_reference<type_at<Index>> value) {
+		inline void set(dtl::const_lvalue_reference<type_at<Index>> value) {
 			InPlaceSorter<Endianess>::template mix<
 				type_at<Index>
 			>(
@@ -125,7 +125,7 @@ class Tuple {
 		}
 
 	protected:
-		const detail::BasePtr base_ptr_;
+		const dtl::BasePtr base_ptr_;
 		const relative_tuple tuple_;
 
 };

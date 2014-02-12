@@ -4,6 +4,7 @@
 #include "utility.h"
 
 namespace BinaryMapping {
+namespace dtl {
 
 template<
 	typename Base,
@@ -58,6 +59,7 @@ class RelativePointer {
 		const off_t offset_;
 };
 
+}
 }
 
 #endif  // BINARY_MAPPING_SRC_DETAIL_RELATIVE_POINTER_H_

@@ -9,80 +9,80 @@ namespace BinaryMapping {
 struct BigEndian {
 	template <
 		typename Key,
-		enable_if<either<Key, uint64_t, int64_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint64_t, int64_t>::value> = 0
 	>
 	static inline Key toTarget(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return htobe64(number);
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint32_t, int32_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint32_t, int32_t>::value> = 0
 	>
 	static inline Key toTarget(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return htobe32(number);
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint16_t, int16_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint16_t, int16_t>::value> = 0
 	>
 	static inline Key toTarget(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return htobe16(number);
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint8_t, int8_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint8_t, int8_t>::value> = 0
 	>
 	static inline Key toTarget(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return number;
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint64_t, int64_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint64_t, int64_t>::value> = 0
 	>
 	static inline Key toHost(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return be64toh(number);
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint32_t, int32_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint32_t, int32_t>::value> = 0
 	>
 	static inline Key toHost(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return be32toh(number);
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint16_t, int16_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint16_t, int16_t>::value> = 0
 	>
 	static inline Key toHost(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return be16toh(number);
 	}
 
 	template <
 		typename Key,
-		enable_if<either<Key, uint8_t, int8_t>::value> = 0
+		dtl::enable_if<dtl::either<Key, uint8_t, int8_t>::value> = 0
 	>
 	static inline Key toHost(
-		const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key> number
 	) {
 		return number;
 	}

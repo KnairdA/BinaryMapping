@@ -11,7 +11,7 @@ struct Setter {
 		typename Target,
 		typename Source,
 		size_t Index     = 0,
-		enable_if<Index  == std::tuple_size<Source>::value> = 0
+		dtl::enable_if<Index  == std::tuple_size<Source>::value> = 0
 	>
 	static inline void populate(const Source&, const Target&) { }
 
@@ -19,7 +19,7 @@ struct Setter {
 		typename Target,
 		typename Source,
 		size_t Index     = 0,
-		enable_if<Index  < std::tuple_size<Source>::value> = 0
+		dtl::enable_if<Index  < std::tuple_size<Source>::value> = 0
 	>
 	static inline void populate(
 		const Source& source,
