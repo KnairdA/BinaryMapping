@@ -9,7 +9,7 @@ namespace BinaryMapping {
 struct LittleEndian {
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint64_t, int64_t>::value> = 0
+		dtl::enable_if_either<Key, uint64_t, int64_t> = 0
 	>
 	static inline Key toTarget(
 		dtl::const_lvalue_reference<Key> number
@@ -19,7 +19,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint32_t, int32_t>::value> = 0
+		dtl::enable_if_either<Key, uint32_t, int32_t> = 0
 	>
 	static inline Key toTarget(
 		dtl::const_lvalue_reference<Key> number
@@ -29,7 +29,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint16_t, int16_t>::value> = 0
+		dtl::enable_if_either<Key, uint16_t, int16_t> = 0
 	>
 	static inline Key toTarget(
 		dtl::const_lvalue_reference<Key> number
@@ -39,7 +39,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint8_t, int8_t>::value> = 0
+		dtl::enable_if_either<Key, uint8_t, int8_t> = 0
 	>
 	static inline Key toTarget(
 		dtl::const_lvalue_reference<Key> number
@@ -49,7 +49,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint64_t, int64_t>::value> = 0
+		dtl::enable_if_either<Key, uint64_t, int64_t> = 0
 	>
 	static inline Key toHost(
 		dtl::const_lvalue_reference<Key> number
@@ -59,7 +59,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint32_t, int32_t>::value> = 0
+		dtl::enable_if_either<Key, uint32_t, int32_t> = 0
 	>
 	static inline Key toHost(
 		dtl::const_lvalue_reference<Key> number
@@ -69,7 +69,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint16_t, int16_t>::value> = 0
+		dtl::enable_if_either<Key, uint16_t, int16_t> = 0
 	>
 	static inline Key toHost(
 		dtl::const_lvalue_reference<Key> number
@@ -79,7 +79,7 @@ struct LittleEndian {
 
 	template <
 		typename Key,
-		dtl::enable_if<dtl::either<Key, uint8_t, int8_t>::value> = 0
+		dtl::enable_if_either<Key, uint8_t, int8_t> = 0
 	>
 	static inline Key toHost(
 		dtl::const_lvalue_reference<Key> number

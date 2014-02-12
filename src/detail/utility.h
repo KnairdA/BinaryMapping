@@ -46,6 +46,13 @@ struct either : std::integral_constant<
 	std::is_same<Type, TypeA>::value || std::is_same<Type, TypeB>::value
 > { };
 
+template <
+	typename Type,
+	typename TypeA,
+	typename TypeB
+>
+using enable_if_either = enable_if<either<Type, TypeA, TypeB>::value>;
+
 template <typename Type>
 struct is_custom_serializable : std::integral_constant<
 	bool,
