@@ -3,124 +3,97 @@
 
 #include <iterator>
 
+#include "detail/comparable.h"
+
 namespace BinaryMapping {
 
 template <size_t Size>
-class BufferIterator : public std::iterator<std::random_access_iterator_tag,
-                                            uint8_t*,
-                                            off_t,
-                                            uint8_t**,
-                                            uint8_t*&> {
-	public:
-		BufferIterator(uint8_t* buffer):
-			index_ptr_(buffer) { }
+struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
+                                             uint8_t*,
+                                             off_t,
+                                             uint8_t**,
+                                             uint8_t*&>,
+                        public dtl::Comparable<uint8_t*> {
+	using Comparable<uint8_t*>::Comparable;
 
-		inline bool operator==(const BufferIterator& src) const {
-			return this->index_ptr_ == src.index_ptr_;
-		}
+	inline uint8_t* operator*() const {
+		return this->index_;
+	}
 
-		inline bool operator!=(const BufferIterator& src) const {
-			return !(*this == src);
-		}
+	inline uint8_t*const* operator()() const {
+		return &this->index_;
+	}
 
-		inline bool operator<(const BufferIterator& src) const {
-			return this->index_ptr_ < src.index_ptr_;
-		}
+	inline BufferIterator& operator++() {
+		this->index_ += Size;
 
-		inline bool operator>(const BufferIterator& src) const {
-			return this->index_ptr_ > src.index_ptr_;
-		}
+		return *this;
+	}
 
-		inline bool operator<=(const BufferIterator& src) const {
-			return !this->operator>(src);
-		}
+	inline BufferIterator operator++(int) {
+		BufferIterator tmp(*this);
 
-		inline bool operator>=(const BufferIterator& src) const {
-			return !this->operator<(src);
-		}
+		this->operator++();
 
-		inline uint8_t* operator*() const {
-			return this->index_ptr_;
-		}
+		return tmp;
+	}
 
-		inline uint8_t*const* operator()() const {
-			return &this->index_ptr_;
-		}
+	inline BufferIterator& operator--() {
+		this->index_ -= Size;
 
-		inline BufferIterator& operator++() {
-			this->index_ptr_ += Size;
+		return *this;
+	}
 
-			return *this;
-		}
+	inline BufferIterator operator--(int) {
+		BufferIterator tmp(*this);
 
-		inline BufferIterator operator++(int) {
-			BufferIterator tmp(*this);
+		this->operator--();
 
-			this->operator++();
+		return tmp;
+	}
 
-			return tmp;
-		}
+	inline BufferIterator& operator+=(off_t offset) {
+		this->index_ += offset * Size;
 
-		inline BufferIterator& operator--() {
-			this->index_ptr_ -= Size;
+		return *this;
+	}
 
-			return *this;
-		}
+	inline BufferIterator& operator-=(off_t offset) {
+		this->index_ -= offset * Size;
 
-		inline BufferIterator operator--(int) {
-			BufferIterator tmp(*this);
+		return *this;
+	}
 
-			this->operator--();
+	inline BufferIterator operator+(off_t offset) const {
+		BufferIterator tmpIter(*this);
+		tmpIter += offset;
 
-			return tmp;
-		}
+		return tmpIter;
+	}
 
-		inline BufferIterator& operator+=(off_t offset) {
-			this->index_ptr_ += offset * Size;
+	inline off_t operator-(const BufferIterator& src) const {
+		return ( this->index_ - src.index_ ) / Size;
+	}
 
-			return *this;
-		}
+	inline BufferIterator operator-(off_t offset) const {
+		BufferIterator tmpIter(*this);
+		tmpIter -= offset;
 
-		inline BufferIterator& operator-=(off_t offset) {
-			this->index_ptr_ -= offset * Size;
+		return tmpIter;
+	}
 
-			return *this;
-		}
+	inline BufferIterator operator[](off_t offset) const {
+		return *(this->operator+(offset));
+	}
 
-		inline BufferIterator operator+(off_t offset) const {
-			BufferIterator tmpIter(*this);
-			tmpIter += offset;
+	friend inline BufferIterator operator+(
+		off_t offset,
+		const BufferIterator& src) {
+		BufferIterator tmpIter(src);
+		tmpIter += offset;
 
-			return tmpIter;
-		}
-
-		inline off_t operator-(const BufferIterator& src) const {
-			return ( this->index_ptr_ - src.index_ptr_ ) / Size;
-		}
-
-		inline BufferIterator operator-(off_t offset) const {
-			BufferIterator tmpIter(*this);
-			tmpIter -= offset;
-
-			return tmpIter;
-		}
-
-		inline BufferIterator operator[](off_t offset) const {
-			return *(this->operator+(offset));
-		}
-
-		friend inline BufferIterator operator+(
-			off_t offset,
-			const BufferIterator& src) {
-			BufferIterator tmpIter(src);
-			tmpIter += offset;
-
-			return tmpIter;
-		}
-
-	private:
-		uint8_t* index_ptr_;
-
+		return tmpIter;
+	}
 };
 
 }

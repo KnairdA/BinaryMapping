@@ -3,6 +3,8 @@
 
 #include <iterator>
 
+#include "detail/comparable.h"
+
 namespace BinaryMapping {
 
 template <typename Type>
@@ -10,48 +12,27 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       Type&,
                                       off_t,
                                       Type*,
-                                      Type&> {
+                                      Type&>,
+                 public dtl::Comparable<BufferIterator<Type::size>> {
 	public:
 		typedef Type tuple_type;
 
 		Iterator(Buffer* buffer, BufferIterator<tuple_type::size>&& iter):
+			dtl::Comparable<BufferIterator<tuple_type::size>>(
+				std::move(iter)
+			),
 			buffer_(buffer),
-			iter_(  std::move(iter)),
-			tuple_( iter_),
-			begin_( buffer_->begin<tuple_type::size>()),
-			end_(   buffer_->end<tuple_type::size>()) { }
-
-		inline bool operator==(const Iterator& src) const {
-			return this->iter_  == src.iter_;
-		}
-
-		inline bool operator!=(const Iterator& src) const {
-			return !(*this == src);
-		}
-
-		inline bool operator<(const Iterator& src) const {
-			return this->iter_ < src.iter_;
-		}
-
-		inline bool operator>(const Iterator& src) const {
-			return this->iter_ > src.iter_;
-		}
-
-		inline bool operator<=(const Iterator& src) const {
-			return !this->operator>(src);
-		}
-
-		inline bool operator>=(const Iterator& src) const {
-			return !this->operator<(src);
-		}
+			tuple_(this->index_),
+			begin_(buffer_->begin<tuple_type::size>()),
+			end_(buffer_->end<tuple_type::size>()) { }
 
 		inline tuple_type& operator*() {
 			return this->tuple_;
 		}
 
 		inline Iterator& operator++() {
-			if ( this->iter_ < this->end_ ) {
-				++this->iter_;
+			if ( this->index_ < this->end_ ) {
+				++this->index_;
 			}
 
 			return *this;
@@ -66,8 +47,8 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator& operator--() {
-			if ( this->iter_ > this->begin_ ) {
-				--this->iter_;
+			if ( this->index_ > this->begin_ ) {
+				--this->index_;
 			}
 
 			return *this;
@@ -82,16 +63,16 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator& operator+=(off_t offset) {
-			if ( this->iter_ + offset < this->end_ ) {
-				this->iter_ += offset;
+			if ( this->index_ + offset < this->end_ ) {
+				this->index_ += offset;
 			}
 
 			return *this;
 		}
 
 		inline Iterator& operator-=(off_t offset) {
-			if ( this->iter_ - offset >= this->begin_ ) {
-				this->iter_ -= offset;
+			if ( this->index_ - offset >= this->begin_ ) {
+				this->index_ -= offset;
 			}
 
 			return *this;
@@ -105,7 +86,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline off_t operator-(const Iterator& src) const {
-			return this->iter_ - src.iter_;
+			return this->index_ - src.index_;
 		}
 
 		inline Iterator operator-(off_t offset) const {
@@ -130,8 +111,6 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 	private:
 		Buffer* const buffer_;
-
-		BufferIterator<tuple_type::size> iter_;
 		tuple_type tuple_;
 
 		const BufferIterator<tuple_type::size> begin_;
