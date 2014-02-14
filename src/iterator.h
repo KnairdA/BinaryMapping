@@ -21,10 +21,10 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			dtl::Comparable<BufferIterator<tuple_type::size>>(
 				std::move(iter)
 			),
+			tuple_(this->index_.ptr()),
 			buffer_(buffer),
-			tuple_(this->index_),
-			begin_(buffer_->begin<tuple_type::size>()),
-			end_(buffer_->end<tuple_type::size>()) { }
+			begin_( buffer_->begin<tuple_type::size>()),
+			end_(   buffer_->end<tuple_type::size>()) { }
 
 		inline tuple_type& operator*() {
 			return this->tuple_;
@@ -110,8 +110,8 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 	private:
-		Buffer* const buffer_;
 		tuple_type tuple_;
+		Buffer* const buffer_;
 
 		const BufferIterator<tuple_type::size> begin_;
 		const BufferIterator<tuple_type::size> end_;

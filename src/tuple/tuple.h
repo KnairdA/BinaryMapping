@@ -50,17 +50,17 @@ class Tuple {
 				this->base_ptr_.get()
 			)) { }
 
-		Tuple(Buffer* buffer):
-			Tuple(buffer->front()) { }
-
-		Tuple(const BufferIterator<size>& iter):
-			base_ptr_(iter()),
+		Tuple(uint8_t*const* data):
+			base_ptr_(data),
 			tuple_(Mapper::construct<
 				RelativeTuple,
 				relative_tuple
 			>(
 				this->base_ptr_.get()
 			)) { }
+
+		Tuple(Buffer* buffer):
+			Tuple(buffer->front()) { }
 
 		inline tuple_type get() const {
 			return Mapper::construct<

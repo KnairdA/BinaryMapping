@@ -20,7 +20,7 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 		return this->index_;
 	}
 
-	inline uint8_t*const* operator()() const {
+	inline uint8_t*const* ptr() const {
 		return &this->index_;
 	}
 

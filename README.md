@@ -47,7 +47,7 @@ If you are interested in further details of the usage of all features provided b
 
 ## Building
 
-As the BinaryMapping library is a header only library in can only be built in conjunction with the code which is making use of it.
+As the BinaryMapping library is a header only library it can only be built in conjunction with the code which is making use of it.
 The GoogleTest based test cases of BinaryMapping are using CMake as a build system and can be cloned and compiled as follows:
 
 ```
