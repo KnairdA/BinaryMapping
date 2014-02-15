@@ -87,39 +87,6 @@ constexpr size_t size_of() {
 	return sizeof(Type);
 }
 
-template <
-	bool   Condition,
-	size_t ValueA,
-	size_t ValueB
->
-using conditional_value = typename std::conditional<
-	Condition,
-	std::integral_constant<
-		size_t,
-		ValueA
-	>,
-	std::integral_constant<
-		size_t,
-		ValueB
-	>
->::type;
-
-template <size_t Value>
-using is_aligned = std::integral_constant<
-	bool,
-	Value % 8 == 0
->;
-
-template <size_t Size>
-using round_to_byte = std::integral_constant<
-	size_t,
-	Size / 8 + conditional_value<
-		is_aligned<Size>::value,
-		0,
-		1
-	>::value
->;
-
 }
 }
 

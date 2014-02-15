@@ -20,7 +20,7 @@ add_executable(
 	tests/tuple.cc
 	tests/endianess.cc
 	tests/container.cc
-	tests/bitmap.cc
+	tests/bit_field.cc
 )
 
 target_link_libraries(
