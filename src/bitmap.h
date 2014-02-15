@@ -22,13 +22,44 @@ struct BitMap : public Raw<
 		);
 	}
 
-	inline bool at(size_t index) const {
+	inline bool get(size_t index) const {
 		if ( index < bit_size ) {
 			return this->operator[](index);
 		} else {
 			throw std::out_of_range("range_violated");
 		}
 	}
+
+	inline void set(size_t index) {
+		if ( index < bit_size ) {
+			this->data[index / 8] |= (
+				1 << (7 - index % 8)
+			);
+		} else {
+			throw std::out_of_range("range_violated");
+		}
+	}
+
+	inline void reset(size_t index) {
+		if ( index < bit_size ) {
+			this->data[index / 8] &= (
+				~(1 << (7 - index % 8))
+			);
+		} else {
+			throw std::out_of_range("range_violated");
+		}
+	}
+
+	inline void toggle(size_t index) {
+		if ( index < bit_size ) {
+			this->data[index / 8] ^= (
+				1 << (7 - index % 8)
+			);
+		} else {
+			throw std::out_of_range("range_violated");
+		}
+	}
+
 };
 
 }
