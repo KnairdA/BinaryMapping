@@ -14,11 +14,6 @@ struct BitField {
 
 	std::array<uint8_t, Size> data;
 
-	BitField(BitField&&)                 = default;
-	BitField(BitField&)                  = default;
-	BitField(const BitField&)            = default;
-	BitField& operator=(const BitField&) = default;
-
 	template <typename... Bytes>
 	BitField(Bytes&&... bytes):
 		data{ std::forward<Bytes>(bytes)... } { }
@@ -32,6 +27,11 @@ struct BitField {
 			this->data.begin()
 		);
 	}
+
+	BitField(BitField&&)                 = default;
+	BitField(BitField&)                  = default;
+	BitField(const BitField&)            = default;
+	BitField& operator=(const BitField&) = default;
 
 	inline bool operator==(dtl::const_lvalue_reference<BitField> tmp) const {
 		return this->data == tmp.data;
@@ -48,41 +48,27 @@ struct BitField {
 	}
 
 	inline bool get(size_t index) const {
-		if ( index < bit_size ) {
-			return this->operator[](index);
-		} else {
-			throw std::out_of_range("range_violated");
-		}
+		return this->data.at(index / 8) & (
+			1 << (7 - index % 8)
+		);
 	}
 
 	inline void set(size_t index) {
-		if ( index < bit_size ) {
-			this->data[index / 8] |= (
-				1 << (7 - index % 8)
-			);
-		} else {
-			throw std::out_of_range("range_violated");
-		}
+		this->data.at(index / 8) |= (
+			1 << (7 - index % 8)
+		);
 	}
 
 	inline void reset(size_t index) {
-		if ( index < bit_size ) {
-			this->data[index / 8] &= (
-				~(1 << (7 - index % 8))
-			);
-		} else {
-			throw std::out_of_range("range_violated");
-		}
+		this->data.at(index / 8) &= (
+			~(1 << (7 - index % 8))
+		);
 	}
 
 	inline void toggle(size_t index) {
-		if ( index < bit_size ) {
-			this->data[index / 8] ^= (
-				1 << (7 - index % 8)
-			);
-		} else {
-			throw std::out_of_range("range_violated");
-		}
+		this->data.at(index / 8) ^= (
+			1 << (7 - index % 8)
+		);
 	}
 
 };
