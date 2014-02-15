@@ -34,4 +34,6 @@ TEST_F(BitmapTest, Check) {
 	EXPECT_FALSE(test.at(7));
 	EXPECT_TRUE( test.at(8));
 	EXPECT_FALSE(test.at(9));
+
+	EXPECT_THROW(test.at(10), std::out_of_range);
 }

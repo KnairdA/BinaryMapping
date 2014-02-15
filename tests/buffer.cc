@@ -27,6 +27,9 @@ TEST_F(BufferTest, Basic) {
 	EXPECT_EQ(this->buffer_->at(4),                   this->buffer_->front() + sizeof(uint32_t));
 
 	EXPECT_EQ((*this->buffer_)[4], this->buffer_->front() + sizeof(uint32_t));
+
+	EXPECT_THROW(this->buffer_->at<sizeof(uint32_t)>(10), std::out_of_range);
+	EXPECT_THROW(this->buffer_->at(40),                   std::out_of_range);
 }
 
 TEST_F(BufferTest, Iterator) {

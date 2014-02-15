@@ -44,6 +44,8 @@ TEST_F(ContainerTest, Basic) {
 		EXPECT_EQ(this->container_->at(i).get<0>(), i);
 		EXPECT_EQ((*this->container_)[i].get<1>(),  i);
 	}
+
+	EXPECT_THROW(this->container_->at(10), std::out_of_range);
 }
 
 TEST_F(ContainerTest, Iterator) {
