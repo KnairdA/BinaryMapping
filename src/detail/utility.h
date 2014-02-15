@@ -41,10 +41,10 @@ template <
 	typename TypeA,
 	typename TypeB
 >
-struct either : std::integral_constant<
+using either = std::integral_constant<
 	bool,
 	std::is_same<Type, TypeA>::value || std::is_same<Type, TypeB>::value
-> { };
+>;
 
 template <
 	typename Type,
@@ -54,22 +54,22 @@ template <
 using enable_if_either = enable_if<either<Type, TypeA, TypeB>::value>;
 
 template <typename Type>
-struct is_custom_serializable : std::integral_constant<
+using is_custom_serializable = std::integral_constant<
 	bool,
 	check_if_class<
 		Type,
 		has_data_member<Type>
 	>::value
-> { };
+>;
 
 template <typename Type>
-struct provides_own_size : std::integral_constant<
+using provides_own_size = std::integral_constant<
 	bool,
 	check_if_class<
 		Type,
 		has_size_member<Type>
 	>::value
-> { };
+>;
 
 template <
 	typename Type,
