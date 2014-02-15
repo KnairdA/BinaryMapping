@@ -65,21 +65,17 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 	}
 
 	inline BufferIterator operator+(off_t offset) const {
-		BufferIterator tmpIter(*this);
-		tmpIter += offset;
-
-		return tmpIter;
+		return BufferIterator(*this) += offset;
 	}
 
-	inline off_t operator-(const BufferIterator& src) const {
+	inline off_t operator-(
+		dtl::const_lvalue_reference<BufferIterator> src
+	) const {
 		return ( this->index_ - src.index_ ) / Size;
 	}
 
 	inline BufferIterator operator-(off_t offset) const {
-		BufferIterator tmpIter(*this);
-		tmpIter -= offset;
-
-		return tmpIter;
+		return BufferIterator(*this) -= offset;
 	}
 
 	inline BufferIterator operator[](off_t offset) const {
@@ -88,11 +84,9 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 
 	friend inline BufferIterator operator+(
 		off_t offset,
-		const BufferIterator& src) {
-		BufferIterator tmpIter(src);
-		tmpIter += offset;
-
-		return tmpIter;
+		dtl::const_lvalue_reference<BufferIterator> src
+	) {
+		return BufferIterator(src) += offset;
 	}
 };
 

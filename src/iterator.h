@@ -18,13 +18,11 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		typedef Type tuple_type;
 
 		Iterator(Buffer* buffer, BufferIterator<tuple_type::size>&& iter):
-			dtl::Comparable<BufferIterator<tuple_type::size>>(
-				std::move(iter)
-			),
+			dtl::Comparable<BufferIterator<tuple_type::size>>(iter),
 			tuple_(this->index_.ptr()),
 			buffer_(buffer),
-			begin_( buffer_->begin<tuple_type::size>()),
-			end_(   buffer_->end<tuple_type::size>()) { }
+			begin_(buffer_->begin<tuple_type::size>()),
+			end_(buffer_->end<tuple_type::size>()) { }
 
 		inline tuple_type& operator*() {
 			return this->tuple_;
@@ -79,21 +77,17 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator operator+(off_t offset) const {
-			Iterator tmpIter(*this);
-			tmpIter += offset;
-
-			return tmpIter;
+			return Iterator(*this) += offset;
 		}
 
-		inline off_t operator-(const Iterator& src) const {
+		inline off_t operator-(
+			dtl::const_lvalue_reference<Iterator> src
+		) const {
 			return this->index_ - src.index_;
 		}
 
 		inline Iterator operator-(off_t offset) const {
-			Iterator tmpIter(*this);
-			tmpIter -= offset;
-
-			return tmpIter;
+			return Iterator(*this) -= offset;
 		}
 
 		inline Iterator operator[](off_t offset) const {
@@ -102,11 +96,9 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		friend inline Iterator operator+(
 			off_t offset,
-			const Iterator& src) {
-			Iterator tmpIter(src);
-			tmpIter += offset;
-
-			return tmpIter;
+			dtl::const_lvalue_reference<Iterator> src
+		) {
+			return Iterator(src) += offset;
 		}
 
 	private:
