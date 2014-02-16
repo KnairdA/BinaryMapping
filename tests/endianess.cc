@@ -3,9 +3,9 @@
 #include <memory>
 
 #include "tuple/tuple.h"
+#include "custom/bit_field.h"
 #include "endianess/little.h"
 #include "endianess/big.h"
-#include "bit_field.h"
 
 class EndianTest : public ::testing::Test {
 	protected:

@@ -1,45 +1,17 @@
 #ifndef BINARY_MAPPING_SRC_BIT_FIELD_H_
 #define BINARY_MAPPING_SRC_BIT_FIELD_H_
 
-#include <array>
 #include <algorithm>
 
-#include "detail/utility.h"
+#include "custom_serializable.h"
 
 namespace BinaryMapping {
 
 template <size_t Size>
-struct BitField {
+struct BitField : public CustomSerializable<Size> {
 	static const size_t size = Size * 8;
 
-	std::array<uint8_t, Size> bytes;
-
-	template <typename... Bytes>
-	BitField(Bytes&&... bytes):
-		bytes{ std::forward<Bytes>(bytes)... } { }
-
-	BitField(const std::initializer_list<uint8_t>&& tmp) {
-		assert(tmp.size() == Size);
-
-		std::copy(
-			tmp.begin(),
-			tmp.end(),
-			this->bytes.begin()
-		);
-	}
-
-	BitField(BitField&&)                 = default;
-	BitField(BitField&)                  = default;
-	BitField(const BitField&)            = default;
-	BitField& operator=(const BitField&) = default;
-
-	inline bool operator==(dtl::const_lvalue_reference<BitField> tmp) const {
-		return this->bytes == tmp.bytes;
-	}
-
-	inline bool operator!=(dtl::const_lvalue_reference<BitField> tmp) const {
-		return !this->operator==(tmp);
-	}
+	using CustomSerializable<Size>::CustomSerializable;
 
 	inline bool operator[](size_t index) const {
 		return this->bytes[index / 8] & (
