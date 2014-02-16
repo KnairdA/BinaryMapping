@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_BIT_FIELD_H_
-#define BINARY_MAPPING_SRC_BIT_FIELD_H_
+#ifndef BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_
+#define BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_
 
 #include <algorithm>
 
@@ -13,10 +13,14 @@ struct BitField : public CustomSerializable<Size> {
 
 	using CustomSerializable<Size>::CustomSerializable;
 
+	class reference;
+
+	inline reference operator[](size_t index) {
+		return reference(*this, index);
+	}
+
 	inline bool operator[](size_t index) const {
-		return this->bytes[index / 8] & (
-			1 << (7 - index % 8)
-		);
+		return this->test(index);
 	}
 
 	inline bool test(size_t index) const {
@@ -25,10 +29,14 @@ struct BitField : public CustomSerializable<Size> {
 		);
 	}
 
-	inline void set(size_t index) {
-		this->bytes.at(index / 8) |= (
-			1 << (7 - index % 8)
-		);
+	inline void set(size_t index, bool value = true) {
+		if ( value ) {
+			this->bytes.at(index / 8) |= (
+				1 << (7 - index % 8)
+			);
+		} else {
+			this->reset(index);
+		}
 	}
 
 	inline void reset(size_t index) {
@@ -76,4 +84,6 @@ struct BitField : public CustomSerializable<Size> {
 
 }
 
-#endif  // BINARY_MAPPING_SRC_BIT_FIELD_H_
+#include "bit_field_reference.h"
+
+#endif  // BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_

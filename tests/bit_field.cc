@@ -103,3 +103,14 @@ TEST_F(BitFieldTest, Flip) {
 
 	EXPECT_THROW(this->bit_field_.flip(16), std::out_of_range);
 }
+
+TEST_F(BitFieldTest, Reference) {
+	this->bit_field_[1].flip();
+
+	EXPECT_TRUE(this->bit_field_.test(1));
+	EXPECT_FALSE(~this->bit_field_[1]);
+
+	this->bit_field_[2] = false;
+
+	EXPECT_FALSE(this->bit_field_.test(2));
+}
