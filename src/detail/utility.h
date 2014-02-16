@@ -6,28 +6,6 @@
 namespace BinaryMapping {
 namespace dtl {
 
-template <
-	typename Type,
-	typename Check
->
-using check_if_class = typename std::conditional<
-	std::is_class<Type>::value,
-	Check,
-	std::integral_constant<bool, false>
->::type;
-
-template <typename Type>
-struct has_data_member : std::integral_constant<
-	bool,
-	std::is_pod<decltype(Type:: data)>::value
-> { };
-
-template <typename Type>
-struct has_size_member : std::integral_constant<
-	bool,
-	std::is_same<decltype(Type::size), const size_t>::value
-> { };
-
 template <typename Type>
 using const_lvalue_reference = typename std::add_lvalue_reference<
 	typename std::add_const<Type>::type
@@ -53,6 +31,22 @@ template <
 >
 using enable_if_either = enable_if<either<Type, TypeA, TypeB>::value>;
 
+template <
+	typename Type,
+	typename Check
+>
+using check_if_class = typename std::conditional<
+	std::is_class<Type>::value,
+	Check,
+	std::integral_constant<bool, false>
+>::type;
+
+template <typename Type>
+struct has_data_member : std::integral_constant<
+	bool,
+	std::is_pod<decltype(Type:: bytes)>::value
+> { };
+
 template <typename Type>
 using is_custom_serializable = std::integral_constant<
 	bool,
@@ -62,26 +56,17 @@ using is_custom_serializable = std::integral_constant<
 	>::value
 >;
 
-template <typename Type>
-using provides_own_size = std::integral_constant<
-	bool,
-	check_if_class<
-		Type,
-		has_size_member<Type>
-	>::value
->;
-
 template <
 	typename Type,
-	enable_if<provides_own_size<Type>::value> = 0
+	enable_if<is_custom_serializable<Type>::value> = 0
 >
 constexpr size_t size_of() {
-	return Type::size;
+	return std::tuple_size<decltype(Type:: bytes)>::value;
 }
 
 template <
 	typename Type,
-	enable_if<std::is_integral<Type>::value> = 0
+	enable_if<std::is_pod<Type>::value> = 0
 >
 constexpr size_t size_of() {
 	return sizeof(Type);
