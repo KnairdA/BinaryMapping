@@ -53,22 +53,18 @@ struct BitField : public CustomSerializable<Size> {
 	}
 
 	inline void set() {
-		std::for_each(
+		std::fill(
 			this->bytes.begin(),
 			this->bytes.end(),
-			[](uint8_t& tmp) {
-				tmp = UINT8_MAX;
-			}
+			UINT8_MAX
 		);
 	}
 
 	inline void reset() {
-		std::for_each(
+		std::fill(
 			this->bytes.begin(),
 			this->bytes.end(),
-			[](uint8_t& tmp) {
-				tmp = 0;
-			}
+			0
 		);
 	}
 
