@@ -11,6 +11,14 @@ template <size_t Size>
 struct CustomSerializable {
 	std::array<uint8_t, Size> bytes;
 
+	CustomSerializable(): bytes{} { }
+	CustomSerializable(CustomSerializable&&) = default;
+	CustomSerializable(CustomSerializable&)  = default;
+
+	CustomSerializable(
+		dtl::const_lvalue_reference<CustomSerializable> src):
+		bytes(src.bytes) { }
+
 	CustomSerializable(const std::initializer_list<uint8_t>&& tmp) {
 		assert(tmp.size() == Size);
 
@@ -21,12 +29,12 @@ struct CustomSerializable {
 		);
 	}
 
-	CustomSerializable(CustomSerializable&&)             = default;
-	CustomSerializable(CustomSerializable&)              = default;
-	CustomSerializable(
-		dtl::const_lvalue_reference<CustomSerializable>) = default;
 	CustomSerializable& operator=(
-		dtl::const_lvalue_reference<CustomSerializable>) = default;
+		dtl::const_lvalue_reference<CustomSerializable> src) {
+		this->bytes = src.bytes;
+
+		return *this;
+	}
 
 	inline bool operator==(
 		dtl::const_lvalue_reference<CustomSerializable> tmp) const {

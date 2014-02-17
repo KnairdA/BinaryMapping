@@ -9,11 +9,11 @@ namespace BinaryMapping {
 
 template <size_t Size>
 struct BitField : public CustomSerializable<Size> {
+	class reference;
+
 	static const size_t size = Size * 8;
 
 	using CustomSerializable<Size>::CustomSerializable;
-
-	class reference;
 
 	inline reference operator[](size_t index) {
 		return reference(*this, index);
