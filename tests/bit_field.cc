@@ -5,6 +5,7 @@
 class BitFieldTest : public ::testing::Test {
 	protected:
 		BinaryMapping::BitField<2> bit_field_{42, 170};
+		BinaryMapping::BitField<2> bit_mask_{166, 166};
 
 };
 
@@ -113,4 +114,25 @@ TEST_F(BitFieldTest, Reference) {
 	this->bit_field_[2] = false;
 
 	EXPECT_FALSE(this->bit_field_.test(2));
+}
+
+TEST_F(BitFieldTest, BinaryAnd) {
+	this->bit_field_ &= this->bit_mask_;
+
+	EXPECT_EQ(this->bit_field_.bytes[0], 34);
+	EXPECT_EQ(this->bit_field_.bytes[1], 162);
+}
+
+TEST_F(BitFieldTest, BinaryOr) {
+	this->bit_field_ |= this->bit_mask_;
+
+	EXPECT_EQ(this->bit_field_.bytes[0], 174);
+	EXPECT_EQ(this->bit_field_.bytes[1], 174);
+}
+
+TEST_F(BitFieldTest, BinaryXor) {
+	this->bit_field_ ^= this->bit_mask_;
+
+	EXPECT_EQ(this->bit_field_.bytes[0], 140);
+	EXPECT_EQ(this->bit_field_.bytes[1], 12);
 }

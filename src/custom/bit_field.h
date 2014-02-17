@@ -2,6 +2,7 @@
 #define BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_
 
 #include <algorithm>
+#include <functional>
 
 #include "custom_serializable.h"
 
@@ -78,6 +79,36 @@ struct BitField : public CustomSerializable<Size> {
 			[](uint8_t& tmp) {
 				tmp = ~tmp;
 			}
+		);
+	}
+
+	inline void operator&=(dtl::const_lvalue_reference<BitField> rhs) {
+		std::transform(
+			this->bytes.begin(),
+			this->bytes.end(),
+			rhs.bytes.begin(),
+			this->bytes.begin(),
+			std::bit_and<uint8_t>()
+		);
+	}
+
+	inline void operator|=(dtl::const_lvalue_reference<BitField> rhs) {
+		std::transform(
+			this->bytes.begin(),
+			this->bytes.end(),
+			rhs.bytes.begin(),
+			this->bytes.begin(),
+			std::bit_or<uint8_t>()
+		);
+	}
+
+	inline void operator^=(dtl::const_lvalue_reference<BitField> rhs) {
+		std::transform(
+			this->bytes.begin(),
+			this->bytes.end(),
+			rhs.bytes.begin(),
+			this->bytes.begin(),
+			std::bit_xor<uint8_t>()
 		);
 	}
 };
