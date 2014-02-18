@@ -154,3 +154,8 @@ TEST_F(BitFieldTest, AnyAllNone) {
 	EXPECT_FALSE(this->bit_field_.all());
 	EXPECT_TRUE( this->bit_field_.none());
 }
+
+TEST_F(BitFieldTest, BitCount) {
+	EXPECT_EQ(this->bit_field_.count(), 7);
+	EXPECT_EQ(this->bit_mask_.count(),  8);
+}

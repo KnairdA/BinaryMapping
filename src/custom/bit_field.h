@@ -51,13 +51,19 @@ struct BitField : public CustomSerializable<Size> {
 	}
 
 	inline bool none() const {
-		return std::none_of(
-			this->bytes.begin(),
-			this->bytes.end(),
-			[](dtl::const_lvalue_reference<uint8_t> tmp) -> bool {
-				return tmp != 0;
+		return !this->any();
+	}
+
+	inline size_t count() const {
+		size_t count{};
+
+		for ( uint8_t byte : this->bytes ) {
+			for ( ; byte; ++count ) {
+				byte &= byte - 1;
 			}
-		);
+		}
+
+		return count;
 	}
 
 	inline void set(size_t index, bool value = true) {
