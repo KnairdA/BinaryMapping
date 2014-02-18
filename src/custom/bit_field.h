@@ -30,6 +30,36 @@ struct BitField : public CustomSerializable<Size> {
 		);
 	}
 
+	inline bool any() const {
+		return std::any_of(
+			this->bytes.begin(),
+			this->bytes.end(),
+			[](dtl::const_lvalue_reference<uint8_t> tmp) -> bool {
+				return tmp != 0;
+			}
+		);
+	}
+
+	inline bool all() const {
+		return std::all_of(
+			this->bytes.begin(),
+			this->bytes.end(),
+			[](dtl::const_lvalue_reference<uint8_t> tmp) -> bool {
+				return tmp == UINT8_MAX;
+			}
+		);
+	}
+
+	inline bool none() const {
+		return std::none_of(
+			this->bytes.begin(),
+			this->bytes.end(),
+			[](dtl::const_lvalue_reference<uint8_t> tmp) -> bool {
+				return tmp != 0;
+			}
+		);
+	}
+
 	inline void set(size_t index, bool value = true) {
 		if ( value ) {
 			this->bytes.at(index / 8) |= (

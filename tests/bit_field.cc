@@ -136,3 +136,21 @@ TEST_F(BitFieldTest, BinaryXor) {
 	EXPECT_EQ(this->bit_field_.bytes[0], 140);
 	EXPECT_EQ(this->bit_field_.bytes[1], 12);
 }
+
+TEST_F(BitFieldTest, AnyAllNone) {
+	EXPECT_TRUE( this->bit_field_.any());
+	EXPECT_FALSE(this->bit_field_.all());
+	EXPECT_FALSE(this->bit_field_.none());
+
+	this->bit_field_.set();
+
+	EXPECT_TRUE( this->bit_field_.any());
+	EXPECT_TRUE( this->bit_field_.all());
+	EXPECT_FALSE(this->bit_field_.none());
+
+	this->bit_field_.reset();
+
+	EXPECT_FALSE(this->bit_field_.any());
+	EXPECT_FALSE(this->bit_field_.all());
+	EXPECT_TRUE( this->bit_field_.none());
+}
