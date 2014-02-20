@@ -26,12 +26,12 @@ class BitField<Size>::reference {
 
 	protected:
 		reference(BitField<Size>& field, size_t index):
-			field_(field),
-			index_(index) { }
+			index_(index),
+			field_(field) { }
 
 	private:
+		const size_t index_;
 		BitField<Size>& field_;
-		size_t index_;
 
 };
 

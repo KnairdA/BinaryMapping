@@ -47,6 +47,9 @@ struct CustomSerializable {
 	}
 };
 
+template <size_t Size>
+using ByteField = CustomSerializable<Size>;
+
 }
 
 #endif  // BINARY_MAPPING_SRC_CUSTOM_CUSTOM_SERIALIZABLE_H_

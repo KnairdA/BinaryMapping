@@ -4,8 +4,8 @@
 
 class BitFieldTest : public ::testing::Test {
 	protected:
-		BinaryMapping::BitField<2> bit_field_{42, 170};
-		BinaryMapping::BitField<2> bit_mask_{166, 166};
+		BinaryMapping::BitField<16> bit_field_{42, 170};
+		BinaryMapping::BitField<16> bit_mask_{166, 166};
 
 };
 

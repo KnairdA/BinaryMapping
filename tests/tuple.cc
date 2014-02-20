@@ -16,7 +16,7 @@ class TupleTest : public ::testing::Test {
 			int32_t,
 			int16_t,
 			int8_t,
-			BinaryMapping::BitField<3>
+			BinaryMapping::ByteField<3>
 		> TestTuple;
 
 		virtual void SetUp() {
@@ -53,7 +53,7 @@ TEST_F(TupleTest, Basic) {
 	EXPECT_EQ(this->tuple_->get<5>(), INT32_MIN);
 	EXPECT_EQ(this->tuple_->get<6>(), INT16_MIN);
 	EXPECT_EQ(this->tuple_->get<7>(), INT8_MIN);
-	EXPECT_EQ(this->tuple_->get<8>(), (BinaryMapping::BitField<3>{1, 2, 3}));
+	EXPECT_EQ(this->tuple_->get<8>(), (BinaryMapping::ByteField<3>{1, 2, 3}));
 }
 
 TEST_F(TupleTest, Direct) {
@@ -65,7 +65,7 @@ TEST_F(TupleTest, Direct) {
 	EXPECT_EQ(*this->tuple_->ptr<5>(), INT32_MIN);
 	EXPECT_EQ(*this->tuple_->ptr<6>(), INT16_MIN);
 	EXPECT_EQ(*this->tuple_->ptr<7>(), INT8_MIN);
-	EXPECT_EQ(*this->tuple_->ptr<8>(), (BinaryMapping::BitField<3>{1, 2, 3}));
+	EXPECT_EQ(*this->tuple_->ptr<8>(), (BinaryMapping::ByteField<3>{1, 2, 3}));
 }
 
 TEST_F(TupleTest, Dereference) {
@@ -89,7 +89,7 @@ TEST_F(TupleTest, Dereference) {
 	EXPECT_EQ(std::get<5>(tuple), INT32_MIN);
 	EXPECT_EQ(std::get<6>(tuple), INT16_MIN);
 	EXPECT_EQ(std::get<7>(tuple), INT8_MIN);
-	EXPECT_EQ(std::get<8>(tuple), (BinaryMapping::BitField<3>{1, 2, 3}));
+	EXPECT_EQ(std::get<8>(tuple), (BinaryMapping::ByteField<3>{1, 2, 3}));
 }
 
 TEST_F(TupleTest, Populate) {
@@ -105,5 +105,5 @@ TEST_F(TupleTest, Populate) {
 	EXPECT_EQ(this->tuple_->get<5>(), 6);
 	EXPECT_EQ(this->tuple_->get<6>(), 7);
 	EXPECT_EQ(this->tuple_->get<7>(), 8);
-	EXPECT_EQ(this->tuple_->get<8>(), (BinaryMapping::BitField<3>{3, 2, 1}));
+	EXPECT_EQ(this->tuple_->get<8>(), (BinaryMapping::ByteField<3>{3, 2, 1}));
 }

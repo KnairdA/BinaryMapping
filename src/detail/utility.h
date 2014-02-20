@@ -38,7 +38,7 @@ template <
 using check_if_class = typename std::conditional<
 	std::is_class<Type>::value,
 	Check,
-	std::integral_constant<bool, false>
+	std::false_type
 >::type;
 
 template <typename Type>
@@ -71,6 +71,17 @@ template <
 constexpr size_t size_of() {
 	return sizeof(Type);
 }
+
+template <size_t Size>
+struct bits_to_bytes : std::integral_constant<
+	size_t,
+	Size / 8
+> {
+	static_assert(
+		Size % 8 == 0,
+		"Bit count has to be byte aligned"
+	);
+};
 
 }
 }

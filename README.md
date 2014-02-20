@@ -11,7 +11,7 @@ Basic usage of this library is documented in the [wiki](https://github.com/Knair
 - Support for any kind of flat structure that can be expressed using integral types and arbitrarily sized byte-arrays
 - Full support for serialization in either big or little endianess
 - Container and Iterator templates for fast traversal of collections of tuples
-- BitField template offers bit-level access to byte-arrays
+- BitField template offers bit-level access to ByteField byte-arrays
 - Builds on the standard libraries `std::tuple` and as such doesn't require any external libraries
 - Header only library because of heavy usage of template metaprogramming
 - Unit Tests based on GoogleTest
@@ -27,7 +27,7 @@ BinaryMapping::Container<
 		BinaryMapping::LittleEndian,
 		uint32_t,
 		int16_t,
-		BinaryMapping::BitField<3>,
+		BinaryMapping::ByteField<3>,
 		uint8_t
 	>
 > container(&buffer);

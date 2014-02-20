@@ -25,12 +25,12 @@ class EndianTest : public ::testing::Test {
 			uint64_t,
 			uint32_t,
 			int16_t,
-			BinaryMapping::BitField<3>
+			BinaryMapping::ByteField<3>
 		> test_ = std::make_tuple(
 			UINT32_MAX,
 			UINT16_MAX,
 			INT8_MIN,
-			BinaryMapping::BitField<3>({1, 2, 3})
+			BinaryMapping::ByteField<3>({1, 2, 3})
 		);
 
 
@@ -42,7 +42,7 @@ TEST_F(EndianTest, LittleEndian) {
 		uint64_t,
 		uint32_t,
 		int16_t,
-		BinaryMapping::BitField<3>
+		BinaryMapping::ByteField<3>
 	> TestMapping;
 
 	TestMapping mapping(this->buffer_.get());
@@ -50,12 +50,12 @@ TEST_F(EndianTest, LittleEndian) {
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
 	mapping.set<2>(INT8_MIN);
-	mapping.set<3>(BinaryMapping::BitField<3>({1, 2, 3}));
+	mapping.set<3>(BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
-	EXPECT_EQ(mapping.get<3>(), BinaryMapping::BitField<3>({1, 2, 3}));
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	EXPECT_EQ(mapping.get(), this->test_);
 }
@@ -66,7 +66,7 @@ TEST_F(EndianTest, BigEndian) {
 		uint64_t,
 		uint32_t,
 		int16_t,
-		BinaryMapping::BitField<3>
+		BinaryMapping::ByteField<3>
 	> TestMapping;
 
 	TestMapping mapping(this->buffer_.get());
@@ -74,12 +74,12 @@ TEST_F(EndianTest, BigEndian) {
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
 	mapping.set<2>(INT8_MIN);
-	mapping.set<3>(BinaryMapping::BitField<3>({1, 2, 3}));
+	mapping.set<3>(BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
-	EXPECT_EQ(mapping.get<3>(), BinaryMapping::BitField<3>({1, 2, 3}));
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	EXPECT_EQ(mapping.get(), this->test_);
 }
@@ -90,7 +90,7 @@ TEST_F(EndianTest, UndefinedEndian) {
 		uint64_t,
 		uint32_t,
 		int16_t,
-		BinaryMapping::BitField<3>
+		BinaryMapping::ByteField<3>
 	> TestMapping;
 
 	TestMapping mapping(this->buffer_.get());
@@ -98,21 +98,21 @@ TEST_F(EndianTest, UndefinedEndian) {
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
 	mapping.set<2>(INT8_MIN);
-	mapping.set<3>(BinaryMapping::BitField<3>({1, 2, 3}));
+	mapping.set<3>(BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	mapping.serialize<BinaryMapping::BigEndian>();
 
 	EXPECT_NE(mapping.get<0>(), UINT32_MAX);
 	EXPECT_NE(mapping.get<1>(), UINT16_MAX);
 	EXPECT_NE(mapping.get<2>(), INT8_MIN);
-	EXPECT_EQ(mapping.get<3>(), BinaryMapping::BitField<3>({1, 2, 3}));
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	mapping.deserialize<BinaryMapping::BigEndian>();
 
 	EXPECT_EQ(mapping.get<0>(), UINT32_MAX);
 	EXPECT_EQ(mapping.get<1>(), UINT16_MAX);
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
-	EXPECT_EQ(mapping.get<3>(), BinaryMapping::BitField<3>({1, 2, 3}));
+	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
 	EXPECT_EQ(mapping.get(), this->test_);
 }

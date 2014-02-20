@@ -4,17 +4,22 @@
 #include <algorithm>
 #include <functional>
 
+#include "detail/utility.h"
 #include "custom_serializable.h"
 
 namespace BinaryMapping {
 
 template <size_t Size>
-struct BitField : public CustomSerializable<Size> {
+struct BitField : public CustomSerializable<
+	dtl::bits_to_bytes<Size>::value
+> {
+	static const size_t size = Size;
+
 	class reference;
 
-	static const size_t size = Size * 8;
-
-	using CustomSerializable<Size>::CustomSerializable;
+	using CustomSerializable<
+		dtl::bits_to_bytes<Size>::value
+	>::CustomSerializable;
 
 	inline reference operator[](size_t index) {
 		return reference(*this, index);
