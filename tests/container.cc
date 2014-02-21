@@ -88,3 +88,19 @@ TEST_F(ContainerTest, Iterator) {
 	EXPECT_EQ(iter2 - iter4, 3);
 	EXPECT_EQ(iter2 - iter5, 3);
 }
+
+TEST_F(ContainerTest, Dereference) {
+	for ( TestContainer::iterator_type iter(this->container_->begin());
+	      iter != this->container_->end();
+	      ++iter ) {
+		TestContainer::iterator_type::element_type::tuple_type values(*iter);
+
+		EXPECT_EQ(std::get<0>(values), iter - this->container_->begin());
+		EXPECT_EQ(std::get<1>(values), iter - this->container_->begin());
+
+		TestContainer::iterator_type::element_type& tuple(*iter);
+
+		EXPECT_EQ(tuple.get<0>(), iter - this->container_->begin());
+		EXPECT_EQ(tuple.get<1>(), iter - this->container_->begin());
+	}
+}

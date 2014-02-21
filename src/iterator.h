@@ -15,17 +15,17 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       Type&>,
                  public dtl::Comparable<BufferIterator<Type::size>> {
 	public:
-		typedef Type tuple_type;
+		typedef Type element_type;
 
-		Iterator(Buffer* buffer, BufferIterator<tuple_type::size>&& iter):
-			dtl::Comparable<BufferIterator<tuple_type::size>>(iter),
-			tuple_(this->index_.ptr()),
+		Iterator(Buffer* buffer, BufferIterator<element_type::size>&& iter):
+			dtl::Comparable<BufferIterator<element_type::size>>(iter),
+			element_(this->index_.ptr()),
 			buffer_(buffer),
-			begin_(buffer_->begin<tuple_type::size>()),
-			end_(buffer_->end<tuple_type::size>()) { }
+			begin_(buffer_->begin<element_type::size>()),
+			end_(buffer_->end<element_type::size>()) { }
 
-		inline tuple_type& operator*() {
-			return this->tuple_;
+		inline element_type& operator*() {
+			return this->element_;
 		}
 
 		inline Iterator& operator++() {
@@ -102,11 +102,11 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 	private:
-		tuple_type tuple_;
+		element_type element_;
 		Buffer* const buffer_;
 
-		const BufferIterator<tuple_type::size> begin_;
-		const BufferIterator<tuple_type::size> end_;
+		const BufferIterator<element_type::size> begin_;
+		const BufferIterator<element_type::size> end_;
 
 };
 
