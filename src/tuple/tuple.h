@@ -62,7 +62,7 @@ class Tuple {
 		Tuple(Buffer* buffer):
 			Tuple(buffer->front()) { }
 
-		inline tuple_type get() const {
+		inline operator tuple_type() const {
 			return Mapper::construct<
 				ValueTuple<Endianess>,
 				tuple_type
@@ -87,7 +87,7 @@ class Tuple {
 			return std::get<Index>(this->tuple_).get();
 		}
 
-		inline void set(dtl::const_lvalue_reference<tuple_type> values) {
+		inline void operator=(dtl::const_lvalue_reference<tuple_type> values) {
 			Setter<Endianess>::template populate<
 				relative_tuple,
 				tuple_type
