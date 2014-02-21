@@ -78,10 +78,6 @@ class Tuple {
 			);
 		}
 
-		inline uint8_t* ptr() const {
-			return *this->base_ptr_.get();
-		}
-
 		template <size_t Index> 
 		inline typename std::add_pointer<type_at<Index>>::type ptr() const {
 			return std::get<Index>(this->tuple_).get();
