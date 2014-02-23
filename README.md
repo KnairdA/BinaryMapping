@@ -46,6 +46,10 @@ The code listed above instantiates a 100 byte buffer, defines a container of a s
 In short: BinaryMapping is a library that abstracts endianess aware serializing of binary structures into tuples, containers and iterators.
 If you are interested in further details of the usage of all features provided by BinaryMapping don't hesitate to check out the appropriate [wiki-page](https://github.com/KnairdA/BinaryMapping/wiki/Basic-Usage).
 
+## Limitations
+
+It is currently no problem to define unaligned structures using this library. What this means is that BinaryMapping is only fully supported on processors supporting unaligned memory access such as x86. As the test cases currently contain unaligned structures they will fail in parts on unsupported architectures. One way to work around this issue is to define only aligned structures.
+
 ## Building
 
 As the BinaryMapping library is a header only library it can only be built in conjunction with the code which is making use of it.
