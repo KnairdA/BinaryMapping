@@ -28,6 +28,10 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return this->element_;
 		}
 
+		inline const element_type& operator*() const {
+			return this->element_;
+		}
+
 		inline Iterator& operator++() {
 			if ( this->index_ < this->end_ ) {
 				++this->index_;

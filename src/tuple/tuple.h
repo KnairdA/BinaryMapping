@@ -79,7 +79,7 @@ class Tuple {
 		}
 
 		template <size_t Index> 
-		inline typename std::add_pointer<type_at<Index>>::type ptr() const {
+		inline typename std::add_pointer<type_at<Index>>::type ptr() {
 			return std::get<Index>(this->tuple_).get();
 		}
 
