@@ -104,3 +104,20 @@ TEST_F(ContainerTest, Dereference) {
 		EXPECT_EQ(tuple.get<1>(), iter - this->container_->begin());
 	}
 }
+
+TEST_F(ContainerTest, ConstContainer) {
+	const TestContainer* constContainer = this->container_.get();
+
+	EXPECT_EQ(constContainer->front(), TestContainer::value_tuple_type(0, 0));
+	EXPECT_EQ(constContainer->back(),  TestContainer::value_tuple_type(9, 9));
+
+	EXPECT_TRUE((std::is_same<decltype(*constContainer->begin()), const TestContainer::tuple_type&>::value));
+	EXPECT_TRUE((std::is_same<decltype(*constContainer->end()),   const TestContainer::tuple_type&>::value));
+
+	for ( TestContainer::const_iterator_type iter(constContainer->begin());
+	      iter != constContainer->end();
+	      ++iter ) {
+		EXPECT_EQ((*iter).get<0>(), iter - constContainer->begin());
+		EXPECT_EQ((*iter).get<1>(), iter - constContainer->begin());
+	}
+}
