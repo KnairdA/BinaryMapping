@@ -23,10 +23,7 @@ class ContainerTest : public ::testing::Test {
 			);
 
 			for ( size_t i = 0; i != 10; ++i ) {
-				TestContainer::element_type tuple(this->container_->at(i));
-
-				tuple.set<0>(i);
-				tuple.set<1>(i);
+				(*this->container_)[i] = TestContainer::element_type::value_type(i, i);
 			}
 		}
 
