@@ -69,7 +69,7 @@ TEST_F(TupleTest, Direct) {
 }
 
 TEST_F(TupleTest, Dereference) {
-	TestTuple::tuple_type tuple = *this->tuple_;
+	TestTuple::value_type tuple = *this->tuple_;
 
 	this->tuple_->set<0>(0);
 	this->tuple_->set<1>(0);
@@ -93,7 +93,7 @@ TEST_F(TupleTest, Dereference) {
 }
 
 TEST_F(TupleTest, Populate) {
-	*this->tuple_ = TestTuple::tuple_type(
+	*this->tuple_ = TestTuple::value_type(
 		1, 2, 3, 4, 5, 6, 7, 8, {3, 2, 1}
 	);
 

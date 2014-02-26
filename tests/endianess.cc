@@ -57,7 +57,7 @@ TEST_F(EndianTest, LittleEndian) {
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
-	EXPECT_EQ(static_cast<TestMapping::tuple_type>(mapping), this->test_);
+	EXPECT_EQ(static_cast<TestMapping::value_type>(mapping), this->test_);
 }
 
 TEST_F(EndianTest, BigEndian) {
@@ -81,7 +81,7 @@ TEST_F(EndianTest, BigEndian) {
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
-	EXPECT_EQ(static_cast<TestMapping::tuple_type>(mapping), this->test_);
+	EXPECT_EQ(static_cast<TestMapping::value_type>(mapping), this->test_);
 }
 
 TEST_F(EndianTest, UndefinedEndian) {
@@ -114,7 +114,7 @@ TEST_F(EndianTest, UndefinedEndian) {
 	EXPECT_EQ(mapping.get<2>(), INT8_MIN);
 	EXPECT_EQ(mapping.get<3>(), BinaryMapping::ByteField<3>({1, 2, 3}));
 
-	EXPECT_EQ(static_cast<TestMapping::tuple_type>(mapping), this->test_);
+	EXPECT_EQ(static_cast<TestMapping::value_type>(mapping), this->test_);
 }
 
 TEST_F(EndianTest, MixedEndian) {

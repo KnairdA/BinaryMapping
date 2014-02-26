@@ -37,7 +37,7 @@ class Tuple {
 	>::type::element_type;
 
 	public:
-		typedef std::tuple<Types...> tuple_type;
+		typedef std::tuple<Types...> value_type;
 
 		static const size_t size = Weigher::size<relative_tuple>();
 
@@ -62,10 +62,10 @@ class Tuple {
 		Tuple(Buffer* buffer):
 			Tuple(buffer->front()) { }
 
-		inline operator tuple_type() const {
+		inline operator value_type() const {
 			return Mapper::construct<
 				ValueTuple<Endianess>,
-				tuple_type
+				value_type
 			>(
 				this->base_ptr_.get()
 			);
@@ -83,10 +83,10 @@ class Tuple {
 			return std::get<Index>(this->tuple_).get();
 		}
 
-		inline void operator=(dtl::const_lvalue_reference<tuple_type> values) {
+		inline void operator=(dtl::const_lvalue_reference<value_type> values) {
 			Setter<Endianess>::template populate<
 				relative_tuple,
-				tuple_type
+				value_type
 			>(values, this->tuple_);
 		}
 

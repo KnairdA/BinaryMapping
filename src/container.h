@@ -13,26 +13,26 @@ namespace BinaryMapping {
 template <typename Type>
 class Container {
 	public:
-		typedef Type tuple_type;
-		typedef typename Type::tuple_type value_tuple_type;
+		typedef Type element_type;
+		typedef typename Type::value_type element_value_type;
 		typedef Iterator<Type> iterator_type;
 		typedef Iterator<const Type> const_iterator_type;
 
 		Container(Buffer* buffer):
 			buffer_(buffer),
-			tuple_count_(buffer->size<tuple_type::size>()) { }
+			tuple_count_(buffer->size<element_type::size>()) { }
 
 		inline size_t size() const {
 			return this->tuple_count_;
 		}
 
-		inline value_tuple_type operator[](size_t index) const {
-			return static_cast<value_tuple_type>(tuple_type(
-				this->buffer_->template at<tuple_type::size>(index)
+		inline element_value_type operator[](size_t index) const {
+			return static_cast<element_value_type>(element_type(
+				this->buffer_->template at<element_type::size>(index)
 			));
 		}
 
-		inline value_tuple_type at(size_t index) const {
+		inline element_value_type at(size_t index) const {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
@@ -40,15 +40,15 @@ class Container {
 			}
 		}
 
-		inline value_tuple_type front() const {
-			return static_cast<value_tuple_type>(
-				tuple_type(this->buffer_->front())
+		inline element_value_type front() const {
+			return static_cast<element_value_type>(
+				element_type(this->buffer_->front())
 			);
 		}
 
-		inline value_tuple_type back() const {
-			return static_cast<value_tuple_type>(tuple_type(
-				this->buffer_->template at<tuple_type::size>(
+		inline element_value_type back() const {
+			return static_cast<element_value_type>(element_type(
+				this->buffer_->template at<element_type::size>(
 					this->tuple_count_ - 1
 				)
 			));
@@ -57,24 +57,24 @@ class Container {
 		inline const_iterator_type begin() const {
 			return const_iterator_type(
 				this->buffer_,
-				this->buffer_->template begin<tuple_type::size>()
+				this->buffer_->template begin<element_type::size>()
 			);
 		}
 
 		inline const_iterator_type end() const {
 			return const_iterator_type(
 				this->buffer_,
-				this->buffer_->template end<tuple_type::size>()
+				this->buffer_->template end<element_type::size>()
 			);
 		}
 
-		inline tuple_type operator[](size_t index) {
-			return tuple_type(
-				this->buffer_->template at<tuple_type::size>(index)
+		inline element_type operator[](size_t index) {
+			return element_type(
+				this->buffer_->template at<element_type::size>(index)
 			);
 		}
 
-		inline tuple_type at(size_t index) {
+		inline element_type at(size_t index) {
 			if ( index <= this->tuple_count_ ) {
 				return this->operator[](index);
 			} else {
@@ -82,13 +82,13 @@ class Container {
 			}
 		}
 
-		inline tuple_type front() {
-			return tuple_type(this->buffer_->front());
+		inline element_type front() {
+			return element_type(this->buffer_->front());
 		}
 
-		inline tuple_type back() {
-			return tuple_type(
-				this->buffer_->template at<tuple_type::size>(
+		inline element_type back() {
+			return element_type(
+				this->buffer_->template at<element_type::size>(
 					this->tuple_count_ - 1
 				)
 			);
@@ -97,14 +97,14 @@ class Container {
 		inline iterator_type begin() {
 			return iterator_type(
 				this->buffer_,
-				this->buffer_->template begin<tuple_type::size>()
+				this->buffer_->template begin<element_type::size>()
 			);
 		}
 
 		inline iterator_type end() {
 			return iterator_type(
 				this->buffer_,
-				this->buffer_->template end<tuple_type::size>()
+				this->buffer_->template end<element_type::size>()
 			);
 		}
 

@@ -15,7 +15,7 @@ class ContainerTest : public ::testing::Test {
 
 		virtual void SetUp() {
 			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(10 * TestContainer::tuple_type::size)
+				new BinaryMapping::Buffer(10 * TestContainer::element_type::size)
 			);
 
 			this->container_ = std::unique_ptr<TestContainer>(
@@ -23,7 +23,7 @@ class ContainerTest : public ::testing::Test {
 			);
 
 			for ( size_t i = 0; i != 10; ++i ) {
-				TestContainer::tuple_type tuple(this->container_->at(i));
+				TestContainer::element_type tuple(this->container_->at(i));
 
 				tuple.set<0>(i);
 				tuple.set<1>(i);
@@ -93,7 +93,7 @@ TEST_F(ContainerTest, Dereference) {
 	for ( TestContainer::iterator_type iter(this->container_->begin());
 	      iter != this->container_->end();
 	      ++iter ) {
-		TestContainer::iterator_type::element_type::tuple_type values(*iter);
+		TestContainer::iterator_type::element_type::value_type values(*iter);
 
 		EXPECT_EQ(std::get<0>(values), iter - this->container_->begin());
 		EXPECT_EQ(std::get<1>(values), iter - this->container_->begin());
@@ -108,11 +108,11 @@ TEST_F(ContainerTest, Dereference) {
 TEST_F(ContainerTest, ConstContainer) {
 	const TestContainer* constContainer = this->container_.get();
 
-	EXPECT_EQ(constContainer->front(), TestContainer::value_tuple_type(0, 0));
-	EXPECT_EQ(constContainer->back(),  TestContainer::value_tuple_type(9, 9));
+	EXPECT_EQ(constContainer->front(), TestContainer::element_value_type(0, 0));
+	EXPECT_EQ(constContainer->back(),  TestContainer::element_value_type(9, 9));
 
-	EXPECT_TRUE((std::is_same<decltype(*constContainer->begin()), const TestContainer::tuple_type&>::value));
-	EXPECT_TRUE((std::is_same<decltype(*constContainer->end()),   const TestContainer::tuple_type&>::value));
+	EXPECT_TRUE((std::is_same<decltype(*constContainer->begin()), const TestContainer::element_type&>::value));
+	EXPECT_TRUE((std::is_same<decltype(*constContainer->end()),   const TestContainer::element_type&>::value));
 
 	for ( TestContainer::const_iterator_type iter(constContainer->begin());
 	      iter != constContainer->end();
