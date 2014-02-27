@@ -20,9 +20,8 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		Iterator(Buffer* buffer, BufferIterator<element_type::size>&& iter):
 			dtl::Comparable<BufferIterator<element_type::size>>(iter),
 			element_(this->index_.ptr()),
-			buffer_(buffer),
-			begin_(buffer_->begin<element_type::size>()),
-			end_(buffer_->end<element_type::size>()) { }
+			begin_(buffer->begin<element_type::size>()),
+			end_(buffer->end<element_type::size>()) { }
 
 		inline element_type& operator*() {
 			return this->element_;
@@ -103,7 +102,6 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 	private:
 		element_type element_;
-		Buffer* const buffer_;
 
 		const BufferIterator<element_type::size> begin_;
 		const BufferIterator<element_type::size> end_;
