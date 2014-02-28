@@ -14,8 +14,6 @@
 #include "modifier/relative_tuple.h"
 #include "modifier/value_tuple.h"
 
-#include "io/buffer.h" 
-
 #include "endianess/serializer.h" 
 #include "endianess/in_place_sorter.h" 
 #include "endianess/out_of_place_sorter.h" 
@@ -58,9 +56,6 @@ class Tuple {
 			>(
 				this->base_ptr_.get()
 			)) { }
-
-		Tuple(Buffer* buffer):
-			Tuple(buffer->front()) { }
 
 		inline operator value_type() const {
 			return Mapper::construct<

@@ -4,6 +4,7 @@
 
 #include "tuple/tuple.h"
 #include "custom/bit_field.h"
+#include "detail/io/buffer.h"
 #include "endianess/little.h"
 #include "endianess/big.h"
 
@@ -14,12 +15,12 @@ class EndianTest : public ::testing::Test {
 			                         sizeof(uint32_t) +
 			                         sizeof(int16_t);
 
-			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(tupleSize)
+			this->buffer_ = std::unique_ptr<BinaryMapping::dtl::Buffer>(
+				new BinaryMapping::dtl::Buffer(tupleSize)
 			);
 		}
 
-		std::unique_ptr<BinaryMapping::Buffer> buffer_;
+		std::unique_ptr<BinaryMapping::dtl::Buffer> buffer_;
 
 		std::tuple<
 			uint64_t,
@@ -45,7 +46,7 @@ TEST_F(EndianTest, LittleEndian) {
 		BinaryMapping::ByteField<3>
 	> TestMapping;
 
-	TestMapping mapping(this->buffer_.get());
+	TestMapping mapping(this->buffer_->front());
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
@@ -69,7 +70,7 @@ TEST_F(EndianTest, BigEndian) {
 		BinaryMapping::ByteField<3>
 	> TestMapping;
 
-	TestMapping mapping(this->buffer_.get());
+	TestMapping mapping(this->buffer_->front());
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
@@ -93,7 +94,7 @@ TEST_F(EndianTest, UndefinedEndian) {
 		BinaryMapping::ByteField<3>
 	> TestMapping;
 
-	TestMapping mapping(this->buffer_.get());
+	TestMapping mapping(this->buffer_->front());
 
 	mapping.set<0>(UINT32_MAX);
 	mapping.set<1>(UINT16_MAX);
@@ -132,13 +133,13 @@ TEST_F(EndianTest, MixedEndian) {
 		int16_t
 	> LittleTestMapping;
 
-	BigTestMapping bigMapping(this->buffer_.get());
+	BigTestMapping bigMapping(this->buffer_->front());
 
 	bigMapping.set<0>(UINT32_MAX);
 	bigMapping.set<1>(UINT16_MAX);
 	bigMapping.set<2>(INT8_MIN);
 
-	LittleTestMapping littleMapping(this->buffer_.get());
+	LittleTestMapping littleMapping(this->buffer_->front());
 
 	EXPECT_EQ(littleMapping.get<0>(), 18446744069414584320ul);
 	EXPECT_EQ(littleMapping.get<1>(), 4294901760);

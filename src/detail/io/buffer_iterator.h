@@ -1,24 +1,25 @@
-#ifndef BINARY_MAPPING_SRC_IO_BUFFER_ITERATOR_H_
-#define BINARY_MAPPING_SRC_IO_BUFFER_ITERATOR_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_ITERATOR_H_
+#define BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_ITERATOR_H_
 
 #include <iterator>
 
 #include "detail/comparable.h"
 
 namespace BinaryMapping {
+namespace dtl {
 
 template <size_t Size>
 struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
                                              uint8_t*,
                                              off_t>,
-                        public dtl::Comparable<uint8_t*> {
+                        public Comparable<uint8_t*> {
 	using Comparable::Comparable;
 
 	inline uint8_t* operator*() const {
 		return this->index_;
 	}
 
-	inline uint8_t*const* ptr() const {
+	inline uint8_t*const* operator&() const {
 		return &this->index_;
 	}
 
@@ -89,5 +90,6 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 };
 
 }
+}
 
-#endif  // BINARY_MAPPING_SRC_IO_BUFFER_ITERATOR_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_ITERATOR_H_

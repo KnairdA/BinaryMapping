@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_IO_BUFFER_H_
-#define BINARY_MAPPING_SRC_IO_BUFFER_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_H_
+#define BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_H_
 
 #include <cstdlib>
 #include <stdexcept>
@@ -7,6 +7,7 @@
 #include "buffer_iterator.h"
 
 namespace BinaryMapping {
+namespace dtl {
 
 class Buffer {
 	public:
@@ -17,14 +18,9 @@ class Buffer {
 			size_(size),
 			owner_(true) { }
 
-		Buffer(uint8_t* data, size_t size):
+		Buffer(uint8_t*const data, size_t size):
 			data_(data),
 			size_(size),
-			owner_(false) { }
-
-		Buffer(const Buffer& src):
-			data_(src.data_),
-			size_(src.size_),
 			owner_(false) { }
 
 		~Buffer() {
@@ -83,5 +79,6 @@ class Buffer {
 };
 
 }
+}
 
-#endif  // BINARY_MAPPING_SRC_IO_BUFFER_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_H_

@@ -7,21 +7,17 @@
 
 namespace BinaryMapping {
 
+template <typename Type> class Container;
+
 template <typename Type>
 class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       Type&,
                                       off_t,
                                       Type*>,
-                 public dtl::Comparable<BufferIterator<Type::size>> {
+                 public dtl::Comparable<dtl::BufferIterator<Type::size>> {
 	public:
 		typedef Type element_type;
 		typedef typename Type::value_type element_value_type;
-
-		Iterator(Buffer* buffer, BufferIterator<element_type::size>&& iter):
-			dtl::Comparable<BufferIterator<element_type::size>>(iter),
-			element_(this->index_.ptr()),
-			begin_(buffer->begin<element_type::size>()),
-			end_(buffer->end<element_type::size>()) { }
 
 		inline element_type& operator*() {
 			return this->element_;
@@ -106,11 +102,23 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return Iterator(src) += offset;
 		}
 
+	protected:
+		friend Container<typename std::remove_cv<Type>::type>;
+		friend Container<typename std::add_const<Type>::type>;
+
+		Iterator(dtl::BufferIterator<element_type::size>&& index,
+		         const dtl::BufferIterator<element_type::size>&& begin,
+		         const dtl::BufferIterator<element_type::size>&& end):
+			dtl::Comparable<dtl::BufferIterator<element_type::size>>(index),
+			element_(&this->index_),
+			begin_(begin),
+			end_(end) { }
+
 	private:
 		element_type element_;
 
-		const BufferIterator<element_type::size> begin_;
-		const BufferIterator<element_type::size> end_;
+		const dtl::BufferIterator<element_type::size> begin_;
+		const dtl::BufferIterator<element_type::size> end_;
 
 };
 

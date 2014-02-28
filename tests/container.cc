@@ -14,12 +14,8 @@ class ContainerTest : public ::testing::Test {
 		> TestContainer;
 
 		virtual void SetUp() {
-			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(10 * TestContainer::element_type::size)
-			);
-
 			this->container_ = std::unique_ptr<TestContainer>(
-				new TestContainer(this->buffer_.get())
+				new TestContainer(10 * TestContainer::element_type::size)
 			);
 
 			for ( size_t i = 0; i != 10; ++i ) {
@@ -27,7 +23,6 @@ class ContainerTest : public ::testing::Test {
 			}
 		}
 
-		std::unique_ptr<BinaryMapping::Buffer> buffer_;
 		std::unique_ptr<TestContainer> container_;
 
 };

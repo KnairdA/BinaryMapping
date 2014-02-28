@@ -4,6 +4,7 @@
 
 #include "tuple/tuple.h"
 #include "custom/bit_field.h"
+#include "detail/io/buffer.h"
 
 class TupleTest : public ::testing::Test {
 	protected:
@@ -20,12 +21,12 @@ class TupleTest : public ::testing::Test {
 		> TestTuple;
 
 		virtual void SetUp() {
-			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(TestTuple::size)
+			this->buffer_ = std::unique_ptr<BinaryMapping::dtl::Buffer>(
+				new BinaryMapping::dtl::Buffer(TestTuple::size)
 			);
 
 			this->tuple_  = std::unique_ptr<TestTuple>(
-				new TestTuple(this->buffer_.get())
+				new TestTuple(this->buffer_->front())
 			);
 
 			this->tuple_->set<0>(UINT64_MAX);
@@ -39,7 +40,7 @@ class TupleTest : public ::testing::Test {
 			this->tuple_->set<8>({1, 2, 3});
 		}
 
-		std::unique_ptr<BinaryMapping::Buffer> buffer_;
+		std::unique_ptr<BinaryMapping::dtl::Buffer> buffer_;
 		std::unique_ptr<TestTuple> tuple_;
 
 };

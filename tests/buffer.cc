@@ -2,18 +2,18 @@
 
 #include <memory>
 
-#include "io/buffer.h"
-#include "io/buffer_iterator.h"
+#include "detail/io/buffer.h"
+#include "detail/io/buffer_iterator.h"
 
 class BufferTest : public ::testing::Test {
 	protected:
 		virtual void SetUp() {
-			this->buffer_ = std::unique_ptr<BinaryMapping::Buffer>(
-				new BinaryMapping::Buffer(10 * sizeof(uint32_t))
+			this->buffer_ = std::unique_ptr<BinaryMapping::dtl::Buffer>(
+				new BinaryMapping::dtl::Buffer(10 * sizeof(uint32_t))
 			);
 		}
 
-		std::unique_ptr<BinaryMapping::Buffer> buffer_;
+		std::unique_ptr<BinaryMapping::dtl::Buffer> buffer_;
 
 };
 

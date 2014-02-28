@@ -5,6 +5,7 @@
 
 #include "tuple/tuple.h"
 #include "endianess/undefined.h"
+#include "detail/io/buffer.h"
 
 #include "iterator.h"
 
@@ -18,9 +19,13 @@ class Container {
 		typedef Iterator<Type> iterator_type;
 		typedef Iterator<const Type> const_iterator_type;
 
-		Container(Buffer* buffer):
-			buffer_(buffer),
-			tuple_count_(buffer->size<element_type::size>()) { }
+		Container(size_t size):
+			buffer_(size),
+			tuple_count_(buffer_.size<element_type::size>()) { }
+
+		Container(uint8_t*const ptr, size_t size):
+			buffer_(ptr, size),
+			tuple_count_(buffer_.size<element_type::size>()) { }
 
 		inline size_t size() const {
 			return this->tuple_count_;
@@ -28,7 +33,7 @@ class Container {
 
 		inline element_value_type operator[](size_t index) const {
 			return static_cast<element_value_type>(element_type(
-				this->buffer_->template at<element_type::size>(index)
+				this->buffer_.template at<element_type::size>(index)
 			));
 		}
 
@@ -42,13 +47,13 @@ class Container {
 
 		inline element_value_type front() const {
 			return static_cast<element_value_type>(
-				element_type(this->buffer_->front())
+				element_type(this->buffer_.front())
 			);
 		}
 
 		inline element_value_type back() const {
 			return static_cast<element_value_type>(element_type(
-				this->buffer_->template at<element_type::size>(
+				this->buffer_.template at<element_type::size>(
 					this->tuple_count_ - 1
 				)
 			));
@@ -56,21 +61,23 @@ class Container {
 
 		inline const_iterator_type begin() const {
 			return const_iterator_type(
-				this->buffer_,
-				this->buffer_->template begin<element_type::size>()
+				this->buffer_.template begin<element_type::size>(),
+				this->buffer_.template begin<element_type::size>(),
+				this->buffer_.template end<element_type::size>()
 			);
 		}
 
 		inline const_iterator_type end() const {
 			return const_iterator_type(
-				this->buffer_,
-				this->buffer_->template end<element_type::size>()
+				this->buffer_.template end<element_type::size>(),
+				this->buffer_.template begin<element_type::size>(),
+				this->buffer_.template end<element_type::size>()
 			);
 		}
 
 		inline element_type operator[](size_t index) {
 			return element_type(
-				this->buffer_->template at<element_type::size>(index)
+				this->buffer_.template at<element_type::size>(index)
 			);
 		}
 
@@ -83,12 +90,12 @@ class Container {
 		}
 
 		inline element_type front() {
-			return element_type(this->buffer_->front());
+			return element_type(this->buffer_.front());
 		}
 
 		inline element_type back() {
 			return element_type(
-				this->buffer_->template at<element_type::size>(
+				this->buffer_.template at<element_type::size>(
 					this->tuple_count_ - 1
 				)
 			);
@@ -96,20 +103,22 @@ class Container {
 
 		inline iterator_type begin() {
 			return iterator_type(
-				this->buffer_,
-				this->buffer_->template begin<element_type::size>()
+				this->buffer_.template begin<element_type::size>(),
+				this->buffer_.template begin<element_type::size>(),
+				this->buffer_.template end<element_type::size>()
 			);
 		}
 
 		inline iterator_type end() {
 			return iterator_type(
-				this->buffer_,
-				this->buffer_->template end<element_type::size>()
+				this->buffer_.template end<element_type::size>(),
+				this->buffer_.template begin<element_type::size>(),
+				this->buffer_.template end<element_type::size>()
 			);
 		}
 
 	private:
-		Buffer* const buffer_;
+		dtl::Buffer buffer_;
 		const size_t tuple_count_;
 
 };
