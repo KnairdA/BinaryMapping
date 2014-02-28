@@ -116,5 +116,13 @@ TEST_F(ContainerTest, ConstContainer) {
 	      ++iter ) {
 		EXPECT_EQ((*iter).get<0>(), iter - constContainer->begin());
 		EXPECT_EQ((*iter).get<1>(), iter - constContainer->begin());
+
+		EXPECT_EQ(
+			*static_cast<const TestContainer::const_iterator_type>(iter),
+			TestContainer::element_type::value_type(
+				iter - constContainer->begin(),
+				iter - constContainer->begin()
+			)
+		);
 	}
 }

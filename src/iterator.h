@@ -15,6 +15,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
                  public dtl::Comparable<BufferIterator<Type::size>> {
 	public:
 		typedef Type element_type;
+		typedef typename Type::value_type element_value_type;
 
 		Iterator(Buffer* buffer, BufferIterator<element_type::size>&& iter):
 			dtl::Comparable<BufferIterator<element_type::size>>(iter),
@@ -24,6 +25,12 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 
 		inline element_type& operator*() {
 			return this->element_;
+		}
+
+		inline element_value_type operator*() const {
+			return static_cast<element_value_type>(
+				this->element_
+			);
 		}
 
 		inline Iterator& operator++() {
