@@ -33,16 +33,14 @@ class Container {
 
 		inline element_value_type operator[](size_t index) const {
 			return static_cast<element_value_type>(element_type(
-				this->buffer_.template at<element_type::size>(index)
+				this->buffer_[element_type::size * index]
 			));
 		}
 
 		inline element_value_type at(size_t index) const {
-			if ( index <= this->tuple_count_ ) {
-				return this->operator[](index);
-			} else {
-				throw std::out_of_range("range_violated");
-			}
+			return static_cast<element_value_type>(element_type(
+				this->buffer_.template at<element_type::size>(index)
+			));
 		}
 
 		inline element_value_type front() const {
@@ -77,16 +75,14 @@ class Container {
 
 		inline element_type operator[](size_t index) {
 			return element_type(
-				this->buffer_.template at<element_type::size>(index)
+				this->buffer_[element_type::size * index]
 			);
 		}
 
 		inline element_type at(size_t index) {
-			if ( index <= this->tuple_count_ ) {
-				return this->operator[](index);
-			} else {
-				throw std::out_of_range("range_violated");
-			}
+			return element_type(
+				this->buffer_.template at<element_type::size>(index)
+			);
 		}
 
 		inline element_type front() {

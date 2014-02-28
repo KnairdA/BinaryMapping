@@ -38,6 +38,7 @@ TEST_F(ContainerTest, Basic) {
 	}
 
 	EXPECT_THROW(this->container_->at(10), std::out_of_range);
+	EXPECT_NO_THROW((*(this->container_.get()))[10]);
 }
 
 TEST_F(ContainerTest, Iterator) {
