@@ -10,11 +10,9 @@ namespace BinaryMapping {
 template <size_t Size>
 struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
                                              uint8_t*,
-                                             off_t,
-                                             uint8_t**,
-                                             uint8_t*&>,
+                                             off_t>,
                         public dtl::Comparable<uint8_t*> {
-	using Comparable<uint8_t*>::Comparable;
+	using Comparable::Comparable;
 
 	inline uint8_t* operator*() const {
 		return this->index_;

@@ -11,8 +11,7 @@ template <typename Type>
 class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       Type&,
                                       off_t,
-                                      Type*,
-                                      Type&>,
+                                      Type*>,
                  public dtl::Comparable<BufferIterator<Type::size>> {
 	public:
 		typedef Type element_type;
