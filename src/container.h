@@ -20,7 +20,7 @@ class Container {
 		typedef Iterator<const Type> const_iterator_type;
 
 		Container(size_t size):
-			buffer_(size),
+			buffer_(size * element_type::size),
 			tuple_count_(buffer_.size<element_type::size>()) { }
 
 		Container(uint8_t*const ptr, size_t size):
@@ -71,6 +71,10 @@ class Container {
 				this->buffer_.template begin<element_type::size>(),
 				this->buffer_.template end<element_type::size>()
 			);
+		}
+
+		inline std::pair<uint8_t*const, const size_t> data() const {
+			return std::make_pair(this->buffer_.front(), this->buffer_.size());
 		}
 
 		inline element_type operator[](size_t index) {

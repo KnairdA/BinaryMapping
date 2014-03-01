@@ -20,8 +20,6 @@ Basic usage of this library is documented in the [wiki](https://github.com/Knair
 ## Example usage
 
 ```
-BinaryMapping::Buffer buffer(100);
-
 BinaryMapping::Container<
 	BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
@@ -30,7 +28,7 @@ BinaryMapping::Container<
 		BinaryMapping::ByteField<3>,
 		uint8_t
 	>
-> container(&buffer);
+> container(10);
 
 for ( auto&& tuple : container ) {
 	tuple.set<0>(UINT32_MAX);
@@ -42,7 +40,7 @@ for ( auto&& tuple : container ) {
 uint32_t test = container.at(5).get<0>();
 ```
 
-The code listed above instantiates a 100 byte buffer, defines a container of a structure consisting of a `uint32_t`, `int16_t`, 3-byte and `uint8_t` field with little endianess on this buffer, iterates through all 10 elements, gives them values, transparently converts to the correct endianess and extracts the value of the first field of the fifth tuple contained in the buffer.
+The code listed above defines a container of a structure consisting of a `uint32_t`, `int16_t`, 3-byte and `uint8_t` field with little endianess, instantiates a buffer containing ten instances of this tuple, iterates through all 10 elements, gives them values, transparently converts to the correct endianess and extracts the value of the first field of the fifth tuple contained in the buffer.
 In short: BinaryMapping is a library that abstracts endianess aware serializing of binary structures into tuples, containers and iterators.
 If you are interested in further details of the usage of all features provided by BinaryMapping don't hesitate to check out the appropriate [wiki-page](https://github.com/KnairdA/BinaryMapping/wiki/Basic-Usage).
 

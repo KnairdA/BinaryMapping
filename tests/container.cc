@@ -15,7 +15,7 @@ class ContainerTest : public ::testing::Test {
 
 		virtual void SetUp() {
 			this->container_ = std::unique_ptr<TestContainer>(
-				new TestContainer(10 * TestContainer::element_type::size)
+				new TestContainer(10)
 			);
 
 			for ( size_t i = 0; i != 10; ++i ) {
