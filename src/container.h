@@ -4,8 +4,9 @@
 #include <stdexcept>
 
 #include "tuple/tuple.h"
-#include "endianess/undefined.h"
 #include "detail/io/buffer.h"
+#include "endianess/undefined.h"
+#include "custom/custom_serializable.h"
 
 #include "iterator.h"
 
@@ -25,6 +26,11 @@ class Container {
 
 		Container(uint8_t*const ptr, size_t size):
 			buffer_(ptr, size),
+			tuple_count_(buffer_.size<element_type::size>()) { }
+
+		template <size_t Size>
+		Container(ByteField<Size>* field):
+			buffer_(field->bytes.data(), field->bytes.size()),
 			tuple_count_(buffer_.size<element_type::size>()) { }
 
 		inline size_t size() const {
@@ -73,7 +79,7 @@ class Container {
 			);
 		}
 
-		inline std::pair<uint8_t*const, const size_t> data() const {
+		inline std::pair<uint8_t*const, const size_t> data() {
 			return std::make_pair(this->buffer_.front(), this->buffer_.size());
 		}
 

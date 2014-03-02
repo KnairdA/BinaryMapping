@@ -21,6 +21,7 @@ add_executable(
 	tests/endianess.cc
 	tests/container.cc
 	tests/bit_field.cc
+	tests/special_use_case.cc
 )
 
 target_link_libraries(
