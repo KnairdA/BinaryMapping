@@ -11,7 +11,7 @@ namespace dtl {
 
 class Buffer {
 	public:
-		Buffer(size_t size):
+		explicit Buffer(size_t size):
 			data_(reinterpret_cast<uint8_t*>(
 				std::calloc(size, sizeof(uint8_t))
 			)),

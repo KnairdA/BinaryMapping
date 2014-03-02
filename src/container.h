@@ -20,17 +20,17 @@ class Container {
 		typedef Iterator<Type> iterator_type;
 		typedef Iterator<const Type> const_iterator_type;
 
-		Container(size_t size):
+		explicit Container(size_t size):
 			buffer_(size * element_type::size),
+			tuple_count_(buffer_.size<element_type::size>()) { }
+
+		template <size_t Size>
+		explicit Container(ByteField<Size>* field):
+			buffer_(field->bytes.data(), field->bytes.size()),
 			tuple_count_(buffer_.size<element_type::size>()) { }
 
 		Container(uint8_t*const ptr, size_t size):
 			buffer_(ptr, size),
-			tuple_count_(buffer_.size<element_type::size>()) { }
-
-		template <size_t Size>
-		Container(ByteField<Size>* field):
-			buffer_(field->bytes.data(), field->bytes.size()),
 			tuple_count_(buffer_.size<element_type::size>()) { }
 
 		inline size_t size() const {

@@ -2,6 +2,7 @@
 #define BINARY_MAPPING_SRC_CUSTOM_CUSTOM_SERIALIZABLE_H_
 
 #include <array>
+#include <cassert>
 
 #include "detail/utility.h"
 
