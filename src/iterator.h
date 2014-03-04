@@ -31,9 +31,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator& operator++() {
-			if ( this->index_ < this->end_ ) {
-				++this->index_;
-			}
+			++this->index_;
 
 			return *this;
 		}
@@ -47,9 +45,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator& operator--() {
-			if ( this->index_ > this->begin_ ) {
-				--this->index_;
-			}
+			--this->index_;
 
 			return *this;
 		}
@@ -63,17 +59,13 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		}
 
 		inline Iterator& operator+=(off_t offset) {
-			if ( this->index_ + offset < this->end_ ) {
-				this->index_ += offset;
-			}
+			this->index_ += offset;
 
 			return *this;
 		}
 
 		inline Iterator& operator-=(off_t offset) {
-			if ( this->index_ - offset >= this->begin_ ) {
-				this->index_ -= offset;
-			}
+			this->index_ -= offset;
 
 			return *this;
 		}
@@ -107,19 +99,12 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		friend Container<typename std::remove_cv<Type>::type>;
 		friend Container<typename std::add_const<Type>::type>;
 
-		Iterator(dtl::BufferIterator<element_type::size>&& index,
-		         const dtl::BufferIterator<element_type::size>&& begin,
-		         const dtl::BufferIterator<element_type::size>&& end):
+		Iterator(dtl::BufferIterator<element_type::size>&& index):
 			dtl::Comparable<dtl::BufferIterator<element_type::size>>(index),
-			element_(&this->index_),
-			begin_(begin),
-			end_(end) { }
+			element_(&this->index_) { }
 
 	private:
 		element_type element_;
-
-		const dtl::BufferIterator<element_type::size> begin_;
-		const dtl::BufferIterator<element_type::size> end_;
 
 };
 

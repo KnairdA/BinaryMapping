@@ -65,16 +65,12 @@ class Container {
 
 		inline const_iterator_type begin() const {
 			return const_iterator_type(
-				this->buffer_.template begin<element_type::size>(),
-				this->buffer_.template begin<element_type::size>(),
-				this->buffer_.template end<element_type::size>()
+				this->buffer_.template begin<element_type::size>()
 			);
 		}
 
 		inline const_iterator_type end() const {
 			return const_iterator_type(
-				this->buffer_.template end<element_type::size>(),
-				this->buffer_.template begin<element_type::size>(),
 				this->buffer_.template end<element_type::size>()
 			);
 		}
@@ -109,16 +105,12 @@ class Container {
 
 		inline iterator_type begin() {
 			return iterator_type(
-				this->buffer_.template begin<element_type::size>(),
-				this->buffer_.template begin<element_type::size>(),
-				this->buffer_.template end<element_type::size>()
+				this->buffer_.template begin<element_type::size>()
 			);
 		}
 
 		inline iterator_type end() {
 			return iterator_type(
-				this->buffer_.template end<element_type::size>(),
-				this->buffer_.template begin<element_type::size>(),
 				this->buffer_.template end<element_type::size>()
 			);
 		}
