@@ -50,17 +50,17 @@ class Container {
 		}
 
 		inline element_value_type front() const {
-			return static_cast<element_value_type>(
-				element_type(this->buffer_.front())
+			return element_type::constructValue(
+				this->buffer_.front()
 			);
 		}
 
 		inline element_value_type back() const {
-			return static_cast<element_value_type>(element_type(
+			return element_type::constructValue(
 				this->buffer_.template at<element_type::size>(
 					this->tuple_count_ - 1
 				)
-			));
+			);
 		}
 
 		inline const_iterator_type begin() const {

@@ -29,16 +29,16 @@ class Buffer {
 			}
 		}
 
-		inline uint8_t* front() const {
+		inline const uint8_t* front() const {
 			return this->data_;
 		}
 
-		inline uint8_t* at(size_t index) const {
+		inline const uint8_t* at(size_t index) const {
 			return this->at<sizeof(uint8_t)>(index);
 		}
 
 		template <size_t Size>
-		inline uint8_t* at(size_t index) const {
+		inline const uint8_t* at(size_t index) const {
 			if ( index < this->size<Size>() ) {
 				return this->data_ + index * Size;
 			} else {
@@ -46,7 +46,7 @@ class Buffer {
 			}
 		}
 
-		inline uint8_t* operator[] (size_t index) const {
+		inline const uint8_t* operator[] (size_t index) const {
 			return this->data_ + index;
 		}
 
@@ -69,6 +69,27 @@ class Buffer {
 		template <size_t Size>
 		inline size_t size() const {
 			return this->size_ / Size;
+		}
+
+		inline uint8_t* front() {
+			return this->data_;
+		}
+
+		inline uint8_t* at(size_t index) {
+			return this->at<sizeof(uint8_t)>(index);
+		}
+
+		template <size_t Size>
+		inline uint8_t* at(size_t index) {
+			if ( index < this->size<Size>() ) {
+				return this->data_ + index * Size;
+			} else {
+				throw std::out_of_range("range_violated");
+			}
+		}
+
+		inline uint8_t* operator[] (size_t index) {
+			return this->data_ + index;
 		}
 
 	private:

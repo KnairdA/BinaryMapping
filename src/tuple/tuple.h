@@ -39,6 +39,15 @@ class Tuple {
 
 		static const size_t size = Weigher::size<relative_tuple>();
 
+		static inline value_type constructValue(const uint8_t*const data) {
+			return Mapper::construct<
+				ValueTuple<Endianess>,
+				value_type
+			>(
+				const_cast<uint8_t*const*>(&data)
+			);
+		}
+
 		Tuple(uint8_t*const data):
 			base_ptr_(data),
 			tuple_(Mapper::construct<
@@ -58,12 +67,7 @@ class Tuple {
 			)) { }
 
 		inline operator value_type() const {
-			return Mapper::construct<
-				ValueTuple<Endianess>,
-				value_type
-			>(
-				this->base_ptr_.get()
-			);
+			return Tuple::constructValue(*(this->base_ptr_.get()));
 		}
 
 		template <size_t Index> 

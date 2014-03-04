@@ -99,7 +99,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 		friend Container<typename std::remove_cv<Type>::type>;
 		friend Container<typename std::add_const<Type>::type>;
 
-		Iterator(dtl::BufferIterator<element_type::size>&& index):
+		explicit Iterator(dtl::BufferIterator<element_type::size>&& index):
 			dtl::Comparable<dtl::BufferIterator<element_type::size>>(index),
 			element_(&this->index_) { }
 
