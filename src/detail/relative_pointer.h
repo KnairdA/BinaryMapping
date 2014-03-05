@@ -6,7 +6,7 @@
 namespace BinaryMapping {
 namespace dtl {
 
-template<
+template <
 	typename Base,
 	typename Type
 >

@@ -120,7 +120,7 @@ class Tuple {
 		}
 
 	protected:
-		const dtl::BasePtr base_ptr_;
+		const dtl::BasePtr<uint8_t> base_ptr_;
 		const relative_tuple tuple_;
 
 };
