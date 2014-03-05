@@ -1,14 +1,14 @@
-#ifndef BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
-#define BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
+#define BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
 
 namespace BinaryMapping {
 namespace dtl {
 
 template <typename Type>
-struct BasePtr {
+struct BasePointer {
 	static_assert(
 		std::is_integral<Type>::value,
-		"BasePtr accepts only integral types"
+		"BasePointer accepts only integral types"
 	);
 
 	typedef typename std::add_const<
@@ -24,11 +24,11 @@ struct BasePtr {
 		Indirect
 	};
 
-	BasePtr(direct_ptr ptr):
+	BasePointer(direct_ptr ptr):
 		direct(ptr),
 		tag(Tag::Direct) { }
 
-	BasePtr(indirect_ptr ptr):
+	BasePointer(indirect_ptr ptr):
 		indirect(ptr),
 		tag(Tag::Indirect) { }
 
@@ -51,4 +51,4 @@ struct BasePtr {
 }
 }
 
-#endif  // BINARY_MAPPING_SRC_DETAIL_BASE_PTR_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_

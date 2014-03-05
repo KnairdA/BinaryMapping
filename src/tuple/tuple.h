@@ -4,7 +4,7 @@
 #include <tuple>
 
 #include "detail/utility.h" 
-#include "detail/base_ptr.h"
+#include "detail/base_pointer.h"
 #include "detail/relative_pointer.h" 
 
 #include "weigher.h" 
@@ -120,7 +120,7 @@ class Tuple {
 		}
 
 	protected:
-		const dtl::BasePtr<uint8_t> base_ptr_;
+		const dtl::BasePointer<uint8_t> base_ptr_;
 		const relative_tuple tuple_;
 
 };
