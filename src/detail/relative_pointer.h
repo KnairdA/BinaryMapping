@@ -46,11 +46,15 @@ class RelativePointer {
 			return *this->get();
 		}
 
-		bool operator==(const RelativePointer<Base, Type>& ptr) const {
+		bool operator==(
+			dtl::const_lvalue_reference<RelativePointer> ptr
+		) const {
 			return this->get() == ptr.get();
 		}
 
-		bool operator!=(const RelativePointer<Base, Type>& ptr) const {
+		bool operator!=(
+			dtl::const_lvalue_reference<RelativePointer> ptr
+		) const {
 			return this->get() != ptr.get();
 		}
 
