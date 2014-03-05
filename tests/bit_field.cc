@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "custom/bit_field.h"
+#include "type/bit_field.h"
 
 class BitFieldTest : public ::testing::Test {
 	protected:

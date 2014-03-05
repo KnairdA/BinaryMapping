@@ -1,11 +1,12 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_MODIFIER_VALUE_TUPLE_H_
-#define BINARY_MAPPING_SRC_TUPLE_MODIFIER_VALUE_TUPLE_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_TUPLE_MODIFIER_VALUE_TUPLE_H_
+#define BINARY_MAPPING_SRC_DETAIL_TUPLE_MODIFIER_VALUE_TUPLE_H_
 
 #include <tuple>
 
 #include "endianess/out_of_place_sorter.h" 
 
 namespace BinaryMapping {
+namespace dtl {
 
 template <typename Endianess>
 struct ValueTuple {
@@ -30,12 +31,13 @@ struct ValueTuple {
 		size_t Index
 	>
 	static constexpr size_t size() {
-		return dtl::size_of<
+		return size_of<
 			typename std::tuple_element<Index, Target>::type
 		>();
 	}
 };
 
 }
+}
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_MODIFIER_VALUE_TUPLE_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_TUPLE_MODIFIER_VALUE_TUPLE_H_

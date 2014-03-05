@@ -1,11 +1,12 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_MAPPER_H_
-#define BINARY_MAPPING_SRC_TUPLE_MAPPER_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_TUPLE_MAPPER_H_
+#define BINARY_MAPPING_SRC_DETAIL_TUPLE_MAPPER_H_
 
 #include <tuple>
 
 #include "detail/utility.h"
 
 namespace BinaryMapping {
+namespace dtl {
 
 struct Mapper {
 	template <
@@ -14,7 +15,7 @@ struct Mapper {
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current = std::tuple<>,
-		dtl::enable_if<Index  == std::tuple_size<Target>::value> = 0
+		enable_if<Index  == std::tuple_size<Target>::value> = 0
 	>
 	static inline Target construct(
 		uint8_t*const*,
@@ -29,7 +30,7 @@ struct Mapper {
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current = std::tuple<>,
-		dtl::enable_if<Index  < std::tuple_size<Target>::value> = 0
+		enable_if<Index  < std::tuple_size<Target>::value> = 0
 	>
 	static inline Target construct(
 		uint8_t*const* buffer,
@@ -53,5 +54,6 @@ struct Mapper {
 };
 
 }
+}
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_MAPPER_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_TUPLE_MAPPER_H_

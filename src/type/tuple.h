@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_TUPLE_H_
-#define BINARY_MAPPING_SRC_TUPLE_TUPLE_H_
+#ifndef BINARY_MAPPING_SRC_TYPE_TUPLE_H_
+#define BINARY_MAPPING_SRC_TYPE_TUPLE_H_
 
 #include <tuple>
 
@@ -7,12 +7,12 @@
 #include "detail/base_pointer.h"
 #include "detail/relative_pointer.h" 
 
-#include "weigher.h" 
-#include "mapper.h" 
-#include "setter.h" 
+#include "detail/tuple/weigher.h" 
+#include "detail/tuple/setter.h" 
 
-#include "modifier/relative_tuple.h"
-#include "modifier/value_tuple.h"
+#include "detail/tuple/mapper.h" 
+#include "detail/tuple/modifier/relative_tuple.h"
+#include "detail/tuple/modifier/value_tuple.h"
 
 #include "endianess/serializer.h" 
 #include "endianess/in_place_sorter.h" 
@@ -37,11 +37,11 @@ class Tuple {
 	public:
 		typedef std::tuple<Types...> value_type;
 
-		static const size_t size = Weigher::size<relative_tuple>();
+		static const size_t size = dtl::Weigher::size<relative_tuple>();
 
 		static inline value_type constructValue(const uint8_t*const data) {
-			return Mapper::construct<
-				ValueTuple<Endianess>,
+			return dtl::Mapper::construct<
+				dtl::ValueTuple<Endianess>,
 				value_type
 			>(
 				const_cast<uint8_t*const*>(&data)
@@ -50,8 +50,8 @@ class Tuple {
 
 		Tuple(uint8_t*const data):
 			base_ptr_(data),
-			tuple_(Mapper::construct<
-				RelativeTuple,
+			tuple_(dtl::Mapper::construct<
+				dtl::RelativeTuple,
 				relative_tuple
 			>(
 				this->base_ptr_.get()
@@ -59,8 +59,8 @@ class Tuple {
 
 		Tuple(uint8_t*const* data):
 			base_ptr_(data),
-			tuple_(Mapper::construct<
-				RelativeTuple,
+			tuple_(dtl::Mapper::construct<
+				dtl::RelativeTuple,
 				relative_tuple
 			>(
 				this->base_ptr_.get()
@@ -83,7 +83,7 @@ class Tuple {
 		}
 
 		inline void operator=(dtl::const_lvalue_reference<value_type> values) {
-			Setter<Endianess>::template populate<
+			dtl::Setter<Endianess>::template populate<
 				relative_tuple,
 				value_type
 			>(values, this->tuple_);
@@ -130,4 +130,4 @@ using PlainTuple = Tuple<UndefinedEndian, Types...>;
 
 }
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_TUPLE_H_
+#endif  // BINARY_MAPPING_SRC_TYPE_TUPLE_H_

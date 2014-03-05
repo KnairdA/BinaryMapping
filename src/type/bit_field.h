@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_
-#define BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_
+#ifndef BINARY_MAPPING_SRC_TYPE_BIT_FIELD_H_
+#define BINARY_MAPPING_SRC_TYPE_BIT_FIELD_H_
 
 #include <algorithm>
 #include <functional>
@@ -154,4 +154,4 @@ struct BitField : public CustomSerializable<
 
 #include "bit_field_reference.h"
 
-#endif  // BINARY_MAPPING_SRC_CUSTOM_BIT_FIELD_H_
+#endif  // BINARY_MAPPING_SRC_TYPE_BIT_FIELD_H_

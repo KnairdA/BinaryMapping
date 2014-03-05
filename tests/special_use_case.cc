@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "container.h"
+#include "type/tuple.h"
 
 class SpecialUseCaseTest : public ::testing::Test { };
 

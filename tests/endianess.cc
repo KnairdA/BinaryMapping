@@ -2,9 +2,11 @@
 
 #include <memory>
 
-#include "tuple/tuple.h"
-#include "custom/bit_field.h"
 #include "detail/io/buffer.h"
+
+#include "type/tuple.h"
+#include "type/custom_serializable.h"
+
 #include "endianess/little.h"
 #include "endianess/big.h"
 

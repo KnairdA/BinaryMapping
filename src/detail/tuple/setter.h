@@ -1,9 +1,10 @@
-#ifndef BINARY_MAPPING_SRC_TUPLE_SETTER_H_
-#define BINARY_MAPPING_SRC_TUPLE_SETTER_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_TUPLE_SETTER_H_
+#define BINARY_MAPPING_SRC_DETAIL_TUPLE_SETTER_H_
 
 #include "endianess/in_place_sorter.h" 
 
 namespace BinaryMapping {
+namespace dtl {
 
 template <typename Endianess>
 struct Setter {
@@ -11,7 +12,7 @@ struct Setter {
 		typename Target,
 		typename Source,
 		size_t Index     = 0,
-		dtl::enable_if<Index  == std::tuple_size<Source>::value> = 0
+		enable_if<Index  == std::tuple_size<Source>::value> = 0
 	>
 	static inline void populate(const Source&, const Target&) { }
 
@@ -19,7 +20,7 @@ struct Setter {
 		typename Target,
 		typename Source,
 		size_t Index     = 0,
-		dtl::enable_if<Index  < std::tuple_size<Source>::value> = 0
+		enable_if<Index  < std::tuple_size<Source>::value> = 0
 	>
 	static inline void populate(
 		const Source& source,
@@ -61,5 +62,6 @@ struct Setter {
 };
 
 }
+}
 
-#endif  // BINARY_MAPPING_SRC_TUPLE_SETTER_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_TUPLE_SETTER_H_

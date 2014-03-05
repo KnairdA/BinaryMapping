@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "container.h"
+#include "type/tuple.h"
 
 class ContainerTest : public ::testing::Test {
 	protected:
