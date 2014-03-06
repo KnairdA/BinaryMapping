@@ -15,10 +15,20 @@ namespace BinaryMapping {
 template <typename Type>
 class Container {
 	public:
-		typedef Type element_type;
-		typedef typename Type::value_type element_value_type;
-		typedef Iterator<Type> iterator_type;
-		typedef Iterator<const Type> const_iterator_type;
+		typedef typename Type::template type<uint8_t> element_type;
+		typedef typename Type::template type<const uint8_t> const_element_type;
+
+		typedef typename const_element_type::value_type element_value_type;
+
+		typedef Iterator<
+			dtl::BufferIterator<uint8_t, element_type::size>,
+			element_type
+		> iterator_type;
+
+		typedef Iterator<
+			dtl::BufferIterator<const uint8_t, element_type::size>,
+			const_element_type
+		> const_iterator_type;
 
 		explicit Container(size_t size):
 			buffer_(size * element_type::size),
@@ -38,27 +48,31 @@ class Container {
 		}
 
 		inline element_value_type operator[](size_t index) const {
-			return static_cast<element_value_type>(element_type(
+			return static_cast<element_value_type>(const_element_type(
 				this->buffer_[element_type::size * index]
 			));
 		}
 
 		inline element_value_type at(size_t index) const {
-			return static_cast<element_value_type>(element_type(
-				this->buffer_.template at<element_type::size>(index)
-			));
+			return static_cast<element_value_type>(
+				const_element_type(
+					this->buffer_.template at<element_type::size>(index)
+				)
+			);
 		}
 
 		inline element_value_type front() const {
-			return element_type::constructValue(
-				this->buffer_.front()
+			return static_cast<element_value_type>(
+				const_element_type(this->buffer_.front())
 			);
 		}
 
 		inline element_value_type back() const {
-			return element_type::constructValue(
-				this->buffer_.template at<element_type::size>(
-					this->tuple_count_ - 1
+			return static_cast<element_value_type>(
+				const_element_type(
+					this->buffer_.template at<element_type::size>(
+						this->tuple_count_ - 1
+					)
 				)
 			);
 		}

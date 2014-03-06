@@ -18,7 +18,7 @@ class TupleTest : public ::testing::Test {
 			int16_t,
 			int8_t,
 			BinaryMapping::ByteField<3>
-		> TestTuple;
+		>::type<uint8_t> TestTuple;
 
 		virtual void SetUp() {
 			this->buffer_ = std::unique_ptr<BinaryMapping::dtl::Buffer>(

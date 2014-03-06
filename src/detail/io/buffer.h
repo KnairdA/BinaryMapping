@@ -11,6 +11,12 @@ namespace dtl {
 
 class Buffer {
 	public:
+		template <size_t Size>
+		using iterator_type = BufferIterator<uint8_t, Size>;
+
+		template <size_t Size>
+		using const_iterator_type = BufferIterator<const uint8_t, Size>;
+
 		explicit Buffer(size_t size):
 			data_(reinterpret_cast<uint8_t*>(
 				std::calloc(size, sizeof(uint8_t))
@@ -51,13 +57,13 @@ class Buffer {
 		}
 
 		template <size_t Size>
-		inline BufferIterator<Size> begin() const {
-			return BufferIterator<Size>(this->data_);
+		inline const_iterator_type<Size> begin() const {
+			return const_iterator_type<Size>(this->data_);
 		}
 
 		template <size_t Size>
-		inline BufferIterator<Size> end() const {
-			return BufferIterator<Size>(
+		inline const_iterator_type<Size> end() const {
+			return const_iterator_type<Size>(
 				this->data_ + this->size<Size>() * Size
 			);
 		}
@@ -90,6 +96,18 @@ class Buffer {
 
 		inline uint8_t* operator[] (size_t index) {
 			return this->data_ + index;
+		}
+
+		template <size_t Size>
+		inline iterator_type<Size> begin() {
+			return iterator_type<Size>(this->data_);
+		}
+
+		template <size_t Size>
+		inline iterator_type<Size> end() {
+			return iterator_type<Size>(
+				this->data_ + this->size<Size>() * Size
+			);
 		}
 
 	private:

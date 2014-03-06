@@ -105,9 +105,6 @@ TEST_F(ContainerTest, ConstContainer) {
 	EXPECT_EQ(constContainer->front(), TestContainer::element_value_type(0, 0));
 	EXPECT_EQ(constContainer->back(),  TestContainer::element_value_type(9, 9));
 
-	EXPECT_TRUE((std::is_same<decltype(*constContainer->begin()), const TestContainer::element_type&>::value));
-	EXPECT_TRUE((std::is_same<decltype(*constContainer->end()),   const TestContainer::element_type&>::value));
-
 	for ( TestContainer::const_iterator_type iter(constContainer->begin());
 	      iter != constContainer->end();
 	      ++iter ) {

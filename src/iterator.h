@@ -10,12 +10,15 @@ namespace BinaryMapping {
 
 template <typename Type> class Container;
 
-template <typename Type>
+template <
+	typename Base,
+	typename Type
+>
 class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       Type&,
                                       off_t,
                                       Type*>,
-                 public dtl::Comparable<dtl::BufferIterator<Type::size>> {
+                 public dtl::Comparable<Base> {
 	public:
 		typedef Type element_type;
 		typedef typename Type::value_type element_value_type;
@@ -95,12 +98,9 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return Iterator(src) += offset;
 		}
 
-	protected:
-		friend Container<typename std::remove_cv<Type>::type>;
-		friend Container<typename std::add_const<Type>::type>;
 
-		explicit Iterator(dtl::BufferIterator<element_type::size>&& index):
-			dtl::Comparable<dtl::BufferIterator<element_type::size>>(index),
+		explicit Iterator(Base&& index):
+			dtl::Comparable<Base>(index),
 			element_(&this->index_) { }
 
 	private:

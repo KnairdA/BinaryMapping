@@ -15,10 +15,11 @@ struct Mapper {
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current = std::tuple<>,
+		typename Base,
 		enable_if<Index  == std::tuple_size<Target>::value> = 0
 	>
 	static inline Target construct(
-		uint8_t*const*,
+		Base,
 		Current&& current
 	) {
 		return current;
@@ -30,10 +31,11 @@ struct Mapper {
 		size_t Index     = 0,
 		off_t Offset     = 0,
 		typename Current = std::tuple<>,
+		typename Base,
 		enable_if<Index  < std::tuple_size<Target>::value> = 0
 	>
 	static inline Target construct(
-		uint8_t*const* buffer,
+		Base buffer,
 		Current&& current = std::tuple<>()
 	) {
 		return construct<

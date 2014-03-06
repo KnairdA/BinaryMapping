@@ -46,7 +46,7 @@ TEST_F(EndianTest, LittleEndian) {
 		uint32_t,
 		int16_t,
 		BinaryMapping::ByteField<3>
-	> TestMapping;
+	>::type<uint8_t> TestMapping;
 
 	TestMapping mapping(this->buffer_->front());
 
@@ -70,7 +70,7 @@ TEST_F(EndianTest, BigEndian) {
 		uint32_t,
 		int16_t,
 		BinaryMapping::ByteField<3>
-	> TestMapping;
+	>::type<uint8_t> TestMapping;
 
 	TestMapping mapping(this->buffer_->front());
 
@@ -94,7 +94,7 @@ TEST_F(EndianTest, UndefinedEndian) {
 		uint32_t,
 		int16_t,
 		BinaryMapping::ByteField<3>
-	> TestMapping;
+	>::type<uint8_t> TestMapping;
 
 	TestMapping mapping(this->buffer_->front());
 
@@ -126,14 +126,14 @@ TEST_F(EndianTest, MixedEndian) {
 		uint64_t,
 		uint32_t,
 		int16_t
-	> BigTestMapping;
+	>::type<uint8_t> BigTestMapping;
 
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
 		uint64_t,
 		uint32_t,
 		int16_t
-	> LittleTestMapping;
+	>::type<uint8_t> LittleTestMapping;
 
 	BigTestMapping bigMapping(this->buffer_->front());
 

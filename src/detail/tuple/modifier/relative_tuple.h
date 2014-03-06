@@ -10,10 +10,11 @@ struct RelativeTuple {
 	template <
 		typename Target,
 		size_t Index,
-		off_t Offset
+		off_t Offset,
+		typename Base
 	>
 	static inline typename std::tuple_element<Index, Target>::type
-	create(uint8_t*const* buffer) {
+	create(Base buffer) {
 		return typename std::tuple_element<Index, Target>::type(
 			buffer, Offset
 		);
