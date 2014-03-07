@@ -17,7 +17,6 @@ class Container {
 	public:
 		typedef typename Type::template type<uint8_t> element_type;
 		typedef typename Type::template type<const uint8_t> const_element_type;
-
 		typedef typename const_element_type::value_type element_value_type;
 
 		typedef Iterator<

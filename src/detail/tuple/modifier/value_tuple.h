@@ -21,7 +21,9 @@ struct ValueTuple {
 		return typename std::tuple_element<Index, Target>::type(
 			OutOfPlaceSorter<Endianess>::sort(
 				*reinterpret_cast<typename std::add_pointer<
-					typename std::tuple_element<Index, Target>::type
+					typename std::add_const<
+						typename std::tuple_element<Index, Target>::type
+					>::type
 				>::type>(*buffer + Offset)
 			)
 		);

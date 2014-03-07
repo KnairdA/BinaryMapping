@@ -45,7 +45,9 @@ class Tuple {
 	>::type indirect_base_ptr;
 
 	public:
-		typedef std::tuple<Types...> value_type;
+		typedef std::tuple<
+			typename std::remove_const<Types>::type...
+		> value_type;
 
 		static const size_t size = Weigher::size<relative_tuple>();
 
