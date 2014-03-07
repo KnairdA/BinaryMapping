@@ -11,6 +11,11 @@ using const_lvalue_reference = typename std::add_lvalue_reference<
 	typename std::add_const<Type>::type
 >::type;
 
+template <typename Type>
+using pointer_to_const = typename std::add_pointer<
+	typename std::add_const<Type>::type
+>::type;
+
 template <bool Condition>
 using enable_if = typename std::enable_if<Condition, size_t>::type;
 

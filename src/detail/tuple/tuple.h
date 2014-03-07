@@ -86,7 +86,7 @@ class Tuple {
 		}
 
 		template <size_t Index> 
-		inline typename std::add_pointer<type_at<Index>>::type ptr() {
+		inline pointer_to_const<type_at<Index>> ptr() const {
 			return std::get<Index>(this->tuple_).get();
 		}
 
@@ -105,6 +105,11 @@ class Tuple {
 				std::get<Index>(this->tuple_).get(),
 				value
 			);
+		}
+
+		template <size_t Index> 
+		inline typename std::add_pointer<type_at<Index>>::type ptr() {
+			return std::get<Index>(this->tuple_).get();
 		}
 
 		template <typename CustomOrder>
