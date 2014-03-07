@@ -36,14 +36,6 @@ class Tuple {
 		relative_tuple
 	>::type::element_type;
 
-	typedef typename std::add_const<
-		typename std::add_pointer<Base>::type
-	>::type direct_base_ptr;
-
-	typedef typename std::add_pointer<
-		direct_base_ptr
-	>::type indirect_base_ptr;
-
 	public:
 		typedef std::tuple<
 			typename std::remove_const<Types>::type...
@@ -51,16 +43,8 @@ class Tuple {
 
 		static const size_t size = Weigher::size<relative_tuple>();
 
-		Tuple(direct_base_ptr data):
-			base_ptr_(data),
-			tuple_(Mapper::construct<
-				RelativeTuple,
-				relative_tuple
-			>(
-				this->base_ptr_.get()
-			)) { }
-
-		Tuple(indirect_base_ptr data):
+		template <typename BaseType>
+		Tuple(BaseType data):
 			base_ptr_(data),
 			tuple_(Mapper::construct<
 				RelativeTuple,
