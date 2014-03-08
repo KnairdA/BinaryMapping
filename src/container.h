@@ -20,30 +20,30 @@ class Container {
 		typedef typename const_element_type::value_type element_value_type;
 
 		typedef Iterator<
-			dtl::BufferIterator<uint8_t, element_type::size>,
+			dtl::Buffer::iterator_type<element_type::size>,
 			element_type
 		> iterator_type;
 
 		typedef Iterator<
-			dtl::BufferIterator<const uint8_t, element_type::size>,
+			dtl::Buffer::const_iterator_type<element_type::size>,
 			const_element_type
 		> const_iterator_type;
 
 		explicit Container(size_t size):
 			buffer_(size * element_type::size),
-			tuple_count_(buffer_.size<element_type::size>()) { }
+			count_(buffer_.size<element_type::size>()) { }
 
 		template <size_t Size>
 		explicit Container(ByteField<Size>* field):
 			buffer_(field->bytes.data(), field->bytes.size()),
-			tuple_count_(buffer_.size<element_type::size>()) { }
+			count_(buffer_.size<element_type::size>()) { }
 
 		Container(uint8_t*const ptr, size_t size):
 			buffer_(ptr, size),
-			tuple_count_(buffer_.size<element_type::size>()) { }
+			count_(buffer_.size<element_type::size>()) { }
 
 		inline size_t size() const {
-			return this->tuple_count_;
+			return this->count_;
 		}
 
 		inline element_value_type operator[](size_t index) const {
@@ -70,7 +70,7 @@ class Container {
 			return static_cast<element_value_type>(
 				const_element_type(
 					this->buffer_.template at<element_type::size>(
-						this->tuple_count_ - 1
+						this->count_ - 1
 					)
 				)
 			);
@@ -88,7 +88,7 @@ class Container {
 			);
 		}
 
-		inline std::pair<uint8_t*const, const size_t> data() {
+		inline std::pair<const uint8_t*const, const size_t> data() const {
 			return std::make_pair(this->buffer_.front(), this->buffer_.size());
 		}
 
@@ -111,7 +111,7 @@ class Container {
 		inline element_type back() {
 			return element_type(
 				this->buffer_.template at<element_type::size>(
-					this->tuple_count_ - 1
+					this->count_ - 1
 				)
 			);
 		}
@@ -128,9 +128,13 @@ class Container {
 			);
 		}
 
+		inline std::pair<uint8_t*const, const size_t> data() {
+			return std::make_pair(this->buffer_.front(), this->buffer_.size());
+		}
+
 	private:
-		dtl::Buffer buffer_;
-		const size_t tuple_count_;
+		dtl::Buffer  buffer_;
+		const size_t count_;
 
 };
 

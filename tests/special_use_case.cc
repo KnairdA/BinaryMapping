@@ -64,7 +64,10 @@ template <
 >
 class PairImpl {
 	public:
-		typedef std::pair<Type1, Type2> value_type;
+		typedef std::pair<
+			typename std::remove_const<Type1>::type,
+			typename std::remove_const<Type2>::type
+		> value_type;
 
 		static const size_t size = sizeof(Type1) + sizeof(Type2);
 
