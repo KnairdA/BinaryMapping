@@ -1,6 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_DETAIL_TUPLE_MAPPER_H_
 #define BINARY_MAPPING_SRC_DETAIL_TUPLE_MAPPER_H_
 
+#include <cstddef>
 #include <tuple>
 
 #include "detail/utility.h"
@@ -12,8 +13,8 @@ struct Mapper {
 	template <
 		typename Modifier,
 		typename Target,
-		size_t Index     = 0,
-		off_t Offset     = 0,
+		std::size_t Index     = 0,
+		std::ptrdiff_t Offset = 0,
 		typename Current = std::tuple<>,
 		typename Base,
 		enable_if<Index  == std::tuple_size<Target>::value> = 0
@@ -28,8 +29,8 @@ struct Mapper {
 	template <
 		typename Modifier,
 		typename Target,
-		size_t Index     = 0,
-		off_t Offset     = 0,
+		std::size_t Index     = 0,
+		std::ptrdiff_t Offset = 0,
 		typename Current = std::tuple<>,
 		typename Base,
 		enable_if<Index  < std::tuple_size<Target>::value> = 0

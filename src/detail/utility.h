@@ -17,7 +17,7 @@ using pointer_to_const = typename std::add_pointer<
 >::type;
 
 template <bool Condition>
-using enable_if = typename std::enable_if<Condition, size_t>::type;
+using enable_if = typename std::enable_if<Condition, std::size_t>::type;
 
 template <
 	typename Type,
@@ -65,7 +65,7 @@ template <
 	typename Type,
 	enable_if<is_custom_serializable<Type>::value> = 0
 >
-constexpr size_t size_of() {
+constexpr std::size_t size_of() {
 	return std::tuple_size<decltype(Type:: bytes)>::value;
 }
 
@@ -73,13 +73,13 @@ template <
 	typename Type,
 	enable_if<std::is_pod<Type>::value> = 0
 >
-constexpr size_t size_of() {
+constexpr std::size_t size_of() {
 	return sizeof(Type);
 }
 
-template <size_t Size>
+template <std::size_t Size>
 struct bits_to_bytes : std::integral_constant<
-	size_t,
+	std::size_t,
 	Size / 8
 > {
 	static_assert(

@@ -1,6 +1,8 @@
 #ifndef BINARY_MAPPING_SRC_TYPE_TYPE_SERIALIZABLE_H_
 #define BINARY_MAPPING_SRC_TYPE_TYPE_SERIALIZABLE_H_
 
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <cassert>
 
@@ -8,9 +10,9 @@
 
 namespace BinaryMapping {
 
-template <size_t Size>
+template <std::size_t Size>
 struct CustomSerializable {
-	std::array<uint8_t, Size> bytes;
+	std::array<std::uint8_t, Size> bytes;
 
 	CustomSerializable(): bytes{} { }
 	CustomSerializable(CustomSerializable&&) = default;
@@ -20,7 +22,7 @@ struct CustomSerializable {
 		dtl::const_lvalue_reference<CustomSerializable> src):
 		bytes(src.bytes) { }
 
-	CustomSerializable(const std::initializer_list<uint8_t>&& tmp) {
+	CustomSerializable(const std::initializer_list<std::uint8_t>&& tmp) {
 		assert(tmp.size() == Size);
 
 		std::copy(
@@ -48,7 +50,7 @@ struct CustomSerializable {
 	}
 };
 
-template <size_t Size>
+template <std::size_t Size>
 using ByteField = CustomSerializable<Size>;
 
 }

@@ -1,6 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_DETAIL_TUPLE_TUPLE_H_
 #define BINARY_MAPPING_SRC_DETAIL_TUPLE_TUPLE_H_
 
+#include <cstddef>
 #include <tuple>
 
 #include "detail/utility.h" 
@@ -30,7 +31,7 @@ template <
 class Tuple {
 	typedef std::tuple<RelativePointer<Base, Types>...> relative_tuple;
 
-	template <size_t Index>
+	template <std::size_t Index>
 	using type_at = typename std::tuple_element<
 		Index,
 		relative_tuple
@@ -41,7 +42,7 @@ class Tuple {
 			typename std::remove_const<Types>::type...
 		> value_type;
 
-		static const size_t size = Weigher::size<relative_tuple>();
+		static const std::size_t size = Weigher::size<relative_tuple>();
 
 		template <typename BaseType>
 		Tuple(BaseType data):
@@ -62,14 +63,14 @@ class Tuple {
 			);
 		}
 
-		template <size_t Index> 
+		template <std::size_t Index> 
 		inline type_at<Index> get() const {
 			return OutOfPlaceSorter<Endianess>::sort(
 				*std::get<Index>(this->tuple_)
 			);
 		}
 
-		template <size_t Index> 
+		template <std::size_t Index> 
 		inline pointer_to_const<type_at<Index>> ptr() const {
 			return std::get<Index>(this->tuple_).get();
 		}
@@ -81,7 +82,7 @@ class Tuple {
 			>(values, this->tuple_);
 		}
 
-		template <size_t Index>
+		template <std::size_t Index>
 		inline void set(const_lvalue_reference<type_at<Index>> value) {
 			InPlaceSorter<Endianess>::template mix<
 				type_at<Index>
@@ -91,7 +92,7 @@ class Tuple {
 			);
 		}
 
-		template <size_t Index> 
+		template <std::size_t Index> 
 		inline typename std::add_pointer<type_at<Index>>::type ptr() {
 			return std::get<Index>(this->tuple_).get();
 		}

@@ -10,11 +10,10 @@ namespace dtl {
 
 template <
 	typename Base,
-	size_t Size
+	std::size_t Size
 >
 struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
-                                             Base*,
-                                             off_t>,
+                                             Base*>,
                         public Comparable<Base*> {
 	using Comparable<Base*>::Comparable;
 
@@ -54,19 +53,19 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 		return tmp;
 	}
 
-	inline BufferIterator& operator+=(off_t offset) {
+	inline BufferIterator& operator+=(std::ptrdiff_t offset) {
 		this->index_ += offset * Size;
 
 		return *this;
 	}
 
-	inline BufferIterator& operator-=(off_t offset) {
+	inline BufferIterator& operator-=(std::ptrdiff_t offset) {
 		this->index_ -= offset * Size;
 
 		return *this;
 	}
 
-	inline BufferIterator operator+(off_t offset) const {
+	inline BufferIterator operator+(std::ptrdiff_t offset) const {
 		return BufferIterator(*this) += offset;
 	}
 
@@ -76,16 +75,16 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 		return ( this->index_ - src.index_ ) / Size;
 	}
 
-	inline BufferIterator operator-(off_t offset) const {
+	inline BufferIterator operator-(std::ptrdiff_t offset) const {
 		return BufferIterator(*this) -= offset;
 	}
 
-	inline BufferIterator operator[](off_t offset) const {
+	inline BufferIterator operator[](std::ptrdiff_t offset) const {
 		return *(this->operator+(offset));
 	}
 
 	friend inline BufferIterator operator+(
-		off_t offset,
+		std::ptrdiff_t offset,
 		dtl::const_lvalue_reference<BufferIterator> src
 	) {
 		return BufferIterator(src) += offset;

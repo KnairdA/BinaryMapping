@@ -1,7 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_H_
 #define BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_H_
 
-#include <cstdlib>
+#include <cstdint>
 #include <stdexcept>
 
 #include "buffer_iterator.h"
@@ -11,23 +11,25 @@ namespace dtl {
 
 class Buffer {
 	public:
-		typedef std::add_pointer<uint8_t>::type memory_type;
-		typedef pointer_to_const<uint8_t> const_memory_type;
+		typedef std::uint8_t memory_type;
+		typedef std::size_t size_type;
+		typedef std::add_pointer<memory_type>::type pointer;
+		typedef pointer_to_const<memory_type> const_pointer;
 
-		template <size_t Size>
-		using iterator_type = BufferIterator<uint8_t, Size>;
+		template <size_type Size>
+		using iterator_type = BufferIterator<memory_type, Size>;
 
-		template <size_t Size>
-		using const_iterator_type = BufferIterator<const uint8_t, Size>;
+		template <size_type Size>
+		using const_iterator_type = BufferIterator<const memory_type, Size>;
 
-		explicit Buffer(size_t size):
-			data_(reinterpret_cast<uint8_t*>(
-				std::calloc(size, sizeof(uint8_t))
+		explicit Buffer(size_type size):
+			data_(reinterpret_cast<pointer>(
+				std::calloc(size, sizeof(memory_type))
 			)),
 			size_(size),
 			owner_(true) { }
 
-		Buffer(uint8_t*const data, size_t size):
+		Buffer(pointer const data, size_type size):
 			data_(data),
 			size_(size),
 			owner_(false) { }
@@ -38,16 +40,16 @@ class Buffer {
 			}
 		}
 
-		inline const_memory_type front() const {
+		inline const_pointer front() const {
 			return this->data_;
 		}
 
-		inline const_memory_type at(size_t index) const {
-			return this->at<sizeof(uint8_t)>(index);
+		inline const_pointer at(size_type index) const {
+			return this->at<sizeof(memory_type)>(index);
 		}
 
-		template <size_t Size>
-		inline const_memory_type at(size_t index) const {
+		template <size_type Size>
+		inline const_pointer at(size_type index) const {
 			if ( index < this->size<Size>() ) {
 				return this->data_ + index * Size;
 			} else {
@@ -55,41 +57,41 @@ class Buffer {
 			}
 		}
 
-		inline const_memory_type operator[] (size_t index) const {
+		inline const_pointer operator[] (size_type index) const {
 			return this->data_ + index;
 		}
 
-		template <size_t Size>
+		template <size_type Size>
 		inline const_iterator_type<Size> begin() const {
 			return const_iterator_type<Size>(this->data_);
 		}
 
-		template <size_t Size>
+		template <size_type Size>
 		inline const_iterator_type<Size> end() const {
 			return const_iterator_type<Size>(
 				this->data_ + this->size<Size>() * Size
 			);
 		}
 
-		inline size_t size() const {
+		inline size_type size() const {
 			return this->size_;
 		}
 
-		template <size_t Size>
-		inline size_t size() const {
+		template <size_type Size>
+		inline size_type size() const {
 			return this->size_ / Size;
 		}
 
-		inline memory_type front() {
+		inline pointer front() {
 			return this->data_;
 		}
 
-		inline memory_type at(size_t index) {
-			return this->at<sizeof(uint8_t)>(index);
+		inline pointer at(size_type index) {
+			return this->at<sizeof(memory_type)>(index);
 		}
 
-		template <size_t Size>
-		inline memory_type at(size_t index) {
+		template <size_type Size>
+		inline pointer at(size_type index) {
 			if ( index < this->size<Size>() ) {
 				return this->data_ + index * Size;
 			} else {
@@ -97,16 +99,16 @@ class Buffer {
 			}
 		}
 
-		inline memory_type operator[] (size_t index) {
+		inline pointer operator[] (size_type index) {
 			return this->data_ + index;
 		}
 
-		template <size_t Size>
+		template <size_type Size>
 		inline iterator_type<Size> begin() {
 			return iterator_type<Size>(this->data_);
 		}
 
-		template <size_t Size>
+		template <size_type Size>
 		inline iterator_type<Size> end() {
 			return iterator_type<Size>(
 				this->data_ + this->size<Size>() * Size
@@ -114,10 +116,10 @@ class Buffer {
 		}
 
 	private:
-		memory_type const data_;
-		const size_t size_;
-
+		pointer const data_;
+		const size_type size_;
 		const bool owner_;
+
 };
 
 }

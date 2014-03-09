@@ -1,6 +1,8 @@
 #ifndef BINARY_MAPPING_SRC_TYPE_BIT_FIELD_H_
 #define BINARY_MAPPING_SRC_TYPE_BIT_FIELD_H_
 
+#include <cstdint>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 
@@ -9,11 +11,11 @@
 
 namespace BinaryMapping {
 
-template <size_t Size>
+template <std::size_t Size>
 struct BitField : public CustomSerializable<
 	dtl::bits_to_bytes<Size>::value
 > {
-	static const size_t size = Size;
+	static const std::size_t size = Size;
 
 	class reference;
 
@@ -21,15 +23,15 @@ struct BitField : public CustomSerializable<
 		dtl::bits_to_bytes<Size>::value
 	>::CustomSerializable;
 
-	inline reference operator[](size_t index) {
+	inline reference operator[](std::size_t index) {
 		return reference(*this, index);
 	}
 
-	inline bool operator[](size_t index) const {
+	inline bool operator[](std::size_t index) const {
 		return this->test(index);
 	}
 
-	inline bool test(size_t index) const {
+	inline bool test(std::size_t index) const {
 		return this->bytes.at(index / 8) & (
 			1 << (7 - index % 8)
 		);
@@ -39,7 +41,7 @@ struct BitField : public CustomSerializable<
 		return std::any_of(
 			this->bytes.begin(),
 			this->bytes.end(),
-			[](dtl::const_lvalue_reference<uint8_t> tmp) -> bool {
+			[](dtl::const_lvalue_reference<std::uint8_t> tmp) -> bool {
 				return tmp != 0;
 			}
 		);
@@ -49,7 +51,7 @@ struct BitField : public CustomSerializable<
 		return std::all_of(
 			this->bytes.begin(),
 			this->bytes.end(),
-			[](dtl::const_lvalue_reference<uint8_t> tmp) -> bool {
+			[](dtl::const_lvalue_reference<std::uint8_t> tmp) -> bool {
 				return tmp == UINT8_MAX;
 			}
 		);
@@ -59,10 +61,10 @@ struct BitField : public CustomSerializable<
 		return !this->any();
 	}
 
-	inline size_t count() const {
-		size_t count{};
+	inline std::size_t count() const {
+		std::size_t count{};
 
-		for ( uint8_t byte : this->bytes ) {
+		for ( std::uint8_t byte : this->bytes ) {
 			for ( ; byte; ++count ) {
 				byte &= byte - 1;
 			}
@@ -71,7 +73,7 @@ struct BitField : public CustomSerializable<
 		return count;
 	}
 
-	inline void set(size_t index, bool value = true) {
+	inline void set(std::size_t index, bool value = true) {
 		if ( value ) {
 			this->bytes.at(index / 8) |= (
 				1 << (7 - index % 8)
@@ -81,13 +83,13 @@ struct BitField : public CustomSerializable<
 		}
 	}
 
-	inline void reset(size_t index) {
+	inline void reset(std::size_t index) {
 		this->bytes.at(index / 8) &= (
 			~(1 << (7 - index % 8))
 		);
 	}
 
-	inline void flip(size_t index) {
+	inline void flip(std::size_t index) {
 		this->bytes.at(index / 8) ^= (
 			1 << (7 - index % 8)
 		);
@@ -113,7 +115,7 @@ struct BitField : public CustomSerializable<
 		std::for_each(
 			this->bytes.begin(),
 			this->bytes.end(),
-			[](uint8_t& tmp) {
+			[](std::uint8_t& tmp) {
 				tmp = ~tmp;
 			}
 		);
@@ -125,7 +127,7 @@ struct BitField : public CustomSerializable<
 			this->bytes.end(),
 			rhs.bytes.begin(),
 			this->bytes.begin(),
-			std::bit_and<uint8_t>()
+			std::bit_and<std::uint8_t>()
 		);
 	}
 
@@ -135,7 +137,7 @@ struct BitField : public CustomSerializable<
 			this->bytes.end(),
 			rhs.bytes.begin(),
 			this->bytes.begin(),
-			std::bit_or<uint8_t>()
+			std::bit_or<std::uint8_t>()
 		);
 	}
 
@@ -145,7 +147,7 @@ struct BitField : public CustomSerializable<
 			this->bytes.end(),
 			rhs.bytes.begin(),
 			this->bytes.begin(),
-			std::bit_xor<uint8_t>()
+			std::bit_xor<std::uint8_t>()
 		);
 	}
 };

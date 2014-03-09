@@ -1,9 +1,11 @@
 #ifndef BINARY_MAPPING_SRC_TYPE_BIT_FIELD_REFERENCE_H_
 #define BINARY_MAPPING_SRC_TYPE_BIT_FIELD_REFERENCE_H_
 
+#include <cstddef>
+
 namespace BinaryMapping {
 
-template <size_t Size>
+template <std::size_t Size>
 class BitField<Size>::reference {
 	friend BitField<Size>;
 
@@ -25,12 +27,12 @@ class BitField<Size>::reference {
 		}
 
 	protected:
-		reference(BitField<Size>& field, size_t index):
+		reference(BitField<Size>& field, std::size_t index):
 			index_(index),
 			field_(field) { }
 
 	private:
-		const size_t index_;
+		const std::size_t index_;
 		BitField<Size>& field_;
 
 };

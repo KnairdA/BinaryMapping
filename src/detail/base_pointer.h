@@ -1,6 +1,8 @@
 #ifndef BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
 #define BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
 
+#include <cstdint>
+
 namespace BinaryMapping {
 namespace dtl {
 
@@ -19,7 +21,7 @@ struct BasePointer {
 		direct_ptr
 	>::type indirect_ptr;
 
-	enum class Tag : uint8_t {
+	enum class Tag : std::uint8_t {
 		Direct,
 		Indirect
 	};

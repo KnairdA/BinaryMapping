@@ -1,6 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_ITERATOR_H_
 #define BINARY_MAPPING_SRC_ITERATOR_H_
 
+#include <cstddef>
 #include <iterator>
 
 #include "detail/comparable.h"
@@ -16,12 +17,16 @@ template <
 >
 class Iterator : public std::iterator<std::random_access_iterator_tag,
                                       Type&,
-                                      off_t,
+                                      std::ptrdiff_t,
                                       Type*>,
                  public dtl::Comparable<Base> {
 	public:
 		typedef Type element_type;
 		typedef typename Type::value_type element_value_type;
+
+		explicit Iterator(Base&& index):
+			dtl::Comparable<Base>(index),
+			element_(&this->index_) { }
 
 		inline element_type& operator*() {
 			return this->element_;
@@ -61,47 +66,42 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return tmp;
 		}
 
-		inline Iterator& operator+=(off_t offset) {
+		inline Iterator& operator+=(std::ptrdiff_t offset) {
 			this->index_ += offset;
 
 			return *this;
 		}
 
-		inline Iterator& operator-=(off_t offset) {
+		inline Iterator& operator-=(std::ptrdiff_t offset) {
 			this->index_ -= offset;
 
 			return *this;
 		}
 
-		inline Iterator operator+(off_t offset) const {
+		inline Iterator operator+(std::ptrdiff_t offset) const {
 			return Iterator(*this) += offset;
 		}
 
-		inline off_t operator-(
+		inline std::ptrdiff_t operator-(
 			dtl::const_lvalue_reference<Iterator> src
 		) const {
 			return this->index_ - src.index_;
 		}
 
-		inline Iterator operator-(off_t offset) const {
+		inline Iterator operator-(std::ptrdiff_t offset) const {
 			return Iterator(*this) -= offset;
 		}
 
-		inline Iterator operator[](off_t offset) const {
+		inline Iterator operator[](std::ptrdiff_t offset) const {
 			return *(this->operator+(offset));
 		}
 
 		friend inline Iterator operator+(
-			off_t offset,
+			std::ptrdiff_t offset,
 			dtl::const_lvalue_reference<Iterator> src
 		) {
 			return Iterator(src) += offset;
 		}
-
-
-		explicit Iterator(Base&& index):
-			dtl::Comparable<Base>(index),
-			element_(&this->index_) { }
 
 	private:
 		element_type element_;

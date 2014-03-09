@@ -1,6 +1,8 @@
 #ifndef BINARY_MAPPING_SRC_DETAIL_RELATIVE_POINTER_H_
 #define BINARY_MAPPING_SRC_DETAIL_RELATIVE_POINTER_H_
 
+#include <cstddef>
+
 #include "utility.h"
 
 namespace BinaryMapping {
@@ -32,7 +34,7 @@ class RelativePointer {
 	public:
 		typedef Type element_type;
 
-		RelativePointer(base_ptr base, off_t offset):
+		RelativePointer(base_ptr base, std::ptrdiff_t offset):
 			base_(base),
 			offset_(offset) { }
 
@@ -56,7 +58,7 @@ class RelativePointer {
 
 	private:
 		base_ptr const base_;
-		const off_t offset_;
+		const std::ptrdiff_t offset_;
 };
 
 }
