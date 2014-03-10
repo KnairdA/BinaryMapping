@@ -102,9 +102,9 @@ TEST_F(ContainerTest, Dereference) {
 TEST_F(ContainerTest, ConstContainer) {
 	const TestContainer* constContainer = this->container_.get();
 
-	EXPECT_EQ(constContainer->front(), (std::tuple<uint64_t, uint16_t>(0, 0)));
-	EXPECT_EQ(constContainer->at(1),   (std::tuple<uint64_t, uint16_t>(1, 1)));
-	EXPECT_EQ(constContainer->back(),  (std::tuple<uint64_t, uint16_t>(9, 9)));
+	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->front()), (std::tuple<uint64_t, uint16_t>(0, 0)));
+	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->at(1)),   (std::tuple<uint64_t, uint16_t>(1, 1)));
+	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->back()),  (std::tuple<uint64_t, uint16_t>(9, 9)));
 
 	for ( TestContainer::const_iterator_type iter(constContainer->begin());
 	      iter != constContainer->end();

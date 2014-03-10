@@ -19,7 +19,6 @@ class Container {
 	public:
 		typedef typename Type::template type<std::uint8_t> element_type;
 		typedef typename Type::template type<const std::uint8_t> const_element_type;
-		typedef typename const_element_type::value_type element_value_type;
 
 		typedef Iterator<
 			dtl::Buffer::iterator_type<element_type::size>,
@@ -48,32 +47,26 @@ class Container {
 			return this->count_;
 		}
 
-		inline element_value_type operator[](std::size_t index) const {
-			return static_cast<element_value_type>(const_element_type(
+		inline const_element_type operator[](std::size_t index) const {
+			return const_element_type(
 				this->buffer_[element_type::size * index]
-			));
-		}
-
-		inline element_value_type at(std::size_t index) const {
-			return static_cast<element_value_type>(
-				const_element_type(
-					this->buffer_.template at<element_type::size>(index)
-				)
 			);
 		}
 
-		inline element_value_type front() const {
-			return static_cast<element_value_type>(
-				const_element_type(this->buffer_.front())
+		inline const_element_type at(std::size_t index) const {
+			return const_element_type(
+				this->buffer_.template at<element_type::size>(index)
 			);
 		}
 
-		inline element_value_type back() const {
-			return static_cast<element_value_type>(
-				const_element_type(
-					this->buffer_.template at<element_type::size>(
-						this->count_ - 1
-					)
+		inline const_element_type front() const {
+			return const_element_type(this->buffer_.front());
+		}
+
+		inline const_element_type back() const {
+			return const_element_type(
+				this->buffer_.template at<element_type::size>(
+					this->count_ - 1
 				)
 			);
 		}
