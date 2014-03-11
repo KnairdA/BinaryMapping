@@ -23,9 +23,7 @@ class Buffer {
 		using const_iterator_type = BufferIterator<const memory_type, Size>;
 
 		explicit Buffer(size_type size):
-			data_(reinterpret_cast<pointer>(
-				std::calloc(size, sizeof(memory_type))
-			)),
+			data_(new memory_type[size]()),
 			size_(size),
 			owner_(true) { }
 
@@ -36,7 +34,7 @@ class Buffer {
 
 		~Buffer() {
 			if ( this->owner_ ) {
-				std::free(this->data_);
+				delete[] this->data_;
 			}
 		}
 

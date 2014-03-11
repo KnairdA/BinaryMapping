@@ -18,8 +18,14 @@ template <typename Type>
 class Container {
 	public:
 		typedef std::size_t size_type;
-		typedef typename Type::template type<std::uint8_t> element_type;
-		typedef typename Type::template type<const std::uint8_t> const_element_type;
+
+		typedef typename Type::template type<
+			dtl::Buffer::memory_type
+		> element_type;
+
+		typedef typename Type::template type<
+			const dtl::Buffer::memory_type
+		> const_element_type;
 
 		typedef Iterator<
 			dtl::Buffer::iterator_type<element_type::size>,
