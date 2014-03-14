@@ -137,7 +137,7 @@ class Container {
 		}
 
 		inline std::pair<
-			const dtl::Buffer::pointer,
+			dtl::Buffer::pointer,
 			const dtl::Buffer::size_type
 		> data() {
 			return std::make_pair(
