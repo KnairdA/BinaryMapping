@@ -147,7 +147,7 @@ class Container {
 		}
 
 	private:
-		dtl::Buffer  buffer_;
+		dtl::Buffer buffer_;
 		const size_type count_;
 
 };

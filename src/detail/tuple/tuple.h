@@ -4,21 +4,21 @@
 #include <cstddef>
 #include <tuple>
 
-#include "detail/utility.h" 
-#include "detail/base_pointer.h"
-#include "detail/relative_pointer.h" 
+#include "helper/base_pointer.h"
+#include "helper/relative_pointer.h"
+#include "helper/in_place_sorter.h"
+#include "helper/out_of_place_sorter.h"
 
-#include "detail/tuple/weigher.h" 
-#include "detail/tuple/setter.h" 
+#include "detail/utility.h"
+#include "detail/tuple/weigher.h"
+#include "detail/tuple/setter.h"
 
-#include "detail/tuple/mapper.h" 
+#include "detail/tuple/mapper.h"
 #include "detail/tuple/modifier/relative_tuple.h"
 #include "detail/tuple/modifier/value_tuple.h"
 
-#include "endianess/serializer.h" 
-#include "endianess/in_place_sorter.h" 
-#include "endianess/out_of_place_sorter.h" 
-#include "endianess/undefined.h" 
+#include "endianess/serializer.h"
+#include "endianess/undefined.h"
 
 namespace BinaryMapping {
 namespace dtl {

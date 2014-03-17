@@ -4,7 +4,7 @@
 #include <tuple>
 
 #include "detail/utility.h"
-#include "endianess/in_place_sorter.h"
+#include "helper/in_place_sorter.h"
 
 namespace BinaryMapping {
 

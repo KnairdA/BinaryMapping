@@ -1,10 +1,9 @@
-#ifndef BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
-#define BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
+#ifndef BINARY_MAPPING_SRC_HELPER_BASE_POINTER_H_
+#define BINARY_MAPPING_SRC_HELPER_BASE_POINTER_H_
 
 #include <cstdint>
 
 namespace BinaryMapping {
-namespace dtl {
 
 template <typename Type>
 struct BasePointer {
@@ -51,6 +50,5 @@ struct BasePointer {
 };
 
 }
-}
 
-#endif  // BINARY_MAPPING_SRC_DETAIL_BASE_POINTER_H_
+#endif  // BINARY_MAPPING_SRC_HELPER_BASE_POINTER_H_

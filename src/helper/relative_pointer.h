@@ -1,12 +1,11 @@
-#ifndef BINARY_MAPPING_SRC_DETAIL_RELATIVE_POINTER_H_
-#define BINARY_MAPPING_SRC_DETAIL_RELATIVE_POINTER_H_
+#ifndef BINARY_MAPPING_SRC_HELPER_RELATIVE_POINTER_H_
+#define BINARY_MAPPING_SRC_HELPER_RELATIVE_POINTER_H_
 
 #include <cstddef>
 
-#include "utility.h"
+#include "detail/utility.h"
 
 namespace BinaryMapping {
-namespace dtl {
 
 template <
 	typename Base,
@@ -19,7 +18,7 @@ class RelativePointer {
 	);
 
 	static_assert(
-		std::is_integral<Type>::value || is_custom_serializable<Type>::value,
+		std::is_integral<Type>::value || dtl::is_custom_serializable<Type>::value,
 		"RelativePointer accepts only integral or custom serializable types as target types"
 	);
 
@@ -48,11 +47,11 @@ class RelativePointer {
 			return *this->get();
 		}
 
-		bool operator==(const_lvalue_reference<RelativePointer> ptr) const {
+		bool operator==(dtl::const_lvalue_reference<RelativePointer> ptr) const {
 			return this->get() == ptr.get();
 		}
 
-		bool operator!=(const_lvalue_reference<RelativePointer> ptr) const {
+		bool operator!=(dtl::const_lvalue_reference<RelativePointer> ptr) const {
 			return this->get() != ptr.get();
 		}
 
@@ -62,6 +61,5 @@ class RelativePointer {
 };
 
 }
-}
 
-#endif  // BINARY_MAPPING_SRC_DETAIL_RELATIVE_POINTER_H_
+#endif  // BINARY_MAPPING_SRC_HELPER_RELATIVE_POINTER_H_

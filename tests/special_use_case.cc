@@ -3,8 +3,8 @@
 #include "container.h"
 #include "type/tuple.h"
 
-#include "detail/base_pointer.h"
-#include "detail/relative_pointer.h"
+#include "helper/base_pointer.h"
+#include "helper/relative_pointer.h"
 
 class SpecialUseCaseTest : public ::testing::Test { };
 
@@ -98,10 +98,10 @@ class PairImpl {
 		}
 
 	private:
-		const BinaryMapping::dtl::BasePointer<Base> base_ptr_;
+		const BinaryMapping::BasePointer<Base> base_ptr_;
 
-		BinaryMapping::dtl::RelativePointer<Base, Type1> first_;
-		BinaryMapping::dtl::RelativePointer<Base, Type2> second_;
+		BinaryMapping::RelativePointer<Base, Type1> first_;
+		BinaryMapping::RelativePointer<Base, Type2> second_;
 
 };
 
