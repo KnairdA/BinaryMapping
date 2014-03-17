@@ -4,20 +4,21 @@
 #include <cstddef>
 #include <tuple>
 
+#include "detail/utility.h"
+
 #include "helper/base_pointer.h"
 #include "helper/relative_pointer.h"
 #include "helper/in_place_sorter.h"
 #include "helper/out_of_place_sorter.h"
 
-#include "detail/utility.h"
-#include "detail/tuple/weigher.h"
 #include "detail/tuple/setter.h"
+#include "detail/tuple/weigher.h"
+#include "detail/tuple/serializer.h"
 
 #include "detail/tuple/mapper.h"
 #include "detail/tuple/modifier/relative_tuple.h"
 #include "detail/tuple/modifier/value_tuple.h"
 
-#include "endianess/serializer.h"
 #include "endianess/undefined.h"
 
 namespace BinaryMapping {
@@ -104,7 +105,7 @@ class Tuple {
 				"Endianess must be UndefinedEndian to use serialize<*>()"
 			);
 
-			Serializer<CustomOrder>::serialize(this->tuple_);
+			dtl::Serializer<CustomOrder>::serialize(this->tuple_);
 		}
 
 		template <typename CustomOrder>
@@ -114,7 +115,7 @@ class Tuple {
 				"Endianess must be UndefinedEndian to use deserialize<*>()"
 			);
 
-			Serializer<CustomOrder>::deserialize(this->tuple_);
+			dtl::Serializer<CustomOrder>::deserialize(this->tuple_);
 		}
 
 	protected:

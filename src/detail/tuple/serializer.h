@@ -1,5 +1,5 @@
-#ifndef BINARY_MAPPING_SRC_ENDIANESS_SERIALIZER_H_
-#define BINARY_MAPPING_SRC_ENDIANESS_SERIALIZER_H_
+#ifndef BINARY_MAPPING_SRC_DETAIL_TUPLE_SERIALIZER_H_
+#define BINARY_MAPPING_SRC_DETAIL_TUPLE_SERIALIZER_H_
 
 #include <tuple>
 
@@ -7,20 +7,21 @@
 #include "helper/in_place_sorter.h"
 
 namespace BinaryMapping {
+namespace dtl {
 
 template <class Endianess>
 struct Serializer {
 	template <
 		typename Tuple,
 		size_t Index    = 0,
-		dtl::enable_if<Index == std::tuple_size<Tuple>::value> = 0
+		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
 	static inline void serialize(Tuple&) { }
 
 	template <
 		typename Tuple,
 		size_t Index    = 0,
-		dtl::enable_if<Index < std::tuple_size<Tuple>::value> = 0
+		enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
 	static inline void serialize(Tuple& tuple) { 
 		InPlaceSorter<Endianess>::template mix<
@@ -35,14 +36,14 @@ struct Serializer {
 	template <
 		typename Tuple,
 		size_t Index    = 0,
-		dtl::enable_if<Index == std::tuple_size<Tuple>::value> = 0
+		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
 	static inline void deserialize(Tuple&) { }
 
 	template <
 		typename Tuple,
 		size_t Index    = 0,
-		dtl::enable_if<Index < std::tuple_size<Tuple>::value> = 0
+		enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
 	static inline void deserialize(Tuple& tuple) { 
 		InPlaceSorter<Endianess>::template sort<
@@ -54,5 +55,6 @@ struct Serializer {
 };
 
 }
+}
 
-#endif  // BINARY_MAPPING_SRC_ENDIANESS_SERIALIZER_H_
+#endif  // BINARY_MAPPING_SRC_DETAIL_TUPLE_SERIALIZER_H_
