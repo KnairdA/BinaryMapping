@@ -9,8 +9,6 @@
 
 namespace BinaryMapping {
 
-template <typename Type> class Container;
-
 template <
 	typename Base,
 	typename Type
