@@ -16,7 +16,7 @@ TestTuple tuple(buffer.front());
 
 This `Tuple` instance points to the front of the buffer provided to its construtor and maps the first 4 bytes as a `uint32_t`, the next 2 bytes as `uint16_t` and the next single byte as `int8_t`. This leads to a total structure size of 7 bytes as specified by `TestTuple::size` which means that we can fit this structure 10 times into our 70 byte buffer. `PlainTuple` is a template alias which defines the endianess template argument as `UndefinedEndian` and leaves both the contained types and the memory base type to be specialized. 
 
-*Hint: Note that while we are directly passing a pointer to the front of the Buffer instance this is only for demonstration purposes. Normally you would pass a Tuple type to the Container template which manages memory internally or can be constructed from raw memory pointers. Additionally it also takes away the responsibility of specializing the base memory type from the users of the library. If you want to know more about the libraries internal buffer management you may check out its [documentation](https://github.com/KnairdA/BinaryMapping/wiki/Implementation-details:-Buffer).*
+*Hint: Note that while we are directly passing a pointer to the front of the Buffer instance this is only for demonstration purposes. Normally you would pass a Tuple type to the Container template which manages memory internally or can be constructed from raw memory pointers. Additionally it also takes away the responsibility of specializing the base memory type from the users of the library. If you want to know more about the libraries internal buffer management you may check out its [documentation](https://github.com/KnairdA/BinaryMapping/blob/master/docs/buffer.md).*
 
 #### Endianess
 
