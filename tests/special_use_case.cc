@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 
+#include <cstdint>
+
 #include "container.h"
 #include "type/tuple.h"
 
@@ -11,7 +13,7 @@ class SpecialUseCaseTest : public ::testing::Test { };
 TEST_F(SpecialUseCaseTest, ContainerNesting) {
 	BinaryMapping::Container<
 		BinaryMapping::PlainTuple<
-			uint32_t,
+			std::uint32_t,
 			BinaryMapping::ByteField<16>
 		>
 	> container(10);
@@ -23,8 +25,8 @@ TEST_F(SpecialUseCaseTest, ContainerNesting) {
 
 		BinaryMapping::Container<
 			BinaryMapping::PlainTuple<
-				uint16_t,
-				int16_t
+				std::uint16_t,
+				std::int16_t
 			>
 		> nestedContainer((*level1).ptr<1>());
 
@@ -43,8 +45,8 @@ TEST_F(SpecialUseCaseTest, ContainerNesting) {
 
 		BinaryMapping::Container<
 			BinaryMapping::PlainTuple<
-				uint16_t,
-				int16_t
+				std::uint16_t,
+				std::int16_t
 			>
 		> nestedContainer((*level1).ptr<1>());
 
@@ -124,13 +126,13 @@ struct Pair {
 
 TEST_F(SpecialUseCaseTest, CustomType) {
 	BinaryMapping::Container<
-		Pair<uint32_t, uint8_t>
+		Pair<std::uint32_t, std::uint8_t>
 	> container(10);
 
 	for ( auto iter = container.begin();
 	      iter     != container.end();
 	      ++iter ) {
-		(*iter) = std::pair<uint32_t, uint8_t>(
+		(*iter) = std::pair<std::uint32_t, std::uint8_t>(
 			iter - container.begin() + 2,
 			iter - container.begin()
 		);

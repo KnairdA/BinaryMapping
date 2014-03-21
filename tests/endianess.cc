@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 
 #include <memory>
+#include <cstddef>
+#include <cstdint>
 
 #include "detail/io/buffer.h"
 
@@ -13,9 +15,9 @@
 class EndianTest : public ::testing::Test {
 	protected:
 		virtual void SetUp() {
-			const size_t tupleSize = sizeof(uint64_t) +
-			                         sizeof(uint32_t) +
-			                         sizeof(int16_t);
+			const std::size_t tupleSize = sizeof(std::uint64_t) +
+			                              sizeof(std::uint32_t) +
+			                              sizeof(std::int16_t);
 
 			this->buffer_ = std::unique_ptr<BinaryMapping::dtl::Buffer>(
 				new BinaryMapping::dtl::Buffer(tupleSize)
@@ -25,9 +27,9 @@ class EndianTest : public ::testing::Test {
 		std::unique_ptr<BinaryMapping::dtl::Buffer> buffer_;
 
 		std::tuple<
-			uint64_t,
-			uint32_t,
-			int16_t,
+			std::uint64_t,
+			std::uint32_t,
+			std::int16_t,
 			BinaryMapping::ByteField<3>
 		> test_ = std::make_tuple(
 			UINT32_MAX,
@@ -42,11 +44,11 @@ class EndianTest : public ::testing::Test {
 TEST_F(EndianTest, LittleEndian) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
-		uint64_t,
-		uint32_t,
-		int16_t,
+		std::uint64_t,
+		std::uint32_t,
+		std::int16_t,
 		BinaryMapping::ByteField<3>
-	>::type<uint8_t> TestMapping;
+	>::type<std::uint8_t> TestMapping;
 
 	TestMapping mapping(this->buffer_->front());
 
@@ -66,11 +68,11 @@ TEST_F(EndianTest, LittleEndian) {
 TEST_F(EndianTest, BigEndian) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
-		uint64_t,
-		uint32_t,
-		int16_t,
+		std::uint64_t,
+		std::uint32_t,
+		std::int16_t,
 		BinaryMapping::ByteField<3>
-	>::type<uint8_t> TestMapping;
+	>::type<std::uint8_t> TestMapping;
 
 	TestMapping mapping(this->buffer_->front());
 
@@ -90,11 +92,11 @@ TEST_F(EndianTest, BigEndian) {
 TEST_F(EndianTest, UndefinedEndian) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::UndefinedEndian,
-		uint64_t,
-		uint32_t,
-		int16_t,
+		std::uint64_t,
+		std::uint32_t,
+		std::int16_t,
 		BinaryMapping::ByteField<3>
-	>::type<uint8_t> TestMapping;
+	>::type<std::uint8_t> TestMapping;
 
 	TestMapping mapping(this->buffer_->front());
 
@@ -123,17 +125,17 @@ TEST_F(EndianTest, UndefinedEndian) {
 TEST_F(EndianTest, MixedEndian) {
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::BigEndian,
-		uint64_t,
-		uint32_t,
-		int16_t
-	>::type<uint8_t> BigTestMapping;
+		std::uint64_t,
+		std::uint32_t,
+		std::int16_t
+	>::type<std::uint8_t> BigTestMapping;
 
 	typedef BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
-		uint64_t,
-		uint32_t,
-		int16_t
-	>::type<uint8_t> LittleTestMapping;
+		std::uint64_t,
+		std::uint32_t,
+		std::int16_t
+	>::type<std::uint8_t> LittleTestMapping;
 
 	BigTestMapping bigMapping(this->buffer_->front());
 

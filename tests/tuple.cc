@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include <memory>
+#include <cstdint>
 
 #include "type/tuple.h"
 #include "type/custom_serializable.h"
@@ -9,16 +10,16 @@
 class TupleTest : public ::testing::Test {
 	protected:
 		typedef BinaryMapping::PlainTuple<
-			uint64_t,
-			uint8_t,
-			uint32_t,
-			uint16_t,
-			int64_t,
-			int32_t,
-			int16_t,
-			int8_t,
+			std::uint64_t,
+			std::uint8_t,
+			std::uint32_t,
+			std::uint16_t,
+			std::int64_t,
+			std::int32_t,
+			std::int16_t,
+			std::int8_t,
 			BinaryMapping::ByteField<3>
-		>::type<uint8_t> TestTuple;
+		>::type<std::uint8_t> TestTuple;
 
 		virtual void SetUp() {
 			this->buffer_ = std::unique_ptr<BinaryMapping::dtl::Buffer>(

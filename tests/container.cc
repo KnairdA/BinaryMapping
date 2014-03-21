@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 
 #include <memory>
+#include <cstdint>
+#include <cstddef>
 
 #include "container.h"
 #include "type/tuple.h"
@@ -9,8 +11,8 @@ class ContainerTest : public ::testing::Test {
 	protected:
 		typedef BinaryMapping::Container<
 			BinaryMapping::PlainTuple<
-				uint64_t,
-				uint16_t
+				std::uint64_t,
+				std::uint16_t
 			>
 		> TestContainer;
 
@@ -19,7 +21,7 @@ class ContainerTest : public ::testing::Test {
 				new TestContainer(10)
 			);
 
-			for ( size_t i = 0; i != 10; ++i ) {
+			for ( std::size_t i = 0; i != 10; ++i ) {
 				(*this->container_)[i] = TestContainer::element_type::value_type(i, i);
 			}
 		}
@@ -33,7 +35,7 @@ TEST_F(ContainerTest, Basic) {
 	EXPECT_EQ(this->container_->back().get<1>(),  9);
 	EXPECT_EQ(this->container_->size(),          10);
 
-	for ( size_t i = 0; i != 10; ++i ) {
+	for ( std::size_t i = 0; i != 10; ++i ) {
 		EXPECT_EQ(this->container_->at(i).get<0>(), i);
 		EXPECT_EQ((*this->container_)[i].get<1>(),  i);
 	}
@@ -45,7 +47,7 @@ TEST_F(ContainerTest, Basic) {
 TEST_F(ContainerTest, Iterator) {
 	TestContainer::iterator_type iter(this->container_->begin());
 
-	for ( size_t i = 0; i < 10; ++i ) {
+	for ( std::size_t i = 0; i < 10; ++i ) {
 		EXPECT_EQ((*iter).get<0>(), i);
 		EXPECT_EQ((*iter).get<1>(), i);
 
@@ -102,9 +104,9 @@ TEST_F(ContainerTest, Dereference) {
 TEST_F(ContainerTest, ConstContainer) {
 	const TestContainer* constContainer = this->container_.get();
 
-	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->front()), (std::tuple<uint64_t, uint16_t>(0, 0)));
-	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->at(1)),   (std::tuple<uint64_t, uint16_t>(1, 1)));
-	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->back()),  (std::tuple<uint64_t, uint16_t>(9, 9)));
+	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->front()), (std::tuple<std::uint64_t, std::uint16_t>(0, 0)));
+	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->at(1)),   (std::tuple<std::uint64_t, std::uint16_t>(1, 1)));
+	EXPECT_EQ(static_cast<TestContainer::element_type::value_type>(constContainer->back()),  (std::tuple<std::uint64_t, std::uint16_t>(9, 9)));
 
 	for ( TestContainer::const_iterator_type iter(constContainer->begin());
 	      iter != constContainer->end();

@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 
+#include <cstddef>
+
 #include "type/bit_field.h"
 
 class BitFieldTest : public ::testing::Test {
@@ -15,7 +17,7 @@ TEST_F(BitFieldTest, Test) {
 	EXPECT_FALSE(this->bit_field_[1]);
 	EXPECT_FALSE(this->bit_field_.test(1));
 
-	for ( size_t i = 3; i < 16; ++i ) {
+	for ( std::size_t i = 3; i < 16; ++i ) {
 		if ( i % 2 == 0 ) {
 			EXPECT_TRUE( this->bit_field_[i]);
 		} else {
@@ -30,20 +32,20 @@ TEST_F(BitFieldTest, Set) {
 	this->bit_field_.set(0);
 	this->bit_field_.set(1);
 
-	for ( size_t i = 3; i < 16; ++i ) {
+	for ( std::size_t i = 3; i < 16; ++i ) {
 		if ( i % 2 == 1 ) {
 			this->bit_field_.set(i);
 		}
 	}
 
-	for ( size_t i = 0; i < 16; ++i ) {
+	for ( std::size_t i = 0; i < 16; ++i ) {
 		EXPECT_TRUE(this->bit_field_.test(i));
 		this->bit_field_.reset(i);
 	}
 
 	this->bit_field_.set();
 
-	for ( size_t i = 0; i < 16; ++i ) {
+	for ( std::size_t i = 0; i < 16; ++i ) {
 		EXPECT_TRUE(this->bit_field_.test(i));
 	}
 
@@ -51,20 +53,20 @@ TEST_F(BitFieldTest, Set) {
 }
 
 TEST_F(BitFieldTest, Reset) {
-	for ( size_t i = 2; i < 16; ++i ) {
+	for ( std::size_t i = 2; i < 16; ++i ) {
 		if ( i % 2 == 0 ) {
 			this->bit_field_.reset(i);
 		}
 	}
 
-	for ( size_t i = 0; i < 16; ++i ) {
+	for ( std::size_t i = 0; i < 16; ++i ) {
 		EXPECT_FALSE(this->bit_field_.test(i));
 		this->bit_field_.set(i);
 	}
 
 	this->bit_field_.reset();
 
-	for ( size_t i = 0; i < 16; ++i ) {
+	for ( std::size_t i = 0; i < 16; ++i ) {
 		EXPECT_FALSE(this->bit_field_.test(i));
 	}
 
@@ -72,7 +74,7 @@ TEST_F(BitFieldTest, Reset) {
 }
 
 TEST_F(BitFieldTest, Flip) {
-	for ( size_t i = 0; i < 16; ++i ) {
+	for ( std::size_t i = 0; i < 16; ++i ) {
 		this->bit_field_.flip(i);
 	}
 
@@ -81,7 +83,7 @@ TEST_F(BitFieldTest, Flip) {
 	EXPECT_TRUE(this->bit_field_[1]);
 	EXPECT_TRUE(this->bit_field_.test(1));
 
-	for ( size_t i = 3; i < 16; ++i ) {
+	for ( std::size_t i = 3; i < 16; ++i ) {
 		if ( i % 2 == 0 ) {
 			EXPECT_FALSE(this->bit_field_[i]);
 		} else {
@@ -94,7 +96,7 @@ TEST_F(BitFieldTest, Flip) {
 	EXPECT_FALSE(this->bit_field_.test(0));
 	EXPECT_FALSE(this->bit_field_.test(1));
 
-	for ( size_t i = 3; i < 16; ++i ) {
+	for ( std::size_t i = 3; i < 16; ++i ) {
 		if ( i % 2 == 0 ) {
 			EXPECT_TRUE( this->bit_field_[i]);
 		} else {

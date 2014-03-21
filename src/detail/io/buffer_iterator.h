@@ -69,7 +69,7 @@ struct BufferIterator : public std::iterator<std::random_access_iterator_tag,
 		return BufferIterator(*this) += offset;
 	}
 
-	inline off_t operator-(
+	inline std::ptrdiff_t operator-(
 		dtl::const_lvalue_reference<BufferIterator> src
 	) const {
 		return ( this->index_ - src.index_ ) / Size;
