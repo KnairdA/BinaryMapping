@@ -1,6 +1,6 @@
 # BinaryMapping
 
-... is a collection of C++ templates which may be used to map binary structures into tuples. These tuples can then be traversed using integrated containers and iterators. This is useful for many kinds of data serialization tasks.
+... is a collection of C++ templates which may be used to map binary structures into tuples and various other structures. These structures can then be traversed using integrated containers and iterators. This is useful for many kinds of data serialization tasks.
 
 A explanation of an earlier version of this template library can be found on my [blog](http://blog.kummerlaender.eu/artikel/mapping-binary-structures-as-tuples-using-template-metaprogramming).
 
@@ -9,10 +9,12 @@ Basic usage of this library is documented in the appropriate [file](https://gith
 ## Current features
 
 - Support for any kind of flat structure that can be expressed using integral types and arbitrarily sized byte-arrays
-- Full support for serialization in either big or little endianess
-- Container and Iterator templates for fast traversal of collections of tuples
+- Support for serialization in either big or little endianess
+- Offers Container and Iterator templates for fast traversal of collections of tuples or other structures
+- Support for developing custom types to be used in the Container and Iterator templates
+- Support for nesting structures inside each other
 - BitField template offers bit-level access to ByteField byte-arrays
-- Builds on the standard libraries `std::tuple` and as such doesn't require any external libraries
+- Doesn't require any external libraries besides the GNU libraries _endian.h_
 - Header only library because of heavy usage of template metaprogramming
 - Unit Tests based on GoogleTest
 - MIT license
@@ -23,10 +25,10 @@ Basic usage of this library is documented in the appropriate [file](https://gith
 BinaryMapping::Container<
 	BinaryMapping::Tuple<
 		BinaryMapping::LittleEndian,
-		uint32_t,
-		int16_t,
+		std::uint32_t,
+		std::int16_t,
 		BinaryMapping::ByteField<3>,
-		uint8_t
+		std::uint8_t
 	>
 > container(10);
 
@@ -37,12 +39,12 @@ for ( auto&& tuple : container ) {
 	tuple.set<3>(42);
 }
 
-uint32_t test = container.at(5).get<0>();
+std::uint32_t test = container.at(5).get<0>();
 ```
 
-The code listed above defines a container of a structure consisting of a `uint32_t`, `int16_t`, 3-byte and `uint8_t` field with little endianess, instantiates a buffer containing ten instances of this tuple, iterates through all 10 elements, gives them values, transparently converts to the correct endianess and extracts the value of the first field of the fifth tuple contained in the buffer.
-In short: BinaryMapping is a library that abstracts endianess aware serializing of binary structures into tuples, containers and iterators.
-If you are interested in further details of the usage of all features provided by BinaryMapping don't hesitate to check out the [documentation](https://github.com/KnairdA/BinaryMapping/blob/master/docs/basic_usage.md).
+The code listed above defines a container of a tuple consisting of a `std::uint32_t`, `std::int16_t`, 3-byte and `std::uint8_t` field with little endianess, instantiates a buffer containing ten instances of this tuple, iterates through all 10 elements, gives them values, transparently converts to the correct endianess and extracts the value of the first field of the fifth tuple contained in the buffer.
+In short: BinaryMapping is a library that abstracts endianess aware serializing of binary structures into structures, containers and iterators.
+If you are interested in further details of the usage of all features provided by BinaryMapping don't hesitate to check out the [documentation](https://github.com/KnairdA/BinaryMapping/blob/master/docs/).
 
 ## Limitations
 
