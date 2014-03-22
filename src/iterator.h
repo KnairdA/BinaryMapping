@@ -20,7 +20,6 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
                  public dtl::Comparable<Base> {
 	public:
 		typedef Type element_type;
-		typedef typename Type::value_type element_value_type;
 
 		explicit Iterator(Base&& index):
 			dtl::Comparable<Base>(index),
@@ -30,10 +29,8 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 			return this->element_;
 		}
 
-		inline element_value_type operator*() const {
-			return static_cast<element_value_type>(
-				this->element_
-			);
+		inline typename element_type::value_type operator*() const {
+			return this->element_;
 		}
 
 		inline Iterator& operator++() {
