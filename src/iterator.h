@@ -34,10 +34,6 @@ class Container<Type>::iterator:
 	public:
 		typedef typename Type::template type<Base> element_type;
 
-		explicit iterator(dtl::select_iterator<Type, Base>&& index):
-			dtl::Comparable<dtl::select_iterator<Type, Base>>(index),
-			element_(&this->index_) { }
-
 		inline element_type& operator*() {
 			return this->element_;
 		}
@@ -110,6 +106,13 @@ class Container<Type>::iterator:
 		) {
 			return iterator(src) += offset;
 		}
+
+	protected:
+		friend Container<Type>;
+
+		explicit iterator(dtl::select_iterator<Type, Base>&& index):
+			dtl::Comparable<dtl::select_iterator<Type, Base>>(index),
+			element_(&this->index_) { }
 
 	private:
 		element_type element_;
