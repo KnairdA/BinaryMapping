@@ -1,6 +1,6 @@
 ### Overview
 
-The BinaryMapping library aims to provide easy to use container and iterator templates which can be used to map various structures directly into raw binary buffers. This functionality is useful for accessing raw files and can function as a building block when developing custom file formats. Currently this library provides a `Tuple` template simmilar to `std::tuple`. This template can be specialized on integral types such as `std::uint32_t` in addition to types provided by the library such as `BitField` or `ByteField`. To be able to support different byte orderings the `Tuple` template may transparently convert between them when setting or reading values from the buffer. The central part of the library however are the `Container` and `Iterator` templates which provide access methods simmilar to the standard containers which make it easy to traverse instances of types such as `Tuple` specializations inside binary buffers.
+The BinaryMapping library aims to provide easy to use container and iterator templates which can be used to map various structures directly into raw binary buffers. This functionality is useful for accessing raw files and can function as a building block when developing custom file formats. Currently this library provides a `Tuple` template simmilar to `std::tuple`. This template can be specialized on integral types such as `std::uint32_t` in addition to types provided by the library such as `BitField` or `ByteField`. To be able to support different byte orderings the `Tuple` template may transparently convert between them when setting or reading values from the buffer. The central part of the library however is the `Container` template which provides access methods simmilar to the standard containers which make it easy to traverse instances of types such as `Tuple` specializations inside binary buffers.
 
 *Hint: Documentation on how we can develop our own custom types to be used by this library is [available](https://github.com/KnairdA/BinaryMapping/blob/master/docs/custom_type.md).*
 
@@ -104,7 +104,7 @@ raw.toggle(4);
 
 ### Using containers and iterators
 
-The `Tuple` template by itself can only be used to directly map areas of a buffer but it doesn't offer direct support for iterating over all tuples in a buffer. This functionality is abstracted in the `Container` and `Iterator` template classes. A instance of the `Container` template specialized on a `Tuple` specialization transforms a given memory area into a virtual collection of tuples which can be accessed through common container member methods.
+The `Tuple` template by itself can only be used to directly map areas of a buffer but it doesn't offer direct support for iterating over all tuples in a buffer. This functionality is abstracted in the `Container` and `Container::iterator` template classes. A instance of the `Container` template specialized on a `Tuple` specialization transforms a given memory area into a virtual collection of tuples which can be accessed through common container member methods.
 
 ```
 typedef BinaryMapping::Container<

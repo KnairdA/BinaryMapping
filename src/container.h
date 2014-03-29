@@ -10,12 +10,12 @@
 
 #include "type/custom_serializable.h"
 
-#include "iterator.h"
-
 namespace BinaryMapping {
 
 template <typename Type>
 class Container {
+	template <typename> class iterator;
+
 	public:
 		typedef std::size_t size_type;
 
@@ -27,15 +27,8 @@ class Container {
 			const dtl::Buffer::memory_type
 		> const_element_type;
 
-		typedef Iterator<
-			dtl::Buffer::iterator_type<element_type::size>,
-			element_type
-		> iterator_type;
-
-		typedef Iterator<
-			dtl::Buffer::const_iterator_type<element_type::size>,
-			const_element_type
-		> const_iterator_type;
+		typedef iterator<dtl::Buffer::memory_type> iterator_type;
+		typedef iterator<const dtl::Buffer::memory_type> const_iterator_type;
 
 		explicit Container(size_type size):
 			buffer_(size * element_type::size),
@@ -153,5 +146,7 @@ class Container {
 };
 
 }
+
+#include "iterator.h"
 
 #endif  // BINARY_MAPPING_SRC_CONTAINER_H_
