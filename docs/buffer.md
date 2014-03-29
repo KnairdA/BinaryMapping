@@ -15,10 +15,11 @@ This newly created `Buffer` instance allocated 70 bytes of memory and will autom
 size_t count = buffer.size<2>();
 ```
 
-Besides direct access of the underlying memory `Buffer` also offers special `BufferIterator` iterators to its content. These iterators are bound to `BinaryMapping::Tuple` template instances or simply used as a convenient way to iterate over the memory.
+Besides direct access of the underlying memory `Buffer` also offers  iterators to its content. These iterators may be bound to `BinaryMapping::Tuple` template instances or simply be used as a convenient way to iterate over the memory.
 
 ```
-// get BufferIterator<uint8_t, sizeof(uint32_t)> instance to the beginning of the buffer
+// get Buffer::iterator<uint8_t, sizeof(uint32_t)> instance to the beginning of the buffer
 auto iter = buffer.begin<sizeof(uint32_t)>();
 ```
-As all iterators of the BinaryMapping library `BufferIterator<Size>` satisfies the requirements of `std::random_access_iterator_tag` and because of that can be used in the same way we are used to from iterators provied by the standard library. Note that all member methods but the size methods have appropriate const overloads.
+
+As all iterators of the BinaryMapping library `Buffer::iterator<Size>` satisfies the requirements of `std::random_access_iterator_tag` and because of that can be used in the same way we are used to from iterators provied by the standard library. Note that all member methods but the size methods have appropriate const overloads.

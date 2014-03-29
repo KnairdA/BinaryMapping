@@ -127,7 +127,7 @@ TestContainer::tuple_type tuple = container.front();
 
 #### Iterator
 
-Besides member methods returning instances of the specialization type `Container` also offers methods which return iterators. These iterators bind internal instances of the specialization type to `dtl::BufferIterator` iterators and provide all methods required to satisfy the `std::random_access_iterator_tag`. 
+Besides member methods returning instances of the specialization type `Container` also offers methods which return iterators. These iterators bind internal instances of the specialization type to `dtl::Buffer::iterator` iterators and provide all methods required to satisfy the `std::random_access_iterator_tag`. 
 
 ```
 TestContainer::iterator_type iter = container.begin();

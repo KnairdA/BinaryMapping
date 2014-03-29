@@ -4,7 +4,6 @@
 #include <cstdint>
 
 #include "detail/io/buffer.h"
-#include "detail/io/buffer_iterator.h"
 
 class BufferTest : public ::testing::Test {
 	protected:

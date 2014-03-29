@@ -5,7 +5,7 @@
 #include <iterator>
 
 #include "detail/comparable.h"
-#include "detail/io/buffer_iterator.h"
+#include "detail/io/iterator.h"
 
 namespace BinaryMapping {
 

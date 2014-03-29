@@ -4,12 +4,14 @@
 #include <cstdint>
 #include <stdexcept>
 
-#include "buffer_iterator.h"
+#include "detail/utility.h"
 
 namespace BinaryMapping {
 namespace dtl {
 
 class Buffer {
+	template <typename, std::size_t> struct iterator;
+
 	public:
 		typedef std::uint8_t memory_type;
 		typedef std::size_t size_type;
@@ -17,10 +19,10 @@ class Buffer {
 		typedef pointer_to_const<memory_type> const_pointer;
 
 		template <size_type Size>
-		using iterator_type = BufferIterator<memory_type, Size>;
+		using iterator_type = iterator<memory_type, Size>;
 
 		template <size_type Size>
-		using const_iterator_type = BufferIterator<const memory_type, Size>;
+		using const_iterator_type = iterator<const memory_type, Size>;
 
 		explicit Buffer(size_type size):
 			data_(new memory_type[size]()),
@@ -122,5 +124,7 @@ class Buffer {
 
 }
 }
+
+#include "iterator.h"
 
 #endif  // BINARY_MAPPING_SRC_DETAIL_IO_BUFFER_H_
