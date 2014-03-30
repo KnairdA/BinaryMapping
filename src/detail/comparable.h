@@ -9,9 +9,6 @@ namespace dtl {
 template <typename Type>
 class Comparable {
 	public:
-		Comparable(Type value):
-			index_(value) { }
-
 		inline bool operator==(const_lvalue_reference<Comparable> src) const {
 			return this->index_ == src.index_;
 		}
@@ -38,6 +35,10 @@ class Comparable {
 
 	protected:
 		Type index_;
+
+		explicit Comparable(Type value):
+			index_(value) { }
+
 
 };
 

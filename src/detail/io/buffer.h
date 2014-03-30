@@ -10,7 +10,7 @@ namespace BinaryMapping {
 namespace dtl {
 
 class Buffer {
-	template <typename, std::size_t> struct iterator;
+	template <typename, std::size_t> class iterator;
 
 	public:
 		typedef std::uint8_t memory_type;
