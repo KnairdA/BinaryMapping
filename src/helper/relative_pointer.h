@@ -3,7 +3,8 @@
 
 #include <cstddef>
 
-#include "detail/utility.h"
+#include "detail/type/query.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
 

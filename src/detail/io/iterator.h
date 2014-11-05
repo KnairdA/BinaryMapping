@@ -3,7 +3,7 @@
 
 #include <iterator>
 
-#include "detail/comparable.h"
+#include "detail/type/comparable.h"
 
 namespace BinaryMapping {
 namespace dtl {

@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <tuple>
 
-#include "detail/utility.h"
+#include "detail/type/sfinae.h"
 
 namespace BinaryMapping {
 namespace dtl {

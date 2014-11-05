@@ -1,7 +1,8 @@
 #ifndef BINARY_MAPPING_SRC_ENDIANESS_UNDEFINED_H_
 #define BINARY_MAPPING_SRC_ENDIANESS_UNDEFINED_H_
 
-#include "detail/utility.h"
+#include "detail/type/sfinae.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
 

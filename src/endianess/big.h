@@ -4,7 +4,8 @@
 #include <cstdint>
 
 #include "endian.h"
-#include "detail/utility.h"
+#include "detail/type/sfinae.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
 

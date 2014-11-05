@@ -6,7 +6,7 @@
 #include <array>
 #include <cassert>
 
-#include "detail/utility.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
 

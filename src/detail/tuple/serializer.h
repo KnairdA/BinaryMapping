@@ -3,7 +3,7 @@
 
 #include <tuple>
 
-#include "detail/utility.h"
+#include "detail/type/sfinae.h"
 #include "helper/in_place_sorter.h"
 
 namespace BinaryMapping {

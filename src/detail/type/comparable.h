@@ -1,7 +1,7 @@
 #ifndef BINARY_MAPPING_SRC_DETAIL_COMPARABLE_H_
 #define BINARY_MAPPING_SRC_DETAIL_COMPARABLE_H_
 
-#include "utility.h"
+#include "transformation.h"
 
 namespace BinaryMapping {
 namespace dtl {

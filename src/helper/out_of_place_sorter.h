@@ -1,7 +1,9 @@
 #ifndef BINARY_MAPPING_SRC_HELPER_OUT_OF_PLACE_SORTER_H_
 #define BINARY_MAPPING_SRC_HELPER_OUT_OF_PLACE_SORTER_H_
 
-#include "detail/utility.h"
+#include "detail/type/sfinae.h"
+#include "detail/type/query.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
 

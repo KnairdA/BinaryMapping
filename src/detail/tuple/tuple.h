@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <tuple>
 
-#include "detail/utility.h"
+#include "detail/type/transformation.h"
 
 #include "helper/base_pointer.h"
 #include "helper/relative_pointer.h"
@@ -64,14 +64,14 @@ class Tuple {
 			);
 		}
 
-		template <std::size_t Index> 
+		template <std::size_t Index>
 		inline type_at<Index> get() const {
 			return OutOfPlaceSorter<Endianess>::sort(
 				*std::get<Index>(this->tuple_)
 			);
 		}
 
-		template <std::size_t Index> 
+		template <std::size_t Index>
 		inline pointer_to_const<type_at<Index>> ptr() const {
 			return std::get<Index>(this->tuple_).get();
 		}
@@ -93,7 +93,7 @@ class Tuple {
 			);
 		}
 
-		template <std::size_t Index> 
+		template <std::size_t Index>
 		inline typename std::add_pointer<type_at<Index>>::type ptr() {
 			return std::get<Index>(this->tuple_).get();
 		}

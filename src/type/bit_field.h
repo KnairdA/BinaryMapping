@@ -6,10 +6,25 @@
 #include <algorithm>
 #include <functional>
 
-#include "detail/utility.h"
 #include "custom_serializable.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
+
+namespace dtl {
+
+template <std::size_t Size>
+struct bits_to_bytes : std::integral_constant<
+	std::size_t,
+	Size / 8
+> {
+	static_assert(
+		Size % 8 == 0,
+		"Bit count has to be byte aligned"
+	);
+};
+
+}
 
 template <std::size_t Size>
 struct BitField : public CustomSerializable<

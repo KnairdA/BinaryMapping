@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-#include "detail/utility.h"
+#include "detail/type/transformation.h"
 
 namespace BinaryMapping {
 namespace dtl {
