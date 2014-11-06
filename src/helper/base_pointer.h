@@ -20,7 +20,7 @@ struct BasePointer {
 		direct_ptr
 	>::type indirect_ptr;
 
-	enum class Tag : std::uint8_t {
+	enum class Tag : bool {
 		Direct,
 		Indirect
 	};
@@ -37,13 +37,12 @@ struct BasePointer {
 		switch ( this->tag ) {
 			case Tag::Direct:   return &this->direct;
 			case Tag::Indirect: return this->indirect;
-			default:            return nullptr;
 		}
 	}
 
 	union {
 		direct_ptr   direct;
-		indirect_ptr indirect; 
+		indirect_ptr indirect;
 	};
 
 	const Tag tag;

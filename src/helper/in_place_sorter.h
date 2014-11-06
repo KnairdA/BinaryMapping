@@ -2,6 +2,7 @@
 #define BINARY_MAPPING_SRC_HELPER_IN_PLACE_SORTER_H_
 
 #include "detail/type/sfinae.h"
+#include "detail/type/query.h"
 #include "detail/type/transformation.h"
 
 namespace BinaryMapping {
