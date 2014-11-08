@@ -39,13 +39,11 @@ struct CustomSerializable {
 		return *this;
 	}
 
-	inline bool operator==(
-		dtl::const_lvalue_reference<CustomSerializable> tmp) const {
+	bool operator==(dtl::const_lvalue_reference<CustomSerializable> tmp) const {
 		return this->bytes == tmp.bytes;
 	}
 
-	inline bool operator!=(
-		dtl::const_lvalue_reference<CustomSerializable> tmp) const {
+	bool operator!=(dtl::const_lvalue_reference<CustomSerializable> tmp) const {
 		return !this->operator==(tmp);
 	}
 };

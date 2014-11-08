@@ -14,9 +14,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint64_t, std::int64_t> = 0
 	>
-	static inline Key toTarget(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toTarget(dtl::const_lvalue_reference<Key> number) {
 		return htobe64(number);
 	}
 
@@ -24,9 +22,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint32_t, std::int32_t> = 0
 	>
-	static inline Key toTarget(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toTarget(dtl::const_lvalue_reference<Key> number) {
 		return htobe32(number);
 	}
 
@@ -34,9 +30,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint16_t, std::int16_t> = 0
 	>
-	static inline Key toTarget(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toTarget(dtl::const_lvalue_reference<Key> number) {
 		return htobe16(number);
 	}
 
@@ -44,9 +38,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint8_t, std::int8_t> = 0
 	>
-	static inline Key toTarget(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toTarget(dtl::const_lvalue_reference<Key> number) {
 		return number;
 	}
 
@@ -54,9 +46,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint64_t, std::int64_t> = 0
 	>
-	static inline Key toHost(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toHost(dtl::const_lvalue_reference<Key> number) {
 		return be64toh(number);
 	}
 
@@ -64,9 +54,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint32_t, std::int32_t> = 0
 	>
-	static inline Key toHost(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toHost(dtl::const_lvalue_reference<Key> number) {
 		return be32toh(number);
 	}
 
@@ -74,9 +62,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint16_t, std::int16_t> = 0
 	>
-	static inline Key toHost(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toHost(dtl::const_lvalue_reference<Key> number) {
 		return be16toh(number);
 	}
 
@@ -84,9 +70,7 @@ struct BigEndian {
 		typename Key,
 		dtl::enable_if_either<Key, std::uint8_t, std::int8_t> = 0
 	>
-	static inline Key toHost(
-		dtl::const_lvalue_reference<Key> number
-	) {
+	static Key toHost(dtl::const_lvalue_reference<Key> number) {
 		return number;
 	}
 };

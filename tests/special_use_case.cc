@@ -79,22 +79,22 @@ class PairImpl {
 			first_(base_ptr_.get(), 0),
 			second_(base_ptr_.get(), sizeof(Type1)) { }
 
-		inline operator value_type() const {
+		operator value_type() const {
 			return std::make_pair(
 				*this->first_.get(),
 				*this->second_.get()
 			);
 		}
 
-		inline Type1 first() const {
+		Type1 first() const {
 			return *this->first_.get();
 		}
 
-		inline Type2 second() const {
+		Type2 second() const {
 			return *this->second_.get();
 		}
 
-		inline void operator=(const value_type& values) {
+		void operator=(const value_type& values) {
 			*this->first_.get()  = values.first;
 			*this->second_.get() = values.second;
 		}

@@ -9,20 +9,19 @@ namespace dtl {
 
 struct RelativeTuple {
 	template <
-		typename Target,
-		std::size_t Index,
+		typename       Target,
+		std::size_t    Index,
 		std::ptrdiff_t Offset,
-		typename Base
+		typename       Base
 	>
-	static inline typename std::tuple_element<Index, Target>::type
-	create(Base buffer) {
+	static typename std::tuple_element<Index, Target>::type create(Base buffer) {
 		return typename std::tuple_element<Index, Target>::type(
 			buffer, Offset
 		);
 	}
 
 	template <
-		typename Target,
+		typename    Target,
 		std::size_t Index
 	>
 	static constexpr std::size_t size() {

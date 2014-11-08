@@ -11,7 +11,7 @@ namespace dtl {
 
 struct Weigher {
 	template <
-		typename Tuple,
+		typename    Tuple,
 		std::size_t Index = 0,
 		std::size_t Size  = 0,
 		enable_if<Index == std::tuple_size<Tuple>::value> = 0
@@ -21,7 +21,7 @@ struct Weigher {
 	}
 
 	template <
-		typename Tuple,
+		typename    Tuple,
 		std::size_t Index = 0,
 		std::size_t Size  = 0,
 		enable_if<Index < std::tuple_size<Tuple>::value> = 0

@@ -43,27 +43,27 @@ class Container {
 			buffer_(ptr, size),
 			count_(buffer_.size<element_type::size>()) { }
 
-		inline size_type size() const {
+		size_type size() const {
 			return this->count_;
 		}
 
-		inline const_element_type operator[](size_type index) const {
+		const_element_type operator[](size_type index) const {
 			return const_element_type(
 				this->buffer_[element_type::size * index]
 			);
 		}
 
-		inline const_element_type at(size_type index) const {
+		const_element_type at(size_type index) const {
 			return const_element_type(
 				this->buffer_.template at<element_type::size>(index)
 			);
 		}
 
-		inline const_element_type front() const {
+		const_element_type front() const {
 			return const_element_type(this->buffer_.front());
 		}
 
-		inline const_element_type back() const {
+		const_element_type back() const {
 			return const_element_type(
 				this->buffer_.template at<element_type::size>(
 					this->count_ - 1
@@ -71,19 +71,19 @@ class Container {
 			);
 		}
 
-		inline const_iterator_type begin() const {
+		const_iterator_type begin() const {
 			return const_iterator_type(
 				this->buffer_.template begin<element_type::size>()
 			);
 		}
 
-		inline const_iterator_type end() const {
+		const_iterator_type end() const {
 			return const_iterator_type(
 				this->buffer_.template end<element_type::size>()
 			);
 		}
 
-		inline std::pair<
+		std::pair<
 			const dtl::Buffer::pointer,
 			const dtl::Buffer::size_type
 		> data() const {
@@ -93,23 +93,23 @@ class Container {
 			);
 		}
 
-		inline element_type operator[](size_type index) {
+		element_type operator[](size_type index) {
 			return element_type(
 				this->buffer_[element_type::size * index]
 			);
 		}
 
-		inline element_type at(size_type index) {
+		element_type at(size_type index) {
 			return element_type(
 				this->buffer_.template at<element_type::size>(index)
 			);
 		}
 
-		inline element_type front() {
+		element_type front() {
 			return element_type(this->buffer_.front());
 		}
 
-		inline element_type back() {
+		element_type back() {
 			return element_type(
 				this->buffer_.template at<element_type::size>(
 					this->count_ - 1
@@ -117,19 +117,19 @@ class Container {
 			);
 		}
 
-		inline iterator_type begin() {
+		iterator_type begin() {
 			return iterator_type(
 				this->buffer_.template begin<element_type::size>()
 			);
 		}
 
-		inline iterator_type end() {
+		iterator_type end() {
 			return iterator_type(
 				this->buffer_.template end<element_type::size>()
 			);
 		}
 
-		inline std::pair<
+		std::pair<
 			dtl::Buffer::pointer,
 			const dtl::Buffer::size_type
 		> data() {

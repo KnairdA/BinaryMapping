@@ -33,7 +33,7 @@ struct BasePointer {
 		indirect(ptr),
 		tag(Tag::Indirect) { }
 
-	inline indirect_ptr get() const {
+	indirect_ptr get() const {
 		switch ( this->tag ) {
 			case Tag::Direct:   return &this->direct;
 			case Tag::Indirect: return this->indirect;

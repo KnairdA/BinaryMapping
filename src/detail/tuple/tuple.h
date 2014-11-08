@@ -55,7 +55,7 @@ class Tuple {
 				this->base_ptr_.get()
 			)) { }
 
-		inline operator value_type() const {
+		operator value_type() const {
 			return Mapper::construct<
 				ValueTuple<Endianess>,
 				value_type
@@ -65,18 +65,18 @@ class Tuple {
 		}
 
 		template <std::size_t Index>
-		inline type_at<Index> get() const {
+		type_at<Index> get() const {
 			return OutOfPlaceSorter<Endianess>::sort(
 				*std::get<Index>(this->tuple_)
 			);
 		}
 
 		template <std::size_t Index>
-		inline pointer_to_const<type_at<Index>> ptr() const {
+		pointer_to_const<type_at<Index>> ptr() const {
 			return std::get<Index>(this->tuple_).get();
 		}
 
-		inline void operator=(const_lvalue_reference<value_type> values) {
+		void operator=(const_lvalue_reference<value_type> values) {
 			Setter<Endianess>::template populate<
 				relative_tuple,
 				value_type
@@ -84,7 +84,7 @@ class Tuple {
 		}
 
 		template <std::size_t Index>
-		inline void set(const_lvalue_reference<type_at<Index>> value) {
+		void set(const_lvalue_reference<type_at<Index>> value) {
 			InPlaceSorter<Endianess>::template mix<
 				type_at<Index>
 			>(
@@ -94,12 +94,12 @@ class Tuple {
 		}
 
 		template <std::size_t Index>
-		inline typename std::add_pointer<type_at<Index>>::type ptr() {
+		typename std::add_pointer<type_at<Index>>::type ptr() {
 			return std::get<Index>(this->tuple_).get();
 		}
 
 		template <typename CustomOrder>
-		inline void serialize() {
+		void serialize() {
 			static_assert(
 				std::is_same<Endianess, UndefinedEndian>::value,
 				"Endianess must be UndefinedEndian to use serialize<*>()"
@@ -109,7 +109,7 @@ class Tuple {
 		}
 
 		template <typename CustomOrder>
-		inline void deserialize() {
+		void deserialize() {
 			static_assert(
 				std::is_same<Endianess, UndefinedEndian>::value,
 				"Endianess must be UndefinedEndian to use deserialize<*>()"

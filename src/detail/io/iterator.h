@@ -16,21 +16,21 @@ class Buffer::iterator : public std::iterator<std::random_access_iterator_tag,
                                               Base*>,
                          public Comparable<Base*> {
 	public:
-		inline Base* operator*() const {
+		Base* operator*() const {
 			return this->index_;
 		}
 
-		inline Base*const* operator&() const {
+		Base*const* operator&() const {
 			return &this->index_;
 		}
 
-		inline iterator& operator++() {
+		iterator& operator++() {
 			this->index_ += Size;
 
 			return *this;
 		}
 
-		inline iterator operator++(int) {
+		iterator operator++(int) {
 			iterator tmp(*this);
 
 			this->operator++();
@@ -38,13 +38,13 @@ class Buffer::iterator : public std::iterator<std::random_access_iterator_tag,
 			return tmp;
 		}
 
-		inline iterator& operator--() {
+		iterator& operator--() {
 			this->index_ -= Size;
 
 			return *this;
 		}
 
-		inline iterator operator--(int) {
+		iterator operator--(int) {
 			iterator tmp(*this);
 
 			this->operator--();
@@ -52,37 +52,36 @@ class Buffer::iterator : public std::iterator<std::random_access_iterator_tag,
 			return tmp;
 		}
 
-		inline iterator& operator+=(std::ptrdiff_t offset) {
+		iterator& operator+=(std::ptrdiff_t offset) {
 			this->index_ += offset * Size;
 
 			return *this;
 		}
 
-		inline iterator& operator-=(std::ptrdiff_t offset) {
+		iterator& operator-=(std::ptrdiff_t offset) {
 			this->index_ -= offset * Size;
 
 			return *this;
 		}
 
-		inline iterator operator+(std::ptrdiff_t offset) const {
+		iterator operator+(std::ptrdiff_t offset) const {
 			return iterator(*this) += offset;
 		}
 
-		inline std::ptrdiff_t operator-(
-			dtl::const_lvalue_reference<iterator> src
-		) const {
+		std::ptrdiff_t operator-(
+			dtl::const_lvalue_reference<iterator> src) const {
 			return ( this->index_ - src.index_ ) / Size;
 		}
 
-		inline iterator operator-(std::ptrdiff_t offset) const {
+		iterator operator-(std::ptrdiff_t offset) const {
 			return iterator(*this) -= offset;
 		}
 
-		inline iterator operator[](std::ptrdiff_t offset) const {
+		iterator operator[](std::ptrdiff_t offset) const {
 			return *(this->operator+(offset));
 		}
 
-		friend inline iterator operator+(
+		friend iterator operator+(
 			std::ptrdiff_t offset,
 			dtl::const_lvalue_reference<iterator> src
 		) {

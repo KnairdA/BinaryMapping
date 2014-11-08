@@ -13,17 +13,17 @@ template <class Endianess>
 struct Serializer {
 	template <
 		typename Tuple,
-		size_t Index    = 0,
+		size_t   Index  = 0,
 		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
-	static inline void serialize(Tuple&) { }
+	static void serialize(Tuple&) { }
 
 	template <
 		typename Tuple,
-		size_t Index    = 0,
+		size_t   Index  = 0,
 		enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
-	static inline void serialize(Tuple& tuple) { 
+	static void serialize(Tuple& tuple) { 
 		InPlaceSorter<Endianess>::template mix<
 			typename std::tuple_element<Index, Tuple>::type::element_type
 		>(
@@ -35,17 +35,17 @@ struct Serializer {
 
 	template <
 		typename Tuple,
-		size_t Index    = 0,
+		size_t   Index  = 0,
 		enable_if<Index == std::tuple_size<Tuple>::value> = 0
 	>
-	static inline void deserialize(Tuple&) { }
+	static void deserialize(Tuple&) { }
 
 	template <
 		typename Tuple,
-		size_t Index    = 0,
+		size_t   Index  = 0,
 		enable_if<Index < std::tuple_size<Tuple>::value> = 0
 	>
-	static inline void deserialize(Tuple& tuple) { 
+	static void deserialize(Tuple& tuple) { 
 		InPlaceSorter<Endianess>::template sort<
 			typename std::tuple_element<Index, Tuple>::type::element_type
 		>(std::get<Index>(tuple).get());

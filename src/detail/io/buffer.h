@@ -40,16 +40,16 @@ class Buffer {
 			}
 		}
 
-		inline const_pointer front() const {
+		const_pointer front() const {
 			return this->data_;
 		}
 
-		inline const_pointer at(size_type index) const {
+		const_pointer at(size_type index) const {
 			return this->at<sizeof(memory_type)>(index);
 		}
 
 		template <size_type Size>
-		inline const_pointer at(size_type index) const {
+		const_pointer at(size_type index) const {
 			if ( index < this->size<Size>() ) {
 				return this->data_ + index * Size;
 			} else {
@@ -57,41 +57,41 @@ class Buffer {
 			}
 		}
 
-		inline const_pointer operator[] (size_type index) const {
+		const_pointer operator[] (size_type index) const {
 			return this->data_ + index;
 		}
 
 		template <size_type Size>
-		inline const_iterator_type<Size> begin() const {
+		const_iterator_type<Size> begin() const {
 			return const_iterator_type<Size>(this->data_);
 		}
 
 		template <size_type Size>
-		inline const_iterator_type<Size> end() const {
+		const_iterator_type<Size> end() const {
 			return const_iterator_type<Size>(
 				this->data_ + this->size<Size>() * Size
 			);
 		}
 
-		inline size_type size() const {
+		size_type size() const {
 			return this->size_;
 		}
 
 		template <size_type Size>
-		inline size_type size() const {
+		size_type size() const {
 			return this->size_ / Size;
 		}
 
-		inline pointer front() {
+		pointer front() {
 			return this->data_;
 		}
 
-		inline pointer at(size_type index) {
+		pointer at(size_type index) {
 			return this->at<sizeof(memory_type)>(index);
 		}
 
 		template <size_type Size>
-		inline pointer at(size_type index) {
+		pointer at(size_type index) {
 			if ( index < this->size<Size>() ) {
 				return this->data_ + index * Size;
 			} else {
@@ -99,17 +99,17 @@ class Buffer {
 			}
 		}
 
-		inline pointer operator[] (size_type index) {
+		pointer operator[] (size_type index) {
 			return this->data_ + index;
 		}
 
 		template <size_type Size>
-		inline iterator_type<Size> begin() {
+		iterator_type<Size> begin() {
 			return iterator_type<Size>(this->data_);
 		}
 
 		template <size_type Size>
-		inline iterator_type<Size> end() {
+		iterator_type<Size> end() {
 			return iterator_type<Size>(
 				this->data_ + this->size<Size>() * Size
 			);

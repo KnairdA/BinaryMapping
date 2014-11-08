@@ -11,7 +11,7 @@ struct UndefinedEndian {
 		typename Key,
 		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key toTarget(dtl::const_lvalue_reference<Key> number) {
+	static Key toTarget(dtl::const_lvalue_reference<Key> number) {
 		return number;
 	}
 
@@ -19,7 +19,7 @@ struct UndefinedEndian {
 		typename Key,
 		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline Key toHost(dtl::const_lvalue_reference<Key> number) {
+	static Key toHost(dtl::const_lvalue_reference<Key> number) {
 		return number;
 	}
 };

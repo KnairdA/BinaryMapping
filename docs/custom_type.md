@@ -25,11 +25,11 @@ class TestTypeImpl {
 			base_ptr_(data),
 			value_(base_ptr_.get(), 0) { }
 
-		inline operator value_type() const {
+		operator value_type() const {
 			return *this->value_.get();
 		}
 
-		inline void operator=(value_type value) {
+		void operator=(value_type value) {
 			*this->value_.get() = value;
 		}
 

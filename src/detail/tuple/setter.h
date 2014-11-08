@@ -11,20 +11,20 @@ namespace dtl {
 template <typename Endianess>
 struct Setter {
 	template <
-		typename Target,
-		typename Source,
+		typename    Target,
+		typename    Source,
 		std::size_t Index = 0,
-		enable_if<Index  == std::tuple_size<Source>::value> = 0
+		enable_if<Index == std::tuple_size<Source>::value> = 0
 	>
-	static inline void populate(const Source&, const Target&) { }
+	static void populate(const Source&, const Target&) { }
 
 	template <
-		typename Target,
-		typename Source,
+		typename    Target,
+		typename    Source,
 		std::size_t Index = 0,
-		enable_if<Index  < std::tuple_size<Source>::value> = 0
+		enable_if<Index < std::tuple_size<Source>::value> = 0
 	>
-	static inline void populate(
+	static void populate(
 		const Source& source,
 		const Target& target
 	) {

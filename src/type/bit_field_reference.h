@@ -10,19 +10,19 @@ class BitField<Size>::reference {
 	friend BitField<Size>;
 
 	public:
-		inline void operator=(bool value) {
+		void operator=(bool value) {
 			this->field_.set(this->index_, value);
 		}
 
-		inline void flip() {
+		void flip() {
 			this->field_.flip(this->index_);
 		}
 
-		inline operator bool() const {
+		operator bool() const {
 			return this->field_.test(this->index_);
 		}
 
-		inline bool operator~() const {
+		bool operator~() const {
 			return !this->operator bool();
 		}
 

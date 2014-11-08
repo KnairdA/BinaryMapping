@@ -13,9 +13,9 @@ struct InPlaceSorter {
 		typename Key,
 		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline void mix(
+	static void mix(
 		typename std::add_pointer<Key>::type buffer,
-		dtl::const_lvalue_reference<Key> number
+		dtl::const_lvalue_reference<Key>     number
 	) {
 		*buffer = Endianess::template toTarget<Key>(number);
 	}
@@ -24,9 +24,9 @@ struct InPlaceSorter {
 		typename Custom,
 		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
-	static inline void mix(
+	static void mix(
 		typename std::add_pointer<Custom>::type buffer,
-		dtl::const_lvalue_reference<Custom> tmp
+		dtl::const_lvalue_reference<Custom>     tmp
 	) {
 		*buffer = tmp;
 	}
@@ -35,9 +35,7 @@ struct InPlaceSorter {
 		typename Key,
 		dtl::enable_if<std::is_integral<Key>::value> = 0
 	>
-	static inline void sort(
-		typename std::add_pointer<Key>::type buffer
-	) {
+	static void sort(typename std::add_pointer<Key>::type buffer) {
 		*buffer = Endianess::template toHost<Key>(*buffer);
 	}
 
@@ -45,9 +43,7 @@ struct InPlaceSorter {
 		typename Custom,
 		dtl::enable_if<dtl::is_custom_serializable<Custom>::value> = 0
 	>
-	static inline void sort(
-		typename std::add_pointer<Custom>::type
-	) { }
+	static void sort(typename std::add_pointer<Custom>::type) { }
 };
 
 }

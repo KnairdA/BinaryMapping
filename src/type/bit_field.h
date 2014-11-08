@@ -38,21 +38,21 @@ struct BitField : public CustomSerializable<
 		dtl::bits_to_bytes<Size>::value
 	>::CustomSerializable;
 
-	inline reference operator[](std::size_t index) {
+	reference operator[](std::size_t index) {
 		return reference(*this, index);
 	}
 
-	inline bool operator[](std::size_t index) const {
+	bool operator[](std::size_t index) const {
 		return this->test(index);
 	}
 
-	inline bool test(std::size_t index) const {
+	bool test(std::size_t index) const {
 		return this->bytes.at(index / 8) & (
 			1 << (7 - index % 8)
 		);
 	}
 
-	inline bool any() const {
+	bool any() const {
 		return std::any_of(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -62,7 +62,7 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline bool all() const {
+	bool all() const {
 		return std::all_of(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -72,11 +72,11 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline bool none() const {
+	bool none() const {
 		return !this->any();
 	}
 
-	inline std::size_t count() const {
+	std::size_t count() const {
 		std::size_t count{};
 
 		for ( std::uint8_t byte : this->bytes ) {
@@ -88,7 +88,7 @@ struct BitField : public CustomSerializable<
 		return count;
 	}
 
-	inline void set(std::size_t index, bool value = true) {
+	void set(std::size_t index, bool value = true) {
 		if ( value ) {
 			this->bytes.at(index / 8) |= (
 				1 << (7 - index % 8)
@@ -98,19 +98,19 @@ struct BitField : public CustomSerializable<
 		}
 	}
 
-	inline void reset(std::size_t index) {
+	void reset(std::size_t index) {
 		this->bytes.at(index / 8) &= (
 			~(1 << (7 - index % 8))
 		);
 	}
 
-	inline void flip(std::size_t index) {
+	void flip(std::size_t index) {
 		this->bytes.at(index / 8) ^= (
 			1 << (7 - index % 8)
 		);
 	}
 
-	inline void set() {
+	void set() {
 		std::fill(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -118,7 +118,7 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline void reset() {
+	void reset() {
 		std::fill(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -126,7 +126,7 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline void flip() {
+	void flip() {
 		std::for_each(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -136,7 +136,7 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline void operator&=(dtl::const_lvalue_reference<BitField> rhs) {
+	void operator&=(dtl::const_lvalue_reference<BitField> rhs) {
 		std::transform(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -146,7 +146,7 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline void operator|=(dtl::const_lvalue_reference<BitField> rhs) {
+	void operator|=(dtl::const_lvalue_reference<BitField> rhs) {
 		std::transform(
 			this->bytes.begin(),
 			this->bytes.end(),
@@ -156,7 +156,7 @@ struct BitField : public CustomSerializable<
 		);
 	}
 
-	inline void operator^=(dtl::const_lvalue_reference<BitField> rhs) {
+	void operator^=(dtl::const_lvalue_reference<BitField> rhs) {
 		std::transform(
 			this->bytes.begin(),
 			this->bytes.end(),

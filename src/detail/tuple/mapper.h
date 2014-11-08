@@ -11,34 +11,28 @@ namespace dtl {
 
 struct Mapper {
 	template <
-		typename Modifier,
-		typename Target,
-		std::size_t Index     = 0,
-		std::ptrdiff_t Offset = 0,
-		typename Current = std::tuple<>,
-		typename Base,
-		enable_if<Index  == std::tuple_size<Target>::value> = 0
+		typename       Modifier,
+		typename       Target,
+		std::size_t    Index   = 0,
+		std::ptrdiff_t Offset  = 0,
+		typename       Current = std::tuple<>,
+		typename       Base,
+		enable_if<Index == std::tuple_size<Target>::value> = 0
 	>
-	static inline Target construct(
-		Base,
-		Current&& current
-	) {
+	static Target construct(Base, Current&& current) {
 		return current;
 	}
 
 	template <
-		typename Modifier,
-		typename Target,
-		std::size_t Index     = 0,
-		std::ptrdiff_t Offset = 0,
-		typename Current = std::tuple<>,
-		typename Base,
-		enable_if<Index  < std::tuple_size<Target>::value> = 0
+		typename       Modifier,
+		typename       Target,
+		std::size_t    Index   = 0,
+		std::ptrdiff_t Offset  = 0,
+		typename       Current = std::tuple<>,
+		typename       Base,
+		enable_if<Index < std::tuple_size<Target>::value> = 0
 	>
-	static inline Target construct(
-		Base buffer,
-		Current&& current = std::tuple<>()
-	) {
+	static Target construct(Base buffer, Current&& current = std::tuple<>()) {
 		return construct<
 			Modifier,
 			Target,

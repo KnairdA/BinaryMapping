@@ -38,13 +38,13 @@ class RelativePointer {
 			base_(base),
 			offset_(offset) { }
 
-		inline target_ptr get() const {
+		target_ptr get() const {
 			return reinterpret_cast<target_ptr>(
 				*this->base_ + this->offset_
 			);
 		}
 
-		inline Type operator*() const {
+		Type operator*() const {
 			return *this->get();
 		}
 

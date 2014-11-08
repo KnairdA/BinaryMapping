@@ -12,13 +12,12 @@ namespace dtl {
 template <typename Endianess>
 struct ValueTuple {
 	template <
-		typename Target,
-		std::size_t Index,
+		typename       Target,
+		std::size_t    Index,
 		std::ptrdiff_t Offset,
-		typename Base
+		typename       Base
 	>
-	static inline typename std::tuple_element<Index, Target>::type
-	create(Base buffer) {
+	static typename std::tuple_element<Index, Target>::type create(Base buffer) {
 		return typename std::tuple_element<Index, Target>::type(
 			OutOfPlaceSorter<Endianess>::sort(
 				*reinterpret_cast<pointer_to_const<
@@ -29,7 +28,7 @@ struct ValueTuple {
 	}
 
 	template <
-		typename Target,
+		typename    Target,
 		std::size_t Index
 	>
 	static constexpr std::size_t size() {
